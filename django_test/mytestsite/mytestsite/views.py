@@ -21,10 +21,15 @@ def page_1(request):
     login = request.GET.get('login')
     return HttpResponse(
         "<div>Hello world_2!</div><br><br>"
-        "<div><a href='/page_2'>Вторая ссылка</a></div>"
+        "<div><a href='/page_2?w=88&r=-33'>Вторая ссылка</a></div>"
         "<br><br>"
         f"<p>Логин введенный на предыдущей странице: <h2>{login}</h2></p>")
 
 
 def page_2(request):
-    return HttpResponse("<div>Мы на третьей странице</div>")
+    w = request.GET.get('w')
+    r = request.GET.get('r')
+    return HttpResponse("<div>Мы на третьей странице</div>"
+                        "<br><br>"
+                        f"<h3>Переменная w со страницы page_1: {w}</h3>"
+                        f"<h3>Переменная r со страницы page_1: {r}</h3>")
