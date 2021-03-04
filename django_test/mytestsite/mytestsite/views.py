@@ -23,7 +23,7 @@ def page_1(request):
         "<div>Hello world_2!</div><br><br>"
         "<div><a href='/page_2'>Вторая ссылка</a></div>"
         "<br><br>"
-        f"<p>Логин введенный на пердыдущей странице: <h2>{login}</h2></p>")
+        f"<p>Логин введенный на предыдущей странице: <h2>{login}</h2></p>")
 
 
 def page_2(request):
