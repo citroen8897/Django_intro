@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Авторизация</title>
+</head>
+<body>
+    <form class='test_form' action='/page_1' method='get'>
+        {% csrf_token %}
+        <h1>Авторизация</h1>
+        <br><br>
+        <div>
+            <input type='text' placeholder='Логин' name='login' required>
+        </div>
+        <div>
+            <input type='password' placeholder='Пароль' name='password' required>
+        </div>
+        <br><br>
+        <div>
+            <button>Вход</button>
+        </div>
+    </form>
+</body>
+</html>
