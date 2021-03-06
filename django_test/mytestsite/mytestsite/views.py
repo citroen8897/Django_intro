@@ -1,6 +1,5 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect
-from django.shortcuts import render
 import re
 import time
 # import password_generator
@@ -40,11 +39,19 @@ def page_2(request):
 
 
 def authorization(request):
+    error_dict = {'user_login': 'Ошибка логина', 'user_telephone': 'Ошибка телефона',
+                  'user_password': 'Ошибка пароля', 'user_nom': 'Ошибка имени',
+                  'user_prenom': 'Ошибка фамилии'}
+    error = ''
+    if request.GET.get('error'):
+        error = request.GET.get('error')
     return HttpResponse(
         "<form class='test_form' action='/verification' method='get' "
         "style='width: 17%; margin: 0 auto;'>"
         "   <h1>Регистрация</h1>"
-        "   <br><br>"
+        "   <br>"
+        f"       <p>{error}</p>"
+        "   <br>"
         "   <div>"
         "       <input type='email' placeholder='E-mail' name='login' "
         "required>"
@@ -120,11 +127,15 @@ def verification(request):
         request.session["password"] = user_password
         request.session["nom"] = user_nom
         request.session["prenom"] = user_prenom
-        # HttpResponse("<p>Верификация успешно пройдена...</p>")
         time.sleep(3)
         return redirect('/account')
     else:
-        return HttpResponse("<p>Данные не прошли верификацию!</p>")
+        temp = {'user_login': user_login, 'user_telephone': user_telephone,
+                'user_password': user_password, 'user_nom': user_nom,
+                'user_prenom': user_prenom}
+        for k, v in temp.items():
+            if v == '':
+                return redirect(f'/authorization?error={k}')
 
 
 def account(request):
