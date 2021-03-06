@@ -1,6 +1,8 @@
 from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.shortcuts import render
 import re
+import time
 # import password_generator
 
 
@@ -37,9 +39,9 @@ def page_2(request):
                         f"<h3>Переменная r со страницы page_1: {r}</h3>")
 
 
-def page_3(request):
+def authorization(request):
     return HttpResponse(
-        "<form class='test_form' action='/page_4' method='get' "
+        "<form class='test_form' action='/verification' method='get' "
         "style='width: 17%; margin: 0 auto;'>"
         "   <h1>Регистрация</h1>"
         "   <br><br>"
@@ -78,7 +80,7 @@ def page_3(request):
         "</form>")
 
 
-def page_4(request):
+def verification(request):
     if re.search(r"\w+\.*\w+@\w+\.\w+", request.GET.get('login')):
         user_login = request.GET.get('login')
     else:
@@ -118,13 +120,14 @@ def page_4(request):
         request.session["password"] = user_password
         request.session["nom"] = user_nom
         request.session["prenom"] = user_prenom
-        return HttpResponse("<p>Верификация успешно пройдена...</p>"
-                            "<div><a href='/page_5'>Вторая ссылка</a></div>")
+        # HttpResponse("<p>Верификация успешно пройдена...</p>")
+        time.sleep(3)
+        return redirect('/account')
     else:
         return HttpResponse("<p>Данные не прошли верификацию!</p>")
 
 
-def page_5(request):
+def account(request):
     current_user_login = request.session["login"]
     current_user_telephone = request.session["telephone"]
     current_user_password = request.session["password"]
