@@ -39,12 +39,16 @@ def page_2(request):
 
 
 def authorization(request):
-    error_dict = {'user_login': 'Ошибка логина', 'user_telephone': 'Ошибка телефона',
+    error_dict = {'user_login': 'Ошибка логина',
+                  'user_telephone': 'Ошибка телефона',
                   'user_password': 'Ошибка пароля', 'user_nom': 'Ошибка имени',
                   'user_prenom': 'Ошибка фамилии'}
     error = ''
     if request.GET.get('error'):
         error = request.GET.get('error')
+        for k, v in error_dict.items():
+            if k == error:
+                error = v
     return HttpResponse(
         "<form class='test_form' action='/verification' method='get' "
         "style='width: 17%; margin: 0 auto;'>"
