@@ -23,5 +23,6 @@ urlpatterns = [
     path('page_1/', views.page_1),
     path('page_2/', views.page_2),
     path('page_3/', views.page_3),
-    path('page_4/', views.page_4)
+    path('page_4/', views.page_4),
+    path('page_5/', views.page_5)
 ]

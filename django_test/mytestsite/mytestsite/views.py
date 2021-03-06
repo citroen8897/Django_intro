@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.shortcuts import render
 import re
 # import password_generator
 
@@ -112,11 +113,26 @@ def page_4(request):
 
     if user_login != '' and user_telephone != '' and user_password != '' and \
             user_nom != '' and user_prenom != '':
-        print(user_login, user_telephone, user_password, user_nom, user_prenom)
-    # request.session["user"] = login
-    return HttpResponse(
-        "<div>Данные авторизации</div><br><br>"
-        "<br><br>"
-        f"<p>Логин введенный на предыдущей странице: <h2>{user_login}</h2></p>"
-        f"<p>Пароль введенный на предыдущей странице: "
-        f"<h2>{user_password}</h2></p>")
+        request.session["login"] = user_login
+        request.session["telephone"] = user_telephone
+        request.session["password"] = user_password
+        request.session["nom"] = user_nom
+        request.session["prenom"] = user_prenom
+        return HttpResponse("<p>Верификация успешно пройдена...</p>"
+                            "<div><a href='/page_5'>Вторая ссылка</a></div>")
+    else:
+        return HttpResponse("<p>Данные не прошли верификацию!</p>")
+
+
+def page_5(request):
+    current_user_login = request.session["login"]
+    current_user_telephone = request.session["telephone"]
+    current_user_password = request.session["password"]
+    current_user_nom = request.session["nom"]
+    current_user_prenom = request.session["prenom"]
+    return HttpResponse("<h2>Личный кабинет</h2>"
+                        f"<p>Логин: {current_user_login}</p>"
+                        f"<p>Пароль: {current_user_password}</p>"
+                        f"<p>Телефон: {current_user_telephone}</p>"
+                        f"<p>Имя: {current_user_nom}</p>"
+                        f"<p>Фамилия: {current_user_prenom}</p>")
