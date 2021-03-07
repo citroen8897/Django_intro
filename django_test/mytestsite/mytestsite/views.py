@@ -3,10 +3,8 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 import re
 import time
-import mysql.connector
-from mysql.connector import Error
-import hashlib
-# import password_generator
+from . import password_generator
+from . import user
 
 
 def test_page(request):
@@ -80,7 +78,7 @@ def verification(request):
     if user_password != user_password_repeat or len(user_password) < 6:
         user_password = ''
     else:
-        user_password = generator_de_password(user_password)
+        user_password = password_generator.generator_de_password(user_password)
 
     user_nom = request.GET.get('nom').title()
     for element in user_nom:
@@ -99,8 +97,8 @@ def verification(request):
         request.session["password"] = user_password
         request.session["nom"] = user_nom
         request.session["prenom"] = user_prenom
-        current_user = User(0, user_nom, user_prenom, user_login,
-                            user_telephone, user_password, 'user')
+        current_user = user.User(0, user_nom, user_prenom, user_login,
+                                 user_telephone, user_password, 'user')
         current_user.get_users_db()
         if current_user.login not in \
                [element.login for element in current_user.users_data_base] \
@@ -130,11 +128,11 @@ def verification_2(request):
     if len(user_password) < 6:
         user_password = ''
     else:
-        user_password = generator_de_password(user_password)
+        user_password = password_generator.generator_de_password(user_password)
 
     if user_login != '' and user_password != '':
-        current_user = User(0, 'user_nom', 'user_prenom', user_login,
-                            '0123456789', user_password, 'user')
+        current_user = user.User(0, 'user_nom', 'user_prenom', user_login,
+                                 '0123456789', user_password, 'user')
         current_user.get_users_db()
         current_user.get_current_user()
         if current_user.user_id != 0:
@@ -162,102 +160,3 @@ def account(request):
             'current_user_nom': current_user_nom,
             'current_user_prenom': current_user_prenom}
     return render(request, "account.html", context=data)
-
-
-def generator_de_password(string_input):
-    temp_int = int((len(string_input) / 2))
-    user_password_hash_1 = hashlib.md5(string_input[:temp_int].
-                                       encode('utf-8')).hexdigest()
-    index_i, index_j = 0, 0
-    for i in user_password_hash_1:
-        if i.isdigit() and int(i) > 1:
-            index_i = user_password_hash_1.index(i)
-            break
-    user_password_hash_1 = user_password_hash_1[:index_i] + \
-                           str(int(user_password_hash_1[index_i]) ** 3) + \
-                           user_password_hash_1[index_i + 1:]
-
-    user_password_hash_2 = hashlib.sha1(string_input[temp_int:].
-                                        encode('utf-8')).hexdigest()
-    for j in user_password_hash_2:
-        if j.isdigit() and int(j) > 1:
-            index_j = user_password_hash_2.index(j)
-            break
-    user_password_hash_2 = user_password_hash_2[:index_j] + \
-                           str(int(user_password_hash_2[index_j]) ** 4) + \
-                           user_password_hash_2[index_j + 1:]
-
-    user_password = user_password_hash_1 + 'f2006i' + user_password_hash_2
-    return user_password
-
-
-class User:
-    def __init__(self, user_id, nom, prenom, login, telephone, password,
-                 status):
-        self.user_id = user_id
-        self.nom = nom
-        self.prenom = prenom
-        self.login = login
-        self.telephone = telephone
-        self.password = password
-        self.status = status
-        self.users_data_base = []
-
-    def add_user_database(self):
-        try:
-            conn = mysql.connector.connect(user='root',
-                                           host='localhost',
-                                           database='mysql')
-
-            if conn.is_connected():
-                new_user = "INSERT INTO ASK_market_users" \
-                           "(email,telephone,password,nom,prenom," \
-                           "status) VALUES(%s,%s,%s,%s,%s,%s)"
-                cursor = conn.cursor()
-                cursor.execute(new_user, (self.login, self.telephone,
-                                          self.password, self.nom,
-                                          self.prenom, self.status))
-                if cursor.lastrowid:
-                    print('успешно добавлена запись. id пользователя: ',
-                          cursor.lastrowid)
-                else:
-                    print('какая-то ошибка...')
-
-                conn.commit()
-        except Error as error:
-            print(error)
-        finally:
-            conn.close()
-            cursor.close()
-
-    def get_users_db(self):
-        try:
-            conn = mysql.connector.connect(user='root',
-                                           host='localhost',
-                                           database='mysql')
-            if conn.is_connected():
-                cursor = conn.cursor()
-                cursor.execute("SELECT * FROM ASK_market_users")
-                row = cursor.fetchone()
-                while row is not None:
-                    self.users_data_base.append(User(row[0], row[4], row[5],
-                                                     row[1], row[2], row[3],
-                                                     row[6]))
-                    row = cursor.fetchone()
-                conn.commit()
-        except Error as error:
-            print(error)
-        finally:
-            conn.close()
-            cursor.close()
-
-    def get_current_user(self):
-        for person in self.users_data_base:
-            if self.login == person.login and self.password == person.password:
-                self.user_id = person.user_id
-                self.nom = person.nom
-                self.prenom = person.prenom
-                self.login = person.login
-                self.password = person.password
-                self.telephone = person.telephone
-                self.status = person.status
