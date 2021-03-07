@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+</head>
+<body>
+<form class='test_form' action='/verification' method='get' style='width: 17%; margin: 0 auto;'>
+    <h1>Регистрация</h1>
+    <br>
+    <p>{{ error }}</p>
+    <br>
+    <div>
+        <input type='email' placeholder='E-mail' name='login' required>
+    </div>
+    <br>
+    <div>
+        <input type='text' placeholder='Телефон' name='telephone' required>
+    </div>
+    <br>
+    <div>
+        <input type='password' placeholder='Пароль' name='password' required>
+    </div>
+    <br>
+    <div>
+        <input type='password' placeholder='Повторите пароль' name='password_repeat' required>
+    </div>
+    <br>
+    <div>
+        <input type='text' placeholder='Имя' name='nom' required>
+    </div>
+    <br>
+    <div>
+        <input type='text' placeholder='Фамилия' name='prenom' required>
+    </div>
+    <br>
+    <div>
+        <button>Зарегистрироваться</button>
+    </div>
+</form>
+</body>
+</html>

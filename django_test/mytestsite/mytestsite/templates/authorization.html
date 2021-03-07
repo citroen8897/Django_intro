@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Авторизация</title>
+</head>
+<body>
+<form class='test_form' action='/verification_2' method='get' style='width: 17%; margin: 0 auto;'>
+    <h1>Авторизация</h1>
+    <br>
+    <p>{{ error }}</p>
+    <br>
+    <div>
+        <input type='email' placeholder='E-mail' name='login' required>
+    </div>
+    <br>
+    <div>
+        <input type='password' placeholder='Пароль' name='password' required>
+    </div>
+    <br><br>
+    <div>
+        <button>Вход</button>
+    </div>
+</form>
+</body>
+</html>

@@ -42,46 +42,8 @@ def registration(request):
         for k, v in error_dict.items():
             if k == error:
                 error = v
-    return HttpResponse(
-        "<form class='test_form' action='/verification' method='get' "
-        "style='width: 17%; margin: 0 auto;'>"
-        "   <h1>Регистрация</h1>"
-        "   <br>"
-        f"       <p>{error}</p>"
-        "   <br>"
-        "   <div>"
-        "       <input type='email' placeholder='E-mail' name='login' "
-        "required>"
-        "   </div>"
-        "   <br>"
-        "   <div>"
-        "       <input type='text' placeholder='Телефон' name='telephone' "
-        "required>"
-        "   </div>"
-        "   <br>"
-        "   <div>"
-        "       <input type='password' placeholder='Пароль' name='password' "
-        "required>"
-        "   </div>"
-        "   <br>"
-        "   <div>"
-        "       <input type='password' placeholder='Повторите пароль' "
-        "name='password_repeat' required>"
-        "   </div>"
-        "   <br>"
-        "   <div>"
-        "       <input type='text' placeholder='Имя' name='nom' required>"
-        "   </div>"
-        "   <br>"
-        "   <div>"
-        "       <input type='text' placeholder='Фамилия' name='prenom' "
-        "required>"
-        "   </div>"
-        "   <br>"
-        "   <div>"
-        "       <button>Зарегистрироваться</button>"
-        "   </div>"
-        "</form>")
+    data = {'error': error}
+    return render(request, "registration.html", context=data)
 
 
 def authorization(request):
@@ -93,27 +55,8 @@ def authorization(request):
         for k, v in error_dict.items():
             if k == error:
                 error = v
-    return HttpResponse(
-        "<form class='test_form' action='/verification_2' method='get' "
-        "style='width: 17%; margin: 0 auto;'>"
-        "   <h1>Авторизация</h1>"
-        "   <br>"
-        f"       <p>{error}</p>"
-        "   <br>"
-        "   <div>"
-        "       <input type='email' placeholder='E-mail' name='login' "
-        "required>"
-        "   </div>"
-        "   <br>"
-        "   <div>"
-        "       <input type='password' placeholder='Пароль' name='password' "
-        "required>"
-        "   </div>"
-        "   <br><br>"
-        "   <div>"
-        "       <button>Вход</button>"
-        "   </div>"
-        "</form>")
+    data = {'error': error}
+    return render(request, "authorization.html", context=data)
 
 
 def verification(request):
@@ -213,12 +156,12 @@ def account(request):
     current_user_password = request.session["password"]
     current_user_nom = request.session["nom"]
     current_user_prenom = request.session["prenom"]
-    return HttpResponse("<h2>Личный кабинет</h2>"
-                        f"<p>Логин: {current_user_login}</p>"
-                        f"<p>Пароль: {current_user_password}</p>"
-                        f"<p>Телефон: {current_user_telephone}</p>"
-                        f"<p>Имя: {current_user_nom}</p>"
-                        f"<p>Фамилия: {current_user_prenom}</p>")
+    data = {'current_user_login': current_user_login,
+            'current_user_telephone': current_user_telephone,
+            'current_user_password': current_user_password,
+            'current_user_nom': current_user_nom,
+            'current_user_prenom': current_user_prenom}
+    return render(request, "account.html", context=data)
 
 
 def generator_de_password(string_input):
