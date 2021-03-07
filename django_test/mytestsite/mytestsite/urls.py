@@ -26,5 +26,6 @@ urlpatterns = [
     path('verification/', views.verification),
     path('account/', views.account),
     path('authorization/', views.authorization),
-    path('verification_2/', views.verification_2)
+    path('verification_2/', views.verification_2),
+    path('template_test/', views.test_page)
 ]

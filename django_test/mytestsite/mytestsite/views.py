@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect
+from django.shortcuts import render
 import re
 import time
 import mysql.connector
@@ -8,37 +9,23 @@ import hashlib
 # import password_generator
 
 
+def test_page(request):
+    data = {"header": "Hello Django", "message": "Welcome to Python"}
+    return render(request, "test_page.html", context=data)
+
+
 def hello(request):
-    return HttpResponse(
-        "<form class='test_form' action='/page_1' method='get'>"
-        "   <h1>Hello world!</h1>"
-        "   <br><br>"
-        "   <div>"
-        "       <input type='text' placeholder='Логин' name='login' required>"
-        "   </div>"
-        "   <br><br>"
-        "   <div>"
-        "       <button>Первая ссылка</button>"
-        "   </div>"
-        "</form>")
+    return render(request, "hello.html")
 
 
 def page_1(request):
-    login = request.GET.get('login')
-    return HttpResponse(
-        "<div>Hello world_2!</div><br><br>"
-        "<div><a href='/page_2?w=88&r=-33'>Вторая ссылка</a></div>"
-        "<br><br>"
-        f"<p>Логин введенный на предыдущей странице: <h2>{login}</h2></p>")
+    data = {'login': request.GET.get('login')}
+    return render(request, "page_1.html", context=data)
 
 
 def page_2(request):
-    w = request.GET.get('w')
-    r = request.GET.get('r')
-    return HttpResponse("<div>Мы на третьей странице</div>"
-                        "<br><br>"
-                        f"<h3>Переменная w со страницы page_1: {w}</h3>"
-                        f"<h3>Переменная r со страницы page_1: {r}</h3>")
+    data = {'w': request.GET.get('w'), 'r': request.GET.get('r')}
+    return render(request, "page_2.html", context=data)
 
 
 def registration(request):
@@ -173,9 +160,9 @@ def verification(request):
                             user_telephone, user_password, 'user')
         current_user.get_users_db()
         if current_user.login not in \
-                [element.login for element in current_user.users_data_base] \
-                and current_user.telephone not in \
-                [element.telephone for element in current_user.users_data_base]:
+               [element.login for element in current_user.users_data_base] \
+               and current_user.telephone not in \
+               [element.telephone for element in current_user.users_data_base]:
             current_user.add_user_database()
             time.sleep(3)
             return redirect('/account')
