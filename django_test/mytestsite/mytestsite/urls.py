@@ -22,7 +22,9 @@ urlpatterns = [
     path('hello/', views.hello),
     path('page_1/', views.page_1),
     path('page_2/', views.page_2),
-    path('authorization/', views.authorization),
+    path('registration/', views.registration),
     path('verification/', views.verification),
-    path('account/', views.account)
+    path('account/', views.account),
+    path('authorization/', views.authorization),
+    path('verification_2/', views.verification_2)
 ]
