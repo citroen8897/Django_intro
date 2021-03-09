@@ -5,7 +5,8 @@
     <title>hello</title>
 </head>
 <body>
-<form class='test_form' action='/page_1' method='get'>
+<form class='test_form' action='/page_1' method='post'>
+    {% csrf_token %}
     <h1>Hello world!</h1>
     <br><br>
     <div>

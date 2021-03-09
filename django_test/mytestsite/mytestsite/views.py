@@ -5,6 +5,7 @@ import re
 import time
 from . import password_generator
 from . import user
+from . import product
 
 
 def test_page(request):
@@ -17,7 +18,7 @@ def hello(request):
 
 
 def page_1(request):
-    data = {'login': request.GET.get('login')}
+    data = {'login': request.POST.get('login')}
     return render(request, "page_1.html", context=data)
 
 
@@ -58,6 +59,18 @@ def authorization(request):
 
 
 def verification(request):
+    secur_list = ['delete', 'insert', 'set', 'update', 'drop']
+    secur_list_request = [request.GET.get('login'),
+                          request.GET.get('telephone'),
+                          request.GET.get('password'),
+                          request.GET.get('password_repeat'),
+                          request.GET.get('nom'),
+                          request.GET.get('prenom')]
+    for i in secur_list:
+        for j in secur_list_request:
+            if i in j.lower():
+                return redirect('https://www.google.com/')
+
     if re.search(r"\w+\.*\w+@\w+\.\w+", request.GET.get('login')):
         user_login = request.GET.get('login')
     else:
@@ -119,6 +132,14 @@ def verification(request):
 
 
 def verification_2(request):
+    secur_list = ['delete', 'insert', 'set', 'update', 'drop']
+    secur_list_request = [request.GET.get('login'),
+                          request.GET.get('password')]
+    for i in secur_list:
+        for j in secur_list_request:
+            if i in j.lower():
+                return redirect('https://www.google.com/')
+
     if re.search(r"\w+\.*\w+@\w+\.\w+", request.GET.get('login')):
         user_login = request.GET.get('login')
     else:
@@ -160,3 +181,10 @@ def account(request):
             'current_user_nom': current_user_nom,
             'current_user_prenom': current_user_prenom}
     return render(request, "account.html", context=data)
+
+
+def price_list_1(request):
+    some_product = product.Product(0, 'nom', 'etre', '0.0', 'kg', '0.0', 'img')
+    some_product.get_products_db()
+    data = {'products_all': some_product.products_data_base}
+    return render(request, "price_list_1.html", context=data)
