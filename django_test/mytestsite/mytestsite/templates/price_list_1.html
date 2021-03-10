@@ -37,6 +37,10 @@
       .hrefImg{
         text-decoration: none;
       }
+
+      .my-2 a{
+        width: 175px;
+      }
     </style>
   </head>
   <body>
@@ -52,6 +56,8 @@
       <a class="btn btn-outline-primary" href="/authorization/">Авторизация</a>
   </nav>
 </header>
+
+<div style="text-align: center; background: #00FA9A; width: 25%; height: auto;">{{ message }}</div>
 
 <main class="container">
   <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
@@ -75,7 +81,9 @@
         </a>
         <h5 class="card-title pricing-card-title">{{ products_all.0.prix }} грн./{{ products_all.0.q_2 }}</h5>
         <br>
-        <a href="/add_basket?product_id={{ products_all.0.product_id }}&flag=0"><button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button></a>
+        <a href="/add_basket?product_id={{ products_all.0.product_id }}&flag=0&flag2=1">
+          <button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button>
+        </a>
       </div>
     </div>
     </div>
@@ -94,7 +102,9 @@
         </a>
         <h5 class="card-title pricing-card-title">{{ products_all.1.prix }} грн./{{ products_all.1.q_2 }}</h5>
         <br>
-        <a href="/add_basket?product_id={{ products_all.1.product_id }}&flag=0"><button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button></a>
+        <a href="/add_basket?product_id={{ products_all.1.product_id }}&flag=0&flag2=1">
+          <button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button>
+        </a>
       </div>
     </div>
     </div>
@@ -113,7 +123,9 @@
         </a>
         <h5 class="card-title pricing-card-title">{{ products_all.2.prix }} грн./{{ products_all.2.q_2 }}</h5>
         <br>
-        <a href="/add_basket?product_id={{ products_all.2.product_id }}&flag=0"><button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button></a>
+        <a href="/add_basket?product_id={{ products_all.2.product_id }}&flag=0&flag2=1">
+          <button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button>
+        </a>
       </div>
     </div>
     </div>
@@ -135,7 +147,9 @@
         </a>
         <h5 class="card-title pricing-card-title">{{ products_all.3.prix }} грн./{{ products_all.3.q_2 }}</h5>
         <br>
-        <a href="/add_basket?product_id={{ products_all.3.product_id }}&flag=0"><button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button></a>
+        <a href="/add_basket?product_id={{ products_all.3.product_id }}&flag=0&flag2=1">
+          <button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button>
+        </a>
       </div>
     </div>
     </div>
@@ -154,7 +168,9 @@
         </a>
         <h5 class="card-title pricing-card-title">{{ products_all.4.prix }} грн./{{ products_all.4.q_2 }}</h5>
         <br>
-        <a href="/add_basket?product_id={{ products_all.4.product_id }}&flag=0"><button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button></a>
+        <a href="/add_basket?product_id={{ products_all.4.product_id }}&flag=0&flag2=1">
+          <button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button>
+        </a>
       </div>
     </div>
     </div>
@@ -173,7 +189,9 @@
         </a>
         <h5 class="card-title pricing-card-title">{{ products_all.5.prix }} грн./{{ products_all.5.q_2 }}</h5>
         <br>
-        <a href="/add_basket?product_id={{ products_all.5.product_id }}&flag=0"><button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button></a>
+        <a href="/add_basket?product_id={{ products_all.5.product_id }}&flag=0&flag2=1">
+          <button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button>
+        </a>
       </div>
     </div>
     </div>
@@ -195,7 +213,9 @@
         </a>
         <h5 class="card-title pricing-card-title">{{ products_all.6.prix }} грн./{{ products_all.6.q_2 }}</h5>
         <br>
-        <a href="/add_basket?product_id={{ products_all.6.product_id }}&flag=0"><button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button></a>
+        <a href="/add_basket?product_id={{ products_all.6.product_id }}&flag=0&flag2=1">
+          <button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button>
+        </a>
       </div>
     </div>
     </div>
@@ -214,7 +234,9 @@
         </a>
         <h5 class="card-title pricing-card-title">{{ products_all.7.prix }} грн./{{ products_all.7.q_2 }}</h5>
         <br>
-        <a href="/add_basket?product_id={{ products_all.7.product_id }}&flag=0"><button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button></a>
+        <a href="/add_basket?product_id={{ products_all.7.product_id }}&flag=0&flag2=1">
+          <button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button>
+        </a>
       </div>
     </div>
     </div>
@@ -233,7 +255,9 @@
         </a>
         <h5 class="card-title pricing-card-title">{{ products_all.8.prix }} грн./{{ products_all.8.q_2 }}</h5>
         <br>
-        <a href="/add_basket?product_id={{ products_all.8.product_id }}&flag=0"><button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button></a>
+        <a href="/add_basket?product_id={{ products_all.8.product_id }}&flag=0&flag2=1">
+          <button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button>
+        </a>
       </div>
     </div>
     </div>

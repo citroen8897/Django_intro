@@ -199,6 +199,7 @@ def product_info(request):
                                       'q_2', 0.0, 'img')
     current_product.get_products_db()
     current_product.get_current_product()
+
     data = {'product_info': current_product}
     return render(request, "product_info.html", context=data)
 
@@ -211,17 +212,28 @@ def add_basket(request):
     current_product.get_current_product()
     request.session["_basket_"].append(current_product.product_id)
     request.session.modified = True
-    data = {'product_info': current_product}
     next_page_flag = request.GET.get('flag')
     if next_page_flag == '1':
+        plus_basket_info = request.GET.get('flag2')
+        if plus_basket_info == '1':
+            message = 'Товар успешно добавлен в корзину!'
+        else:
+            message = ''
+        data = {'product_info': current_product, 'message': message}
         return render(request, "product_info.html", context=data)
     else:
-        return redirect('/price_list_1')
+        plus_basket_info = request.GET.get('flag2')
+        if plus_basket_info == '1':
+            message = 'Товар успешно добавлен в корзину!'
+        else:
+            message = ''
+        data = {'products_all': current_product.products_data_base,
+                'message': message}
+        return render(request, "price_list_1.html", context=data)
 
 
 def basket(request):
     basket_list_id = request.session["_basket_"]
-    print(basket_list_id)
     basket_list = []
     i = 1
     for element in basket_list_id:
