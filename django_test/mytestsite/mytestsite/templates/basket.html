@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <title>Корзина</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+    <style>
+      body{
+        background-color: #f5f5f5;
+      }
+    </style>
+</head>
+<body>
+<header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+  <p class="h5 my-0 me-md-auto fw-normal">ASK</p>
+  <nav class="my-2 my-md-0 me-md-3">
+      <a class="btn btn-outline-primary" href="/price_list_1/">Каталог</a>
+      <a class="btn btn-outline-primary" href="#">Доставка и оплата</a>
+      <a class="btn btn-outline-primary" href="#">Контакты</a>
+      <a class="btn btn-outline-primary" href="/basket/">Корзина</a>
+      <a class="btn btn-outline-primary" href="/registration/">Регистрация</a>
+      <a class="btn btn-outline-primary" href="/authorization/">Авторизация</a>
+  </nav>
+</header>
+<h2>Товары в корзине</h2>
+<br><br>
+<p>{{ user_basket.0.numero }}. {{ user_basket.0.nom }} {{ user_basket.0.prix }} {{ user_basket.0.q_1 }} {{ user_basket.0.product_sum }}</p>
+<p>{{ user_basket.1.numero }}. {{ user_basket.1.nom }} {{ user_basket.1.prix }} {{ user_basket.1.q_1 }} {{ user_basket.1.product_sum }}</p>
+<p>{{ user_basket.2.numero }}. {{ user_basket.2.nom }} {{ user_basket.2.prix }} {{ user_basket.2.q_1 }} {{ user_basket.2.product_sum }}</p>
+<p>{{ user_basket.3.numero }}. {{ user_basket.3.nom }} {{ user_basket.3.prix }} {{ user_basket.3.q_1 }} {{ user_basket.3.product_sum }}</p>
+<p>{{ user_basket.4.numero }}. {{ user_basket.4.nom }} {{ user_basket.4.prix }} {{ user_basket.4.q_1 }} {{ user_basket.4.product_sum }}</p>
+<p>{{ user_basket.5.numero }}. {{ user_basket.5.nom }} {{ user_basket.5.prix }} {{ user_basket.5.q_1 }} {{ user_basket.5.product_sum }}</p>
+<p>{{ user_basket.6.numero }}. {{ user_basket.6.nom }} {{ user_basket.6.prix }} {{ user_basket.6.q_1 }} {{ user_basket.6.product_sum }}</p>
+<p>{{ user_basket.7.numero }}. {{ user_basket.7.nom }} {{ user_basket.7.prix }} {{ user_basket.7.q_1 }} {{ user_basket.7.product_sum }}</p>
+<p>{{ user_basket.8.numero }}. {{ user_basket.8.nom }} {{ user_basket.8.prix }} {{ user_basket.8.q_1 }} {{ user_basket.8.product_sum }}</p>
+<p>{{ user_basket.9.numero }}. {{ user_basket.9.nom }} {{ user_basket.9.prix }} {{ user_basket.9.q_1 }} {{ user_basket.9.product_sum }}</p>
+<br><br>
+<h3>Итого: {{ total_prix }} грн.</h3>
+</body>
+</html>

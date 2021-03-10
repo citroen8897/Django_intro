@@ -29,5 +29,7 @@ urlpatterns = [
     path('verification_2/', views.verification_2),
     path('template_test/', views.test_page),
     path('price_list_1/', views.price_list_1),
-    path('product_info/', views.product_info)
+    path('product_info/', views.product_info),
+    path('add_basket/', views.add_basket),
+    path('basket/', views.basket)
 ]

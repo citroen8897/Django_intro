@@ -184,6 +184,9 @@ def account(request):
 
 
 def price_list_1(request):
+    if request.session.get("_basket_") is None:
+        request.session["_basket_"] = []
+
     some_product = product.Product(0, 'nom', 'etre', '0.0', 'kg', '0.0', 'img')
     some_product.get_products_db()
     data = {'products_all': some_product.products_data_base}
@@ -196,6 +199,47 @@ def product_info(request):
                                       'q_2', 0.0, 'img')
     current_product.get_products_db()
     current_product.get_current_product()
-    print(current_product.nom)
     data = {'product_info': current_product}
     return render(request, "product_info.html", context=data)
+
+
+def add_basket(request):
+    product_id = request.GET.get('product_id')
+    current_product = product.Product(int(product_id), 'nom', 'etre', 0.0,
+                                      'q_2', 0.0, 'img')
+    current_product.get_products_db()
+    current_product.get_current_product()
+    request.session["_basket_"].append(current_product.product_id)
+    request.session.modified = True
+    data = {'product_info': current_product}
+    next_page_flag = request.GET.get('flag')
+    if next_page_flag == '1':
+        return render(request, "product_info.html", context=data)
+    else:
+        return redirect('/price_list_1')
+
+
+def basket(request):
+    basket_list_id = request.session["_basket_"]
+    print(basket_list_id)
+    basket_list = []
+    i = 1
+    for element in basket_list_id:
+        current_product = product.Product(element, 'nom', 'etre', 0.0,
+                                          'q_2', 0.0, 'img')
+        current_product.get_products_db()
+        current_product.get_current_product()
+        if element in [j.product_id for j in basket_list]:
+            for element_2 in basket_list:
+                if element_2.product_id == element:
+                    element_2.q_1 += 1
+        else:
+            current_product.numero = i
+            basket_list.append(current_product)
+            i += 1
+    total_prix = 0
+    for element in basket_list:
+        element.product_sum = element.prix * element.q_1
+        total_prix += element.product_sum
+    data = {'user_basket': basket_list, 'total_prix': total_prix}
+    return render(request, "basket.html", context=data)
