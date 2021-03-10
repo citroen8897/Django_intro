@@ -240,6 +240,8 @@ def basket(request):
     total_prix = 0
     for element in basket_list:
         element.product_sum = element.prix * element.q_1
+        element.product_sum = round(element.product_sum, 2)
         total_prix += element.product_sum
+    total_prix = round(total_prix,2)
     data = {'user_basket': basket_list, 'total_prix': total_prix}
     return render(request, "basket.html", context=data)

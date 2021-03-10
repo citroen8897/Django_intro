@@ -10,6 +10,12 @@
     <style>
       body{
         background-color: #f5f5f5;
+        text-align: center;
+      }
+
+      .table{
+        width: 50%;
+        margin: 0 auto;
       }
     </style>
 </head>
@@ -25,19 +31,95 @@
       <a class="btn btn-outline-primary" href="/authorization/">Авторизация</a>
   </nav>
 </header>
-<h2>Товары в корзине</h2>
 <br><br>
-<p>{{ user_basket.0.numero }}. {{ user_basket.0.nom }} {{ user_basket.0.prix }} {{ user_basket.0.q_1 }} {{ user_basket.0.product_sum }}</p>
-<p>{{ user_basket.1.numero }}. {{ user_basket.1.nom }} {{ user_basket.1.prix }} {{ user_basket.1.q_1 }} {{ user_basket.1.product_sum }}</p>
-<p>{{ user_basket.2.numero }}. {{ user_basket.2.nom }} {{ user_basket.2.prix }} {{ user_basket.2.q_1 }} {{ user_basket.2.product_sum }}</p>
-<p>{{ user_basket.3.numero }}. {{ user_basket.3.nom }} {{ user_basket.3.prix }} {{ user_basket.3.q_1 }} {{ user_basket.3.product_sum }}</p>
-<p>{{ user_basket.4.numero }}. {{ user_basket.4.nom }} {{ user_basket.4.prix }} {{ user_basket.4.q_1 }} {{ user_basket.4.product_sum }}</p>
-<p>{{ user_basket.5.numero }}. {{ user_basket.5.nom }} {{ user_basket.5.prix }} {{ user_basket.5.q_1 }} {{ user_basket.5.product_sum }}</p>
-<p>{{ user_basket.6.numero }}. {{ user_basket.6.nom }} {{ user_basket.6.prix }} {{ user_basket.6.q_1 }} {{ user_basket.6.product_sum }}</p>
-<p>{{ user_basket.7.numero }}. {{ user_basket.7.nom }} {{ user_basket.7.prix }} {{ user_basket.7.q_1 }} {{ user_basket.7.product_sum }}</p>
-<p>{{ user_basket.8.numero }}. {{ user_basket.8.nom }} {{ user_basket.8.prix }} {{ user_basket.8.q_1 }} {{ user_basket.8.product_sum }}</p>
-<p>{{ user_basket.9.numero }}. {{ user_basket.9.nom }} {{ user_basket.9.prix }} {{ user_basket.9.q_1 }} {{ user_basket.9.product_sum }}</p>
+<h2 id="headText">Товары в корзине</h2>
 <br><br>
-<h3>Итого: {{ total_prix }} грн.</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+        <th scope="col">№</th>
+        <th scope="col">Товар</th>
+        <th scope="col">Цена</th>
+        <th scope="col">Количество</th>
+        <th scope="col">Сумма</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td>{{ user_basket.0.numero }}</td>
+        <td>{{ user_basket.0.nom }}</td>
+        <td>{{ user_basket.0.prix }}</td>
+        <td>{{ user_basket.0.q_1 }}</td>
+        <td>{{ user_basket.0.product_sum }}</td>
+    </tr>
+    <tr>
+        <td>{{ user_basket.1.numero }}</td>
+        <td>{{ user_basket.1.nom }}</td>
+        <td>{{ user_basket.1.prix }}</td>
+        <td>{{ user_basket.1.q_1 }}</td>
+        <td>{{ user_basket.1.product_sum }}</td>
+    </tr>
+    <tr>
+        <td>{{ user_basket.2.numero }}</td>
+        <td>{{ user_basket.2.nom }}</td>
+        <td>{{ user_basket.2.prix }}</td>
+        <td>{{ user_basket.2.q_1 }}</td>
+        <td>{{ user_basket.2.product_sum }}</td>
+    </tr>
+    <tr>
+        <td>{{ user_basket.3.numero }}</td>
+        <td>{{ user_basket.3.nom }}</td>
+        <td>{{ user_basket.3.prix }}</td>
+        <td>{{ user_basket.3.q_1 }}</td>
+        <td>{{ user_basket.3.product_sum }}</td>
+    </tr>
+    <tr>
+        <td>{{ user_basket.4.numero }}</td>
+        <td>{{ user_basket.4.nom }}</td>
+        <td>{{ user_basket.4.prix }}</td>
+        <td>{{ user_basket.4.q_1 }}</td>
+        <td>{{ user_basket.4.product_sum }}</td>
+    </tr>
+    <tr>
+        <td>{{ user_basket.5.numero }}</td>
+        <td>{{ user_basket.5.nom }}</td>
+        <td>{{ user_basket.5.prix }}</td>
+        <td>{{ user_basket.5.q_1 }}</td>
+        <td>{{ user_basket.5.product_sum }}</td>
+    </tr>
+    <tr>
+        <td>{{ user_basket.6.numero }}</td>
+        <td>{{ user_basket.6.nom }}</td>
+        <td>{{ user_basket.6.prix }}</td>
+        <td>{{ user_basket.6.q_1 }}</td>
+        <td>{{ user_basket.6.product_sum }}</td>
+    </tr>
+    <tr>
+        <td>{{ user_basket.7.numero }}</td>
+        <td>{{ user_basket.7.nom }}</td>
+        <td>{{ user_basket.7.prix }}</td>
+        <td>{{ user_basket.7.q_1 }}</td>
+        <td>{{ user_basket.7.product_sum }}</td>
+    </tr>
+    <tr>
+        <td>{{ user_basket.8.numero }}</td>
+        <td>{{ user_basket.8.nom }}</td>
+        <td>{{ user_basket.8.prix }}</td>
+        <td>{{ user_basket.8.q_1 }}</td>
+        <td>{{ user_basket.8.product_sum }}</td>
+    </tr>
+    <tr>
+        <td>{{ user_basket.9.numero }}</td>
+        <td>{{ user_basket.9.nom }}</td>
+        <td>{{ user_basket.9.prix }}</td>
+        <td>{{ user_basket.9.q_1 }}</td>
+        <td>{{ user_basket.9.product_sum }}</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<h4 id="footText">Итого: {{ total_prix }} грн.</h4>
+<br>
+<div style="width: 250px; margin: 0 auto;"><button type="button" class="w-100 btn btn-lg btn-primary">Оформить заказ</button></div>
 </body>
 </html>
