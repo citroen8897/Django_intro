@@ -34,3 +34,13 @@ class Product:
         finally:
             conn.close()
             cursor.close()
+
+    def get_current_product(self):
+        for element in self.products_data_base:
+            if element.product_id == self.product_id:
+                self.nom = element.nom
+                self.etre = element.etre
+                self.q_1 = element.q_1
+                self.q_2 = element.q_2
+                self.prix = element.prix
+                self.img = element.img

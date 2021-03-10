@@ -28,5 +28,6 @@ urlpatterns = [
     path('authorization/', views.authorization),
     path('verification_2/', views.verification_2),
     path('template_test/', views.test_page),
-    path('price_list_1/', views.price_list_1)
+    path('price_list_1/', views.price_list_1),
+    path('product_info/', views.product_info)
 ]

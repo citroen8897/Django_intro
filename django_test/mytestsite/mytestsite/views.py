@@ -188,3 +188,14 @@ def price_list_1(request):
     some_product.get_products_db()
     data = {'products_all': some_product.products_data_base}
     return render(request, "price_list_1.html", context=data)
+
+
+def product_info(request):
+    product_id = request.GET.get('product_id')
+    current_product = product.Product(int(product_id), 'nom', 'etre', 0.0,
+                                      'q_2', 0.0, 'img')
+    current_product.get_products_db()
+    current_product.get_current_product()
+    print(current_product.nom)
+    data = {'product_info': current_product}
+    return render(request, "product_info.html", context=data)
