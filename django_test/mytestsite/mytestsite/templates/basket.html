@@ -14,7 +14,7 @@
       }
 
       .table{
-        width: 80%;
+        width: 60%;
         margin: 0 auto;
       }
 
@@ -43,34 +43,37 @@
 <br><br>
 <h2 id="headText">{{ message }}</h2>
 <br><br>
+{% if user_basket|length > 0 %}
 <table class="table table-striped">
   <thead>
     <tr>
         <th scope="col">№</th>
         <th scope="col">Товар</th>
         <th scope="col">Цена</th>
-        <th scope="col">Количество</th>
         <th scope="col">Сумма</th>
-        <th scope="col">Изменить</th>
+        <th scope="col">Количество</th>
         <th scope="col">Удалить</th>
     </tr>
   </thead>
   <tbody>
+    {% for item in user_basket %}
     <tr>
-        <td>{{ user_basket.0.numero }}</td>
-        <td>{{ user_basket.0.nom }}</td>
-        <td>{{ user_basket.0.prix }}</td>
-        <td>{{ user_basket.0.q_1 }}</td>
-        <td>{{ user_basket.0.product_sum }}</td>
+        <td>{{ item.numero }}</td>
+        <td>{{ item.nom }}</td>
+        <td>{{ item.prix }}</td>
+        <td>{{ item.product_sum }}</td>
         <td class="buttonBasket">
             <div style="width: 50px;">
-                <a href="/plus_basket?product_id={{ user_basket.0.product_id }}">
+                <a href="/plus_basket?product_id={{ item.product_id }}">
                     <button type="button" class="w-100 btn btn-lg btn-primary">
                     +</button>
                 </a>
             </div>
+            <div>
+                {{ item.q_1 }}
+            </div>
             <div style="width: 50px;">
-                <a href="/minus_basket?product_id={{ user_basket.0.product_id }}">
+                <a href="/minus_basket?product_id={{ item.product_id }}">
                     <button type="button" class="w-100 btn btn-lg btn-primary">
                     -</button>
                 </a>
@@ -78,81 +81,21 @@
         </td>
         <td>
             <div style="width: 125px; margin: 0 auto;">
-                <a href="/delete_basket?product_id={{ user_basket.0.product_id }}">
+                <a href="/delete_basket?product_id={{ item.product_id }}">
                     <button type="button" class="w-100 btn btn-lg btn-primary">
                     Удалить</button>
                 </a>
             </div>
         </td>
     </tr>
-    <tr>
-        <td>{{ user_basket.1.numero }}</td>
-        <td>{{ user_basket.1.nom }}</td>
-        <td>{{ user_basket.1.prix }}</td>
-        <td>{{ user_basket.1.q_1 }}</td>
-        <td>{{ user_basket.1.product_sum }}</td>
-    </tr>
-    <tr>
-        <td>{{ user_basket.2.numero }}</td>
-        <td>{{ user_basket.2.nom }}</td>
-        <td>{{ user_basket.2.prix }}</td>
-        <td>{{ user_basket.2.q_1 }}</td>
-        <td>{{ user_basket.2.product_sum }}</td>
-    </tr>
-    <tr>
-        <td>{{ user_basket.3.numero }}</td>
-        <td>{{ user_basket.3.nom }}</td>
-        <td>{{ user_basket.3.prix }}</td>
-        <td>{{ user_basket.3.q_1 }}</td>
-        <td>{{ user_basket.3.product_sum }}</td>
-    </tr>
-    <tr>
-        <td>{{ user_basket.4.numero }}</td>
-        <td>{{ user_basket.4.nom }}</td>
-        <td>{{ user_basket.4.prix }}</td>
-        <td>{{ user_basket.4.q_1 }}</td>
-        <td>{{ user_basket.4.product_sum }}</td>
-    </tr>
-    <tr>
-        <td>{{ user_basket.5.numero }}</td>
-        <td>{{ user_basket.5.nom }}</td>
-        <td>{{ user_basket.5.prix }}</td>
-        <td>{{ user_basket.5.q_1 }}</td>
-        <td>{{ user_basket.5.product_sum }}</td>
-    </tr>
-    <tr>
-        <td>{{ user_basket.6.numero }}</td>
-        <td>{{ user_basket.6.nom }}</td>
-        <td>{{ user_basket.6.prix }}</td>
-        <td>{{ user_basket.6.q_1 }}</td>
-        <td>{{ user_basket.6.product_sum }}</td>
-    </tr>
-    <tr>
-        <td>{{ user_basket.7.numero }}</td>
-        <td>{{ user_basket.7.nom }}</td>
-        <td>{{ user_basket.7.prix }}</td>
-        <td>{{ user_basket.7.q_1 }}</td>
-        <td>{{ user_basket.7.product_sum }}</td>
-    </tr>
-    <tr>
-        <td>{{ user_basket.8.numero }}</td>
-        <td>{{ user_basket.8.nom }}</td>
-        <td>{{ user_basket.8.prix }}</td>
-        <td>{{ user_basket.8.q_1 }}</td>
-        <td>{{ user_basket.8.product_sum }}</td>
-    </tr>
-    <tr>
-        <td>{{ user_basket.9.numero }}</td>
-        <td>{{ user_basket.9.nom }}</td>
-        <td>{{ user_basket.9.prix }}</td>
-        <td>{{ user_basket.9.q_1 }}</td>
-        <td>{{ user_basket.9.product_sum }}</td>
-    </tr>
+    {% endfor %}
+
   </tbody>
 </table>
 <br>
 <h4 id="footText">Итого: {{ total_prix }} грн.</h4>
 <br>
 <div style="width: 250px; margin: 0 auto;"><button type="button" class="w-100 btn btn-lg btn-primary">Оформить заказ</button></div>
+{% endif %}
 </body>
 </html>

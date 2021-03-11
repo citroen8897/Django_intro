@@ -66,201 +66,29 @@
   </div>
 
   <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+  {% for item in products_all %}
     <div class="col">
       <div class="card mb-4 shadow-sm">
-        <a href="/product_info?product_id=1">
+        <a href="/product_info?product_id={{ item.product_id }}">
           <div class="card-header">
           <br>
-          <div><img src="{{ products_all.0.img }}" alt="" width="200px" height="200px"></div>
+          <div><img src="{{ item.img }}" alt="" width="200px" height="200px"></div>
           <br>
           </div>
         </a>
       <div class="card-body">
-        <a class="hrefImg" href="/product_info?product_id=1">
-          <h3 class="card-title pricing-card-title">{{ products_all.0.nom }}</h3>
+        <a class="hrefImg" href="/product_info?product_id={{ item.product_id }}">
+          <h3 class="card-title pricing-card-title">{{ item.nom }}</h3>
         </a>
-        <h5 class="card-title pricing-card-title">{{ products_all.0.prix }} грн./{{ products_all.0.q_2 }}</h5>
+        <h5 class="card-title pricing-card-title">{{ item.prix }} грн./{{ item.q_2 }}</h5>
         <br>
-        <a href="/add_basket?product_id={{ products_all.0.product_id }}&flag=0&flag2=1">
+        <a href="/add_basket?product_id={{ item.product_id }}&flag=0&flag2=1">
           <button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button>
         </a>
       </div>
     </div>
     </div>
-   <div class="col">
-      <div class="card mb-4 shadow-sm">
-        <a href="/product_info?product_id=2">
-          <div class="card-header">
-          <br>
-          <div><img src="{{ products_all.1.img }}" alt="" width="200px" height="200px"></div>
-          <br>
-          </div>
-        </a>
-      <div class="card-body">
-        <a class="hrefImg" href="/product_info?product_id=2">
-          <h3 class="card-title pricing-card-title">{{ products_all.1.nom }}</h3>
-        </a>
-        <h5 class="card-title pricing-card-title">{{ products_all.1.prix }} грн./{{ products_all.1.q_2 }}</h5>
-        <br>
-        <a href="/add_basket?product_id={{ products_all.1.product_id }}&flag=0&flag2=1">
-          <button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button>
-        </a>
-      </div>
-    </div>
-    </div>
-    <div class="col">
-      <div class="card mb-4 shadow-sm">
-        <a href="/product_info?product_id=3">
-          <div class="card-header">
-          <br>
-          <div><img src="{{ products_all.2.img }}" alt="" width="200px" height="200px"></div>
-          <br>
-          </div>
-        </a>
-      <div class="card-body">
-        <a class="hrefImg" href="/product_info?product_id=3">
-          <h3 class="card-title pricing-card-title">{{ products_all.2.nom }}</h3>
-        </a>
-        <h5 class="card-title pricing-card-title">{{ products_all.2.prix }} грн./{{ products_all.2.q_2 }}</h5>
-        <br>
-        <a href="/add_basket?product_id={{ products_all.2.product_id }}&flag=0&flag2=1">
-          <button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button>
-        </a>
-      </div>
-    </div>
-    </div>
-  </div>
-
-  <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-    <div class="col">
-      <div class="card mb-4 shadow-sm">
-        <a href="/product_info?product_id=4">
-          <div class="card-header">
-          <br>
-          <div><img src="{{ products_all.3.img }}" alt="" width="200px" height="200px"></div>
-          <br>
-          </div>
-        </a>
-      <div class="card-body">
-        <a class="hrefImg" href="/product_info?product_id=4">
-          <h3 class="card-title pricing-card-title">{{ products_all.3.nom }}</h3>
-        </a>
-        <h5 class="card-title pricing-card-title">{{ products_all.3.prix }} грн./{{ products_all.3.q_2 }}</h5>
-        <br>
-        <a href="/add_basket?product_id={{ products_all.3.product_id }}&flag=0&flag2=1">
-          <button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button>
-        </a>
-      </div>
-    </div>
-    </div>
-    <div class="col">
-      <div class="card mb-4 shadow-sm">
-        <a href="/product_info?product_id=5">
-          <div class="card-header">
-          <br>
-          <div><img src="{{ products_all.4.img }}" alt="" width="200px" height="200px"></div>
-          <br>
-          </div>
-        </a>
-      <div class="card-body">
-        <a class="hrefImg" href="/product_info?product_id=5">
-          <h3 class="card-title pricing-card-title">{{ products_all.4.nom }}</h3>
-        </a>
-        <h5 class="card-title pricing-card-title">{{ products_all.4.prix }} грн./{{ products_all.4.q_2 }}</h5>
-        <br>
-        <a href="/add_basket?product_id={{ products_all.4.product_id }}&flag=0&flag2=1">
-          <button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button>
-        </a>
-      </div>
-    </div>
-    </div>
-    <div class="col">
-      <div class="card mb-4 shadow-sm">
-        <a href="/product_info?product_id=6">
-          <div class="card-header">
-          <br>
-          <div><img src="{{ products_all.5.img }}" alt="" width="200px" height="200px"></div>
-          <br>
-          </div>
-        </a>
-      <div class="card-body">
-        <a class="hrefImg" href="/product_info?product_id=6">
-          <h3 class="card-title pricing-card-title">{{ products_all.5.nom }}</h3>
-        </a>
-        <h5 class="card-title pricing-card-title">{{ products_all.5.prix }} грн./{{ products_all.5.q_2 }}</h5>
-        <br>
-        <a href="/add_basket?product_id={{ products_all.5.product_id }}&flag=0&flag2=1">
-          <button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button>
-        </a>
-      </div>
-    </div>
-    </div>
-  </div>
-
-  <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-    <div class="col">
-      <div class="card mb-4 shadow-sm">
-        <a href="/product_info?product_id=7">
-          <div class="card-header">
-          <br>
-          <div><img src="{{ products_all.6.img }}" alt="" width="200px" height="200px"></div>
-          <br>
-          </div>
-        </a>
-      <div class="card-body">
-        <a class="hrefImg" href="/product_info?product_id=7">
-          <h3 class="card-title pricing-card-title">{{ products_all.6.nom }}</h3>
-        </a>
-        <h5 class="card-title pricing-card-title">{{ products_all.6.prix }} грн./{{ products_all.6.q_2 }}</h5>
-        <br>
-        <a href="/add_basket?product_id={{ products_all.6.product_id }}&flag=0&flag2=1">
-          <button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button>
-        </a>
-      </div>
-    </div>
-    </div>
-    <div class="col">
-      <div class="card mb-4 shadow-sm">
-        <a href="/product_info?product_id=8">
-          <div class="card-header">
-          <br>
-          <div><img src="{{ products_all.7.img }}" alt="" width="200px" height="200px"></div>
-          <br>
-          </div>
-        </a>
-      <div class="card-body">
-        <a class="hrefImg" href="/product_info?product_id=8">
-          <h3 class="card-title pricing-card-title">{{ products_all.7.nom }}</h3>
-        </a>
-        <h5 class="card-title pricing-card-title">{{ products_all.7.prix }} грн./{{ products_all.7.q_2 }}</h5>
-        <br>
-        <a href="/add_basket?product_id={{ products_all.7.product_id }}&flag=0&flag2=1">
-          <button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button>
-        </a>
-      </div>
-    </div>
-    </div>
-    <div class="col">
-      <div class="card mb-4 shadow-sm">
-        <a href="/product_info?product_id=9">
-          <div class="card-header">
-          <br>
-          <div><img src="{{ products_all.8.img }}" alt="" width="200px" height="200px"></div>
-          <br>
-          </div>
-        </a>
-      <div class="card-body">
-        <a class="hrefImg" href="/product_info?product_id=9">
-          <h3 class="card-title pricing-card-title">{{ products_all.8.nom }}</h3>
-        </a>
-        <h5 class="card-title pricing-card-title">{{ products_all.8.prix }} грн./{{ products_all.8.q_2 }}</h5>
-        <br>
-        <a href="/add_basket?product_id={{ products_all.8.product_id }}&flag=0&flag2=1">
-          <button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button>
-        </a>
-      </div>
-    </div>
-    </div>
+  {% endfor %}
   </div>
 
   <footer class="pt-4 my-md-5 pt-md-5 border-top">
@@ -300,9 +128,5 @@
     </div>
   </footer>
 </main>
-
-
-
-  </body>
+</body>
 </html>
-
