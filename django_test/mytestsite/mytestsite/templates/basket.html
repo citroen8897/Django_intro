@@ -14,12 +14,17 @@
       }
 
       .table{
-        width: 50%;
+        width: 80%;
         margin: 0 auto;
       }
 
       .my-2 a{
         width: 175px;
+      }
+
+      .buttonBasket{
+        display: flex;
+        justify-content: space-around;
       }
     </style>
 </head>
@@ -36,7 +41,7 @@
   </nav>
 </header>
 <br><br>
-<h2 id="headText">Товары в корзине</h2>
+<h2 id="headText">{{ message }}</h2>
 <br><br>
 <table class="table table-striped">
   <thead>
@@ -46,6 +51,8 @@
         <th scope="col">Цена</th>
         <th scope="col">Количество</th>
         <th scope="col">Сумма</th>
+        <th scope="col">Изменить</th>
+        <th scope="col">Удалить</th>
     </tr>
   </thead>
   <tbody>
@@ -55,6 +62,28 @@
         <td>{{ user_basket.0.prix }}</td>
         <td>{{ user_basket.0.q_1 }}</td>
         <td>{{ user_basket.0.product_sum }}</td>
+        <td class="buttonBasket">
+            <div style="width: 50px;">
+                <a href="/plus_basket?product_id={{ user_basket.0.product_id }}">
+                    <button type="button" class="w-100 btn btn-lg btn-primary">
+                    +</button>
+                </a>
+            </div>
+            <div style="width: 50px;">
+                <a href="/minus_basket?product_id={{ user_basket.0.product_id }}">
+                    <button type="button" class="w-100 btn btn-lg btn-primary">
+                    -</button>
+                </a>
+            </div>
+        </td>
+        <td>
+            <div style="width: 125px; margin: 0 auto;">
+                <a href="/delete_basket?product_id={{ user_basket.0.product_id }}">
+                    <button type="button" class="w-100 btn btn-lg btn-primary">
+                    Удалить</button>
+                </a>
+            </div>
+        </td>
     </tr>
     <tr>
         <td>{{ user_basket.1.numero }}</td>

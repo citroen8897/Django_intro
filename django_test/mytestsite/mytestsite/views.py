@@ -211,6 +211,7 @@ def add_basket(request):
     current_product.get_products_db()
     current_product.get_current_product()
     request.session["_basket_"].append(current_product.product_id)
+    request.session["_basket_"].sort()
     request.session.modified = True
     next_page_flag = request.GET.get('flag')
     if next_page_flag == '1':
@@ -254,6 +255,37 @@ def basket(request):
         element.product_sum = element.prix * element.q_1
         element.product_sum = round(element.product_sum, 2)
         total_prix += element.product_sum
-    total_prix = round(total_prix,2)
-    data = {'user_basket': basket_list, 'total_prix': total_prix}
+    total_prix = round(total_prix, 2)
+    if total_prix != 0:
+        message = 'Товары в корзине'
+    else:
+        message = 'Корзина пуста!'
+    data = {'user_basket': basket_list, 'total_prix': total_prix,
+            'message': message}
     return render(request, "basket.html", context=data)
+
+
+def minus_basket(request):
+    product_id = request.GET.get('product_id')
+    request.session["_basket_"].pop(request.session["_basket_"].index(int(product_id)))
+    request.session["_basket_"].sort()
+    request.session.modified = True
+    return redirect('/basket')
+
+
+def plus_basket(request):
+    product_id = request.GET.get('product_id')
+    request.session["_basket_"].append(int(product_id))
+    request.session["_basket_"].sort()
+    request.session.modified = True
+    return redirect('/basket')
+
+
+def delete_basket(request):
+    product_id = request.GET.get('product_id')
+    request.session["_basket_"].sort()
+    if int(product_id) in request.session["_basket_"]:
+        while int(product_id) in request.session["_basket_"]:
+            request.session["_basket_"].remove(int(product_id))
+    request.session.modified = True
+    return redirect('/basket')

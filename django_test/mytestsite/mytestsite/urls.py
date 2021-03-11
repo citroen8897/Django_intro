@@ -31,5 +31,8 @@ urlpatterns = [
     path('price_list_1/', views.price_list_1),
     path('product_info/', views.product_info),
     path('add_basket/', views.add_basket),
-    path('basket/', views.basket)
+    path('basket/', views.basket),
+    path('minus_basket/', views.minus_basket),
+    path('plus_basket/', views.plus_basket),
+    path('delete_basket/', views.delete_basket)
 ]
