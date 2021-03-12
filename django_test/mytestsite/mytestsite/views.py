@@ -157,6 +157,7 @@ def verification_2(request):
         current_user.get_users_db()
         current_user.get_current_user()
         if current_user.user_id != 0:
+            request.session["user_id"] = current_user.user_id
             request.session["login"] = current_user.login
             request.session["telephone"] = current_user.telephone
             request.session["password"] = current_user.password
@@ -166,7 +167,7 @@ def verification_2(request):
             if request.session.get("helper_1") is None:
                 return redirect('/account')
             else:
-                return redirect('/delivery_info')
+                return redirect('/delivery_type')
         else:
             return redirect('/authorization?error=UserNotFound')
     else:
@@ -263,6 +264,7 @@ def basket(request):
         element.product_sum = round(element.product_sum, 2)
         total_prix += element.product_sum
     total_prix = round(total_prix, 2)
+    request.session["basket_total_prix"] = total_prix
     if total_prix != 0:
         message = 'Товары в корзине'
     else:
@@ -274,7 +276,8 @@ def basket(request):
 
 def minus_basket(request):
     product_id = request.GET.get('product_id')
-    request.session["_basket_"].pop(request.session["_basket_"].index(int(product_id)))
+    request.session["_basket_"].pop(request.session["_basket_"].
+                                    index(int(product_id)))
     request.session["_basket_"].sort()
     request.session.modified = True
     return redirect('/basket')
@@ -352,7 +355,8 @@ def verification_4(request):
                 and request.GET.get('appartement') != '':
             request.session["delivery_rue"] = request.GET.get('rue')
             request.session["delivery_maison"] = request.GET.get('maison')
-            request.session["delivery_appartement"] = request.GET.get('appartement')
+            request.session["delivery_appartement"] = \
+                request.GET.get('appartement')
             return redirect('/pay_type')
         else:
             return redirect('/delivery_info?error=NonDeliveryInfo')
@@ -389,4 +393,48 @@ def verification_5(request):
 
 
 def felicitation(request):
-    return render(request, "felicitation.html")
+    current_user = user.User(request.session["user_id"],
+                             request.session["nom"],
+                             request.session["prenom"],
+                             request.session["login"],
+                             request.session["telephone"],
+                             request.session["password"],
+                             'user')
+    current_user.total_prix = request.session["basket_total_prix"]
+    current_user.delivery_type = request.session["delivery_type"]
+    if current_user.delivery_type == 'NP':
+        current_user.delivery_rue = ''
+        current_user.delivery_maison = ''
+        current_user.delivery_appartement = ''
+        current_user.ville = request.session["ville"]
+        current_user.otdelenie = request.session["otdelenie"]
+    else:
+        current_user.delivery_rue = request.session["delivery_rue"]
+        current_user.delivery_maison = request.session["delivery_maison"]
+        current_user.delivery_appartement = \
+            request.session["delivery_appartement"]
+        current_user.ville = ''
+        current_user.otdelenie = ''
+    current_user.pay_type = request.session["pay_type"]
+    numero_de_zakaz = current_user.make_zakaz()
+    basket_list_id = request.session["_basket_"]
+    basket_list = []
+    for element in basket_list_id:
+        current_product = product.Product(element, 'nom', 'etre', 0.0,
+                                          'q_2', 0.0, 'img')
+        current_product.get_products_db()
+        current_product.get_current_product()
+        if element in [j.product_id for j in basket_list]:
+            for element_2 in basket_list:
+                if element_2.product_id == element:
+                    element_2.q_1 += 1
+        else:
+            basket_list.append(current_product)
+    for element in basket_list:
+        current_user.make_zakaz_full(numero_de_zakaz,
+                                     element.product_id, element.q_1,
+                                     element.nom)
+    request.session.clear()
+    request.session["_basket_"] = []
+    data = {'numero_de_zakaz': numero_de_zakaz}
+    return render(request, "felicitation.html", context=data)
