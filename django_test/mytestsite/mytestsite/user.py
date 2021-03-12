@@ -125,8 +125,9 @@ class User:
 
             if conn.is_connected():
                 new_zakaz = "INSERT INTO ASK_market_full_orders" \
-                            "(numero_de_zakaz, product_id, q_1, product_nom, "\
-                            "user_id, user_email) VALUES(%s,%s,%s,%s,%s,%s)"
+                            "(numero_de_zakaz, product_id, quantity, " \
+                            "product_nom, user_id, user_email) " \
+                            "VALUES(%s,%s,%s,%s,%s,%s)"
                 cursor = conn.cursor()
                 cursor.execute(new_zakaz, (numero_de_zakaz, product_id, q_1,
                                            product_nom, self.user_id,

@@ -6,6 +6,7 @@ import time
 from . import password_generator
 from . import user
 from . import product
+from . import secur
 
 
 def test_page(request):
@@ -38,6 +39,8 @@ def registration(request):
     error = ''
     if request.GET.get('error'):
         error = request.GET.get('error')
+        if secur.secur_x(error) == 0:
+            return redirect('https://www.google.com/')
         for k, v in error_dict.items():
             if k == error:
                 error = v
@@ -51,6 +54,8 @@ def authorization(request):
     error = ''
     if request.GET.get('error'):
         error = request.GET.get('error')
+        if secur.secur_x(error) == 0:
+            return redirect('https://www.google.com/')
         for k, v in error_dict.items():
             if k == error:
                 error = v
@@ -59,17 +64,13 @@ def authorization(request):
 
 
 def verification(request):
-    secur_list = ['delete', 'insert', 'set', 'update', 'drop']
-    secur_list_request = [request.GET.get('login'),
-                          request.GET.get('telephone'),
-                          request.GET.get('password'),
-                          request.GET.get('password_repeat'),
-                          request.GET.get('nom'),
-                          request.GET.get('prenom')]
-    for i in secur_list:
-        for j in secur_list_request:
-            if i in j.lower():
-                return redirect('https://www.google.com/')
+    if secur.secur_x(request.GET.get('login')) == 0 or \
+            secur.secur_x(request.GET.get('telephone')) == 0 or \
+            secur.secur_x(request.GET.get('password')) == 0 or \
+            secur.secur_x(request.GET.get('password_repeat')) == 0 or \
+            secur.secur_x(request.GET.get('nom')) == 0 or \
+            secur.secur_x(request.GET.get('prenom')) == 0:
+        return redirect('https://www.google.com/')
 
     if re.search(r"\w+\.*\w+@\w+\.\w+", request.GET.get('login')):
         user_login = request.GET.get('login')
@@ -132,13 +133,9 @@ def verification(request):
 
 
 def verification_2(request):
-    secur_list = ['delete', 'insert', 'set', 'update', 'drop']
-    secur_list_request = [request.GET.get('login'),
-                          request.GET.get('password')]
-    for i in secur_list:
-        for j in secur_list_request:
-            if i in j.lower():
-                return redirect('https://www.google.com/')
+    if secur.secur_x(request.GET.get('login')) == 0 or \
+            secur.secur_x(request.GET.get('password')) == 0:
+        return redirect('https://www.google.com/')
 
     if re.search(r"\w+\.*\w+@\w+\.\w+", request.GET.get('login')):
         user_login = request.GET.get('login')
@@ -203,6 +200,8 @@ def price_list_1(request):
 
 def product_info(request):
     product_id = request.GET.get('product_id')
+    if secur.secur_x(product_id) == 0:
+        return redirect('https://www.google.com/')
     current_product = product.Product(int(product_id), 'nom', 'etre', 0.0,
                                       'q_2', 0.0, 'img')
     current_product.get_products_db()
@@ -214,6 +213,8 @@ def product_info(request):
 
 def add_basket(request):
     product_id = request.GET.get('product_id')
+    if secur.secur_x(product_id) == 0:
+        return redirect('https://www.google.com/')
     current_product = product.Product(int(product_id), 'nom', 'etre', 0.0,
                                       'q_2', 0.0, 'img')
     current_product.get_products_db()
@@ -222,8 +223,12 @@ def add_basket(request):
     request.session["_basket_"].sort()
     request.session.modified = True
     next_page_flag = request.GET.get('flag')
+    if secur.secur_x(next_page_flag) == 0:
+        return redirect('https://www.google.com/')
     if next_page_flag == '1':
         plus_basket_info = request.GET.get('flag2')
+        if secur.secur_x(plus_basket_info) == 0:
+            return redirect('https://www.google.com/')
         if plus_basket_info == '1':
             message = 'Товар успешно добавлен в корзину!'
         else:
@@ -232,6 +237,8 @@ def add_basket(request):
         return render(request, "product_info.html", context=data)
     else:
         plus_basket_info = request.GET.get('flag2')
+        if secur.secur_x(plus_basket_info) == 0:
+            return redirect('https://www.google.com/')
         if plus_basket_info == '1':
             message = 'Товар успешно добавлен в корзину!'
         else:
@@ -276,6 +283,8 @@ def basket(request):
 
 def minus_basket(request):
     product_id = request.GET.get('product_id')
+    if secur.secur_x(product_id) == 0:
+        return redirect('https://www.google.com/')
     request.session["_basket_"].pop(request.session["_basket_"].
                                     index(int(product_id)))
     request.session["_basket_"].sort()
@@ -285,6 +294,8 @@ def minus_basket(request):
 
 def plus_basket(request):
     product_id = request.GET.get('product_id')
+    if secur.secur_x(product_id) == 0:
+        return redirect('https://www.google.com/')
     request.session["_basket_"].append(int(product_id))
     request.session["_basket_"].sort()
     request.session.modified = True
@@ -293,6 +304,8 @@ def plus_basket(request):
 
 def delete_basket(request):
     product_id = request.GET.get('product_id')
+    if secur.secur_x(product_id) == 0:
+        return redirect('https://www.google.com/')
     request.session["_basket_"].sort()
     if int(product_id) in request.session["_basket_"]:
         while int(product_id) in request.session["_basket_"]:
@@ -315,6 +328,8 @@ def delivery_type(request):
     error = ''
     if request.GET.get('error'):
         error = request.GET.get('error')
+        if secur.secur_x(error) == 0:
+            return redirect('https://www.google.com/')
         for k, v in error_dict.items():
             if k == error:
                 error = v
@@ -325,6 +340,8 @@ def delivery_type(request):
 
 def verification_3(request):
     user_type_delivery = request.GET.get('deliveryType')
+    if secur.secur_x(user_type_delivery) == 0:
+        return redirect('https://www.google.com/')
     if user_type_delivery not in ['NP', 'Kur']:
         return redirect('/delivery_type?error=NonDeliveryType')
     else:
@@ -337,6 +354,8 @@ def delivery_info(request):
     error = ''
     if request.GET.get('error'):
         error = request.GET.get('error')
+        if secur.secur_x(error) == 0:
+            return redirect('https://www.google.com/')
         for k, v in error_dict.items():
             if k == error:
                 error = v
@@ -350,6 +369,10 @@ def delivery_info(request):
 
 def verification_4(request):
     if request.session["delivery_type"] == 'Kur':
+        if secur.secur_x(request.GET.get('rue')) == 0 or \
+                secur.secur_x(request.GET.get('maison')) == 0 or \
+                secur.secur_x(request.GET.get('appartement')) == 0:
+            return redirect('https://www.google.com/')
         if request.GET.get('rue') != '' \
                 and request.GET.get('maison') != '' \
                 and request.GET.get('appartement') != '':
@@ -362,6 +385,9 @@ def verification_4(request):
             return redirect('/delivery_info?error=NonDeliveryInfo')
 
     else:
+        if secur.secur_x(request.GET.get('ville')) == 0 or \
+                secur.secur_x(request.GET.get('otdelenie')) == 0:
+            return redirect('https://www.google.com/')
         if request.GET.get('ville') != '' \
                 and request.GET.get('otdelenie') != '':
             request.session["ville"] = request.GET.get('ville')
@@ -376,6 +402,8 @@ def pay_type(request):
     error = ''
     if request.GET.get('error'):
         error = request.GET.get('error')
+        if secur.secur_x(error) == 0:
+            return redirect('https://www.google.com/')
         for k, v in error_dict.items():
             if k == error:
                 error = v
@@ -385,6 +413,8 @@ def pay_type(request):
 
 def verification_5(request):
     user_type_pay = request.GET.get('payType')
+    if secur.secur_x(user_type_pay) == 0:
+        return redirect('https://www.google.com/')
     if user_type_pay not in ['cash', 'VisaMaster']:
         return redirect('/pay_type?error=NonPayType')
     else:
