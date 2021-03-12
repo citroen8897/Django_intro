@@ -34,5 +34,13 @@ urlpatterns = [
     path('basket/', views.basket),
     path('minus_basket/', views.minus_basket),
     path('plus_basket/', views.plus_basket),
-    path('delete_basket/', views.delete_basket)
+    path('delete_basket/', views.delete_basket),
+    path('finir_acheter_1/', views.finir_acheter_1),
+    path('delivery_type', views.delivery_type),
+    path('verification_3/', views.verification_3),
+    path('delivery_info', views.delivery_info),
+    path('verification_4/', views.verification_4),
+    path('pay_type', views.pay_type),
+    path('verification_5/', views.verification_5),
+    path('felicitation', views.felicitation)
 ]

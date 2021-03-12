@@ -119,7 +119,7 @@ def verification(request):
                [element.telephone for element in current_user.users_data_base]:
             current_user.add_user_database()
             time.sleep(3)
-            return redirect('/account')
+            return redirect('/authorization')
         else:
             return redirect('/registration?error=double_user')
     else:
@@ -162,7 +162,11 @@ def verification_2(request):
             request.session["password"] = current_user.password
             request.session["nom"] = current_user.nom
             request.session["prenom"] = current_user.prenom
-            return redirect('/account')
+            request.session["auth_triger"] = 1
+            if request.session.get("helper_1") is None:
+                return redirect('/account')
+            else:
+                return redirect('/delivery_info')
         else:
             return redirect('/authorization?error=UserNotFound')
     else:
@@ -186,6 +190,9 @@ def account(request):
 def price_list_1(request):
     if request.session.get("_basket_") is None:
         request.session["_basket_"] = []
+
+    if request.session.get("auth_triger") is None:
+        request.session["auth_triger"] = 0
 
     some_product = product.Product(0, 'nom', 'etre', '0.0', 'kg', '0.0', 'img')
     some_product.get_products_db()
@@ -289,3 +296,97 @@ def delete_basket(request):
             request.session["_basket_"].remove(int(product_id))
     request.session.modified = True
     return redirect('/basket')
+
+
+def finir_acheter_1(request):
+    user_triger = request.session["auth_triger"]
+    if user_triger == 0:
+        request.session["helper_1"] = 0
+        return redirect('/authorization')
+    else:
+        return redirect('/delivery_type')
+
+
+def delivery_type(request):
+    error_dict = {'NonDeliveryType': 'Тип доставки не выбран!'}
+    error = ''
+    if request.GET.get('error'):
+        error = request.GET.get('error')
+        for k, v in error_dict.items():
+            if k == error:
+                error = v
+    data = {'error': error}
+    request.session["helper_1"] = None
+    return render(request, "delivery_type.html", context=data)
+
+
+def verification_3(request):
+    user_type_delivery = request.GET.get('deliveryType')
+    if user_type_delivery not in ['NP', 'Kur']:
+        return redirect('/delivery_type?error=NonDeliveryType')
+    else:
+        request.session["delivery_type"] = user_type_delivery
+        return redirect('/delivery_info')
+
+
+def delivery_info(request):
+    error_dict = {'NonDeliveryInfo': 'Не указана информация для доставки!'}
+    error = ''
+    if request.GET.get('error'):
+        error = request.GET.get('error')
+        for k, v in error_dict.items():
+            if k == error:
+                error = v
+    if request.session["delivery_type"] == 'Kur':
+        data = {'type_delivery': 'Kur', 'error': error}
+        return render(request, "delivery_info.html", context=data)
+    else:
+        data = {'type_delivery': 'NP', 'error': error}
+        return render(request, "delivery_info.html", context=data)
+
+
+def verification_4(request):
+    if request.session["delivery_type"] == 'Kur':
+        if request.GET.get('rue') != '' \
+                and request.GET.get('maison') != '' \
+                and request.GET.get('appartement') != '':
+            request.session["delivery_rue"] = request.GET.get('rue')
+            request.session["delivery_maison"] = request.GET.get('maison')
+            request.session["delivery_appartement"] = request.GET.get('appartement')
+            return redirect('/pay_type')
+        else:
+            return redirect('/delivery_info?error=NonDeliveryInfo')
+
+    else:
+        if request.GET.get('ville') != '' \
+                and request.GET.get('otdelenie') != '':
+            request.session["ville"] = request.GET.get('ville')
+            request.session["otdelenie"] = request.GET.get('otdelenie')
+            return redirect('/pay_type')
+        else:
+            return redirect('/delivery_info?error=NonDeliveryInfo')
+
+
+def pay_type(request):
+    error_dict = {'NonPayType': 'Способ оплаты не выбран!'}
+    error = ''
+    if request.GET.get('error'):
+        error = request.GET.get('error')
+        for k, v in error_dict.items():
+            if k == error:
+                error = v
+    data = {'error': error}
+    return render(request, "pay_type.html", context=data)
+
+
+def verification_5(request):
+    user_type_pay = request.GET.get('payType')
+    if user_type_pay not in ['cash', 'VisaMaster']:
+        return redirect('/pay_type?error=NonPayType')
+    else:
+        request.session["pay_type"] = user_type_pay
+        return redirect('/felicitation')
+
+
+def felicitation(request):
+    return render(request, "felicitation.html")
