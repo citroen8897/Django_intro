@@ -4,7 +4,7 @@ from mysql.connector import Error
 
 class User:
     def __init__(self, user_id, nom, prenom, login, telephone, password,
-                 status):
+                 status, discount, total_summ):
         self.user_id = user_id
         self.nom = nom
         self.prenom = prenom
@@ -12,6 +12,8 @@ class User:
         self.telephone = telephone
         self.password = password
         self.status = status
+        self.discount = discount
+        self.total_summ = total_summ
         self.users_data_base = []
 
     def add_user_database(self):
@@ -53,7 +55,7 @@ class User:
                 while row is not None:
                     self.users_data_base.append(User(row[0], row[4], row[5],
                                                      row[1], row[2], row[3],
-                                                     row[6]))
+                                                     row[6], row[7], row[8]))
                     row = cursor.fetchone()
                 conn.commit()
         except Error as error:
@@ -72,6 +74,8 @@ class User:
                 self.password = person.password
                 self.telephone = person.telephone
                 self.status = person.status
+                self.discount = person.discount
+                self.total_summ = person.total_summ
 
     def make_zakaz(self):
         try:
@@ -137,6 +141,36 @@ class User:
                 else:
                     print('какая-то ошибка...')
 
+                conn.commit()
+        except Error as error:
+            print(error)
+        finally:
+            conn.close()
+            cursor.close()
+
+    def get_discount(self):
+        self.total_summ += self.total_prix
+        if 3000 < self.total_summ < 7000:
+            self.discount = 3
+        elif 7000 < self.total_summ < 15000:
+            self.discount = 7
+        elif 15000 < self.total_summ:
+            self.discount = 10
+
+        try:
+            conn = mysql.connector.connect(user='root',
+                                           host='localhost',
+                                           database='mysql')
+
+            if conn.is_connected():
+                discount = f"UPDATE ASK_market_users SET " \
+                           f"discount={self.discount} WHERE id={self.user_id}"
+                total_summ = f"UPDATE ASK_market_users SET " \
+                             f"total_summ={self.total_summ} " \
+                             f"WHERE id={self.user_id}"
+                cursor = conn.cursor()
+                cursor.execute(discount)
+                cursor.execute(total_summ)
                 conn.commit()
         except Error as error:
             print(error)

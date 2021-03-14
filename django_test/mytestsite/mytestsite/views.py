@@ -112,7 +112,7 @@ def verification(request):
         request.session["nom"] = user_nom
         request.session["prenom"] = user_prenom
         current_user = user.User(0, user_nom, user_prenom, user_login,
-                                 user_telephone, user_password, 'user')
+                                 user_telephone, user_password, 'user', 0, 0)
         current_user.get_users_db()
         if current_user.login not in \
                [element.login for element in current_user.users_data_base] \
@@ -150,7 +150,7 @@ def verification_2(request):
 
     if user_login != '' and user_password != '':
         current_user = user.User(0, 'user_nom', 'user_prenom', user_login,
-                                 '0123456789', user_password, 'user')
+                                 '0123456789', user_password, 'user', 0, 0)
         current_user.get_users_db()
         current_user.get_current_user()
         if current_user.user_id != 0:
@@ -161,6 +161,8 @@ def verification_2(request):
             request.session["nom"] = current_user.nom
             request.session["prenom"] = current_user.prenom
             request.session["auth_triger"] = 1
+            request.session["discount"] = current_user.discount
+            request.session["total_summ"] = current_user.total_summ
             if request.session.get("helper_1") is None:
                 return redirect('/account')
             else:
@@ -191,6 +193,9 @@ def price_list_1(request):
 
     if request.session.get("auth_triger") is None:
         request.session["auth_triger"] = 0
+
+    if request.session.get("discount") is None:
+        request.session["discount"] = 0
 
     some_product = product.Product(0, 'nom', 'etre', '0.0', 'kg', '0.0', 'img')
     some_product.get_products_db()
@@ -263,13 +268,17 @@ def basket(request):
                     element_2.q_1 += 1
         else:
             current_product.numero = i
+            if current_product.numero > 2:
+                current_product.prix = current_product.prix * 0.95
             basket_list.append(current_product)
             i += 1
     total_prix = 0
     for element in basket_list:
         element.product_sum = element.prix * element.q_1
+        element.prix = round(element.prix, 2)
         element.product_sum = round(element.product_sum, 2)
         total_prix += element.product_sum
+    total_prix = total_prix * (1 - (request.session["discount"] / 100))
     total_prix = round(total_prix, 2)
     request.session["basket_total_prix"] = total_prix
     if total_prix != 0:
@@ -429,8 +438,13 @@ def felicitation(request):
                              request.session["login"],
                              request.session["telephone"],
                              request.session["password"],
-                             'user')
+                             'user',
+                             request.session["discount"],
+                             request.session["total_summ"])
     current_user.total_prix = request.session["basket_total_prix"]
+    current_user.total_prix = \
+        current_user.total_prix * (1 - (current_user.discount / 100))
+    current_user.total_prix = round(current_user.total_prix, 2)
     current_user.delivery_type = request.session["delivery_type"]
     if current_user.delivery_type == 'NP':
         current_user.delivery_rue = ''
@@ -464,7 +478,9 @@ def felicitation(request):
         current_user.make_zakaz_full(numero_de_zakaz,
                                      element.product_id, element.q_1,
                                      element.nom)
+    current_user.get_discount()
     request.session.clear()
     request.session["_basket_"] = []
+    request.session["discount"] = 0
     data = {'numero_de_zakaz': numero_de_zakaz}
     return render(request, "felicitation.html", context=data)
