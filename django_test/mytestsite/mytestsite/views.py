@@ -484,3 +484,7 @@ def felicitation(request):
     request.session["discount"] = 0
     data = {'numero_de_zakaz': numero_de_zakaz}
     return render(request, "felicitation.html", context=data)
+
+
+def delivery(request):
+    return render(request, "delivery.html")

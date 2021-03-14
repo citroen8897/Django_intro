@@ -34,12 +34,37 @@
         }
       }
 
-      .hrefImg{
-        text-decoration: none;
+      #carouselExampleControls{
+        width: 50%;
+        margin: 0 auto;
+        outline: 1px solid #00BFFF;
+        background: white;
+      }
+
+      .card-header{
+        text-align: center;
+        color: #00BFFF;
+      }
+
+      .card-body{
+        display: flex;
+        justify-content: center;
       }
 
       .my-2 a{
         width: 175px;
+      }
+
+      .carousel-control-next:after{
+        content: '>';
+        font-size: 55px;
+        color: #00BFFF;
+      }
+
+      .carousel-control-prev:after {
+        content: '<';
+        font-size: 55px;
+        color: #00BFFF;
       }
     </style>
   </head>
@@ -56,40 +81,72 @@
       <a class="btn btn-outline-primary" href="/authorization/">Авторизация</a>
   </nav>
 </header>
-
-<div style="text-align: center; background: #00FA9A; width: 25%; height: auto;">{{ message }}</div>
-
-<main class="container">
-  <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-4">Овощи и фрукты</h1>
-    <p class="lead">Прайс-лист</p>
-  </div>
-
-  <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-  {% for item in products_all %}
-    <div class="col">
-      <div class="card mb-4 shadow-sm">
-        <a href="/product_info?product_id={{ item.product_id }}">
+<br><br><br><br>
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="card mb-4 shadow-sm">
           <div class="card-header">
-          <br>
-          <div><img src="{{ item.img }}" alt="" width="200px" height="200px"></div>
-          <br>
+            <br><h3>Доставка Новой Почтой по Украине</h3><br>
           </div>
-        </a>
-      <div class="card-body">
-        <a class="hrefImg" href="/product_info?product_id={{ item.product_id }}">
-          <h3 class="card-title pricing-card-title">{{ item.nom }}</h3>
-        </a>
-        <h5 class="card-title pricing-card-title">{{ item.prix }} грн./{{ item.q_2 }}</h5>
-        <br>
-        <a href="/add_basket?product_id={{ item.product_id }}&flag=0&flag2=1">
-          <button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button>
-        </a>
+        <div class="card-body">
+          <div>
+            <img src="https://logojinni.com/ru/image/logos/nova%20poshta-49.svg"
+                 alt="" width="200px" height="200px">
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header">
+            <br><h3>Доставка курьером по Киеву</h3><br>
+          </div>
+        <div class="card-body">
+          <div>
+            <img src="https://idirecto.ru/upload/iblock/ab7/ab75f5c433eb17bee79a498bd47dbfa5.png"
+                 alt="" width="200px" height="200px">
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header">
+            <br><h3>Скидка 5% на третий и более товар в корзине</h3><br>
+          </div>
+        <div class="card-body">
+          <div>
+            <img src="https://images.ua.prom.st/1502668973_skidka-5-na.jpg"
+                 alt="" width="200px" height="200px">
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header">
+            <br><h3>Накопительная скидка до 10% на сумму чека</h3><br>
+          </div>
+        <div class="card-body">
+          <div>
+            <img src="https://korean-cosmetic.su/upload/medialibrary/4b5/4b501dc4b7e5834d6df5347daf07a87d.jpg"
+                 alt="" width="200px" height="200px">
+          </div>
+        </div>
+        </div>
       </div>
     </div>
-    </div>
-  {% endfor %}
+    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </a>
   </div>
+<br><br><br><br>
 
   <footer class="pt-4 my-md-5 pt-md-5 border-top">
     <div class="row">
@@ -127,6 +184,5 @@
       </div>
     </div>
   </footer>
-</main>
 </body>
 </html>
