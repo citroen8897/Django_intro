@@ -41,6 +41,35 @@
       .my-2 a{
         width: 175px;
       }
+
+      #carouselExampleControls{
+        width: 99%;
+        margin: 0 auto;
+        outline: 1px solid #00BFFF;
+        background: white;
+      }
+
+      .card-header2{
+        text-align: center;
+        color: #00BFFF;
+      }
+
+      .card-body2{
+        display: flex;
+        justify-content: center;
+      }
+
+      .carousel-control-next:after{
+        content: '>';
+        font-size: 55px;
+        color: #00BFFF;
+      }
+
+      .carousel-control-prev:after {
+        content: '<';
+        font-size: 55px;
+        color: #00BFFF;
+      }
     </style>
   </head>
   <body>
@@ -92,40 +121,70 @@
   </div>
 
   <footer class="pt-4 my-md-5 pt-md-5 border-top">
-    <div class="row">
-      <div class="col-12 col-md">
-        <small class="d-block mb-3 text-muted">&copy; 2017-2021</small>
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header2">
+            <br><h3>Доставка Новой Почтой по Украине</h3><br>
+          </div>
+        <div class="card-body2">
+          <div>
+            <img src="https://logojinni.com/ru/image/logos/nova%20poshta-49.svg"
+                 alt="" width="200px" height="200px">
+          </div>
+        </div>
+        </div>
       </div>
-      <div class="col-6 col-md">
-        <h5>Features</h5>
-        <ul class="list-unstyled text-small">
-          <li><a class="link-secondary" href="#">Cool stuff</a></li>
-          <li><a class="link-secondary" href="#">Random feature</a></li>
-          <li><a class="link-secondary" href="#">Team feature</a></li>
-          <li><a class="link-secondary" href="#">Stuff for developers</a></li>
-          <li><a class="link-secondary" href="#">Another one</a></li>
-          <li><a class="link-secondary" href="#">Last time</a></li>
-        </ul>
+      <div class="carousel-item">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header2">
+            <br><h3>Доставка курьером по Киеву</h3><br>
+          </div>
+        <div class="card-body2">
+          <div>
+            <img src="https://idirecto.ru/upload/iblock/ab7/ab75f5c433eb17bee79a498bd47dbfa5.png"
+                 alt="" width="200px" height="200px">
+          </div>
+        </div>
+        </div>
       </div>
-      <div class="col-6 col-md">
-        <h5>Resources</h5>
-        <ul class="list-unstyled text-small">
-          <li><a class="link-secondary" href="#">Resource</a></li>
-          <li><a class="link-secondary" href="#">Resource name</a></li>
-          <li><a class="link-secondary" href="#">Another resource</a></li>
-          <li><a class="link-secondary" href="#">Final resource</a></li>
-        </ul>
+      <div class="carousel-item">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header2">
+            <br><h3>Скидка 5% на третий и более товар в корзине</h3><br>
+          </div>
+        <div class="card-body2">
+          <div>
+            <img src="https://images.ua.prom.st/1502668973_skidka-5-na.jpg"
+                 alt="" width="200px" height="200px">
+          </div>
+        </div>
+        </div>
       </div>
-      <div class="col-6 col-md">
-        <h5>About</h5>
-        <ul class="list-unstyled text-small">
-          <li><a class="link-secondary" href="#">Team</a></li>
-          <li><a class="link-secondary" href="#">Locations</a></li>
-          <li><a class="link-secondary" href="#">Privacy</a></li>
-          <li><a class="link-secondary" href="#">Terms</a></li>
-        </ul>
+      <div class="carousel-item">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header2">
+            <br><h3>Накопительная скидка до 10% на сумму чека</h3><br>
+          </div>
+        <div class="card-body2">
+          <div>
+            <img src="https://korean-cosmetic.su/upload/medialibrary/4b5/4b501dc4b7e5834d6df5347daf07a87d.jpg"
+                 alt="" width="200px" height="200px">
+          </div>
+        </div>
+        </div>
       </div>
     </div>
+    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </a>
+  </div>
   </footer>
 </main>
 </body>
