@@ -51,6 +51,9 @@
         <th scope="col">Товар</th>
         <th scope="col">Цена</th>
         <th scope="col">Сумма</th>
+        {% if user_basket|length > 2 %}
+        <th scope="col">Скидка</th>
+        {% endif %}
         <th scope="col">Количество</th>
         <th scope="col">Удалить</th>
     </tr>
@@ -62,6 +65,13 @@
         <td>{{ item.nom }}</td>
         <td>{{ item.prix }}</td>
         <td>{{ item.product_sum }}</td>
+        {% if user_basket|length > 2 %}
+        {% if item.numero > 2%}
+        <td>5%</td>
+        {% elif item.numero <= 2%}
+        <td> </td>
+        {% endif %}
+        {% endif %}
         <td class="buttonBasket">
             <div style="width: 50px;">
                 <a href="/plus_basket?product_id={{ item.product_id }}">
@@ -93,7 +103,11 @@
   </tbody>
 </table>
 <br>
+{% if user_discount == 0 %}
 <h4 id="footText">Итого: {{ total_prix }} грн.</h4>
+{% else %}
+<h4 id="footText2">Итого с учетом персональной скидки {{ user_discount }}%: {{ total_prix }} грн.</h4>
+{% endif %}
 <br>
 <div style="width: 250px; margin: 0 auto;">
     <a href="/finir_acheter_1">

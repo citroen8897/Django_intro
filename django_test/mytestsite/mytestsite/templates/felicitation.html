@@ -14,7 +14,7 @@
       }
 
       .table{
-        width: 60%;
+        width: 40%;
         margin: 0 auto;
       }
 
@@ -22,11 +22,7 @@
         width: 175px;
       }
 
-      .buttonBasket{
-        display: flex;
-        justify-content: space-around;
-      }
-    </style>
+      </style>
 </head>
 <body>
 <header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
@@ -42,6 +38,26 @@
 </header>
 <br><br><br><br><br>
 <h2 id="headText">Заказ №{{ numero_de_zakaz }} успешно оформлен! В ближайшее время мы с Вами свяжемся.</h2>
-
+<br><br>
+<table class="table table-striped">
+  <thead>
+    <tr>
+        <th scope="col">№</th>
+        <th scope="col">Товар</th>
+        <th scope="col">Количество</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in basket %}
+    <tr>
+        <td>{{ item.numero }}</td>
+        <td>{{ item.nom }}</td>
+        <td>{{ item.q_1 }} {{ item.q_2 }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<br>
+<h4 id="footText">Итого к оплате: {{ total_prix }} грн.</h4>
 </body>
 </html>

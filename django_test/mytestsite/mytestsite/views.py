@@ -285,8 +285,12 @@ def basket(request):
         message = 'Товары в корзине'
     else:
         message = 'Корзина пуста!'
+    if request.session["auth_triger"] == 1:
+        user_discount = request.session["discount"]
+    else:
+        user_discount = 0
     data = {'user_basket': basket_list, 'total_prix': total_prix,
-            'message': message}
+            'message': message, 'user_discount': user_discount}
     return render(request, "basket.html", context=data)
 
 
@@ -463,6 +467,7 @@ def felicitation(request):
     numero_de_zakaz = current_user.make_zakaz()
     basket_list_id = request.session["_basket_"]
     basket_list = []
+    j = 1
     for element in basket_list_id:
         current_product = product.Product(element, 'nom', 'etre', 0.0,
                                           'q_2', 0.0, 'img')
@@ -473,7 +478,9 @@ def felicitation(request):
                 if element_2.product_id == element:
                     element_2.q_1 += 1
         else:
+            current_product.numero = j
             basket_list.append(current_product)
+            j += 1
     for element in basket_list:
         current_user.make_zakaz_full(numero_de_zakaz,
                                      element.product_id, element.q_1,
@@ -482,7 +489,9 @@ def felicitation(request):
     request.session.clear()
     request.session["_basket_"] = []
     request.session["discount"] = 0
-    data = {'numero_de_zakaz': numero_de_zakaz}
+    request.session["auth_triger"] = 0
+    data = {'numero_de_zakaz': numero_de_zakaz, 'basket': basket_list,
+            'total_prix': current_user.total_prix}
     return render(request, "felicitation.html", context=data)
 
 
