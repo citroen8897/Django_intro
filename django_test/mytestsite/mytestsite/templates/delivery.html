@@ -77,8 +77,12 @@
       <a class="btn btn-outline-primary" href="/delivery">Доставка и оплата</a>
       <a class="btn btn-outline-primary" href="#">Контакты</a>
       <a class="btn btn-outline-primary" href="/basket/">Корзина</a>
+      {% if auth_triger == 1 %}
+      <a class="btn btn-outline-primary" href="/account/">Личный кабинет</a>
+      {% else %}
       <a class="btn btn-outline-primary" href="/registration/">Регистрация</a>
       <a class="btn btn-outline-primary" href="/authorization/">Авторизация</a>
+      {% endif %}
   </nav>
 </header>
 <br><br><br><br>

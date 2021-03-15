@@ -174,17 +174,27 @@ def verification_2(request):
 
 
 def account(request):
-    current_user_login = request.session["login"]
-    current_user_telephone = request.session["telephone"]
-    current_user_password = request.session["password"]
-    current_user_nom = request.session["nom"]
-    current_user_prenom = request.session["prenom"]
-    data = {'current_user_login': current_user_login,
-            'current_user_telephone': current_user_telephone,
-            'current_user_password': current_user_password,
-            'current_user_nom': current_user_nom,
-            'current_user_prenom': current_user_prenom}
+    user_login = request.session["login"]
+    user_password = request.session["password"]
+    current_user = user.User(0, 'user_nom', 'user_prenom', user_login,
+                             '0123456789', user_password, 'user', 0, 0)
+    current_user.get_users_db()
+    current_user.get_current_user()
+    auth_triger = request.session["auth_triger"]
+    helper_2 = 0
+    if request.GET.get('helper_2'):
+        helper_2 = int(request.GET.get('helper_2'))
+    data = {'current_user': current_user, 'helper_2': helper_2,
+            'auth_triger': auth_triger}
     return render(request, "account.html", context=data)
+
+
+def log_out(request):
+    request.session.clear()
+    request.session["_basket_"] = []
+    request.session["discount"] = 0
+    request.session["auth_triger"] = 0
+    return redirect('/price_list_1')
 
 
 def price_list_1(request):
@@ -199,7 +209,9 @@ def price_list_1(request):
 
     some_product = product.Product(0, 'nom', 'etre', '0.0', 'kg', '0.0', 'img')
     some_product.get_products_db()
-    data = {'products_all': some_product.products_data_base}
+    auth_triger = request.session["auth_triger"]
+    data = {'products_all': some_product.products_data_base,
+            'auth_triger': auth_triger}
     return render(request, "price_list_1.html", context=data)
 
 
@@ -211,8 +223,8 @@ def product_info(request):
                                       'q_2', 0.0, 'img')
     current_product.get_products_db()
     current_product.get_current_product()
-
-    data = {'product_info': current_product}
+    auth_triger = request.session["auth_triger"]
+    data = {'product_info': current_product, 'auth_triger': auth_triger}
     return render(request, "product_info.html", context=data)
 
 
@@ -289,8 +301,10 @@ def basket(request):
         user_discount = request.session["discount"]
     else:
         user_discount = 0
+    auth_triger = request.session["auth_triger"]
     data = {'user_basket': basket_list, 'total_prix': total_prix,
-            'message': message, 'user_discount': user_discount}
+            'message': message, 'user_discount': user_discount,
+            'auth_triger': auth_triger}
     return render(request, "basket.html", context=data)
 
 
@@ -496,4 +510,6 @@ def felicitation(request):
 
 
 def delivery(request):
-    return render(request, "delivery.html")
+    auth_triger = request.session["auth_triger"]
+    data = {'auth_triger': auth_triger}
+    return render(request, "delivery.html", context=data)

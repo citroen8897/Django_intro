@@ -3,13 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <title>Личный кабинет</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+    <style>
+    body{
+        background-color: #f5f5f5;
+        text-align: center;
+      }
+
+      .my-2 a{
+        width: 175px;
+      }
+
+      .nav-item a{
+        width: 90%;
+      }
+
+      .mainContent{
+        display: flex;
+      }
+</style>
 </head>
 <body>
-    <h2>Личный кабинет</h2>
-    <p>Логин: {{ current_user_login }}</p>
-    <p>Пароль: {{ current_user_password }}</p>
-    <p>Телефон: {{ current_user_telephone }}</p>
-    <p>Имя: {{ current_user_nom }}</p>
-    <p>Фамилия: {{ current_user_prenom }}</p>
+<header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+  <p class="h5 my-0 me-md-auto fw-normal">ASK</p>
+  <nav class="my-2 my-md-0 me-md-3">
+      <a class="btn btn-outline-primary" href="/price_list_1/">Каталог</a>
+      <a class="btn btn-outline-primary" href="/delivery">Доставка и оплата</a>
+      <a class="btn btn-outline-primary" href="#">Контакты</a>
+      <a class="btn btn-outline-primary" href="/basket/">Корзина</a>
+      {% if auth_triger == 1 %}
+      <a class="btn btn-outline-primary" href="/account/">Личный кабинет</a>
+      {% else %}
+      <a class="btn btn-outline-primary" href="/registration/">Регистрация</a>
+      <a class="btn btn-outline-primary" href="/authorization/">Авторизация</a>
+      {% endif %}
+  </nav>
+</header>
+<br><br>
+<div class="mainContent">
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+      <div class="position-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="btn btn-outline-primary" href="/account?helper_2=1">Личные данные</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-outline-primary" href="/account?helper_2=2">История заказов</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-outline-primary" href="/account?helper_2=3">Изменить пароль</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-outline-primary" href="/log_out/">Выйти из аккаунта</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+{% if helper_2 == 1 %}
+    <div>
+        <h2>Личные данные</h2>
+        <h4>ФИО: {{ current_user.prenom }} {{ current_user.nom }}</h4>
+        <h4>Логин: {{ current_user.login }}</h4>
+        <h4>Телефон: {{ current_user.telephone }}</h4>
+        <h4>Общая сумма заказов: {{ current_user.total_summ }} грн.</h4>
+        <h4>Персональная скидка: {{ current_user.discount }}%</h4>
+    </div>
+{% endif %}
+</div>
 </body>
 </html>

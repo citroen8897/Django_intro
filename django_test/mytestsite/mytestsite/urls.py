@@ -43,5 +43,6 @@ urlpatterns = [
     path('pay_type', views.pay_type),
     path('verification_5/', views.verification_5),
     path('felicitation', views.felicitation),
-    path('delivery', views.delivery)
+    path('delivery', views.delivery),
+    path('log_out/', views.log_out)
 ]

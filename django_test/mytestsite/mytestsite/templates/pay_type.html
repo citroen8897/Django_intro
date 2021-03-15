@@ -13,9 +13,11 @@
       html,
       body {
         height: 100%;
+        background-color: #f5f5f5;
       }
 
-      body {
+      .text-center {
+          height: 89%;
           display: flex;
           align-items: center;
           padding-top: 40px;
@@ -67,12 +69,27 @@
           font-size: 3.5rem;
         }
       }
+
+      .my-2 a{
+        width: 175px;
+      }
     </style>
 
 
     <!-- Custom styles for this template -->
   </head>
-  <body class="text-center">
+  <body>
+  <header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+  <p class="h5 my-0 me-md-auto fw-normal">ASK</p>
+  <nav class="my-2 my-md-0 me-md-3">
+      <a class="btn btn-outline-primary" href="/price_list_1/">Каталог</a>
+      <a class="btn btn-outline-primary" href="/delivery">Доставка и оплата</a>
+      <a class="btn btn-outline-primary" href="#">Контакты</a>
+      <a class="btn btn-outline-primary" href="/basket/">Корзина</a>
+      <a class="btn btn-outline-primary" href="/account/">Личный кабинет</a>
+  </nav>
+</header>
+  <div class="text-center">
 <main class="form-signin">
     <p>{{ error }}</p>
   <form action='/verification_5' method='get'>
@@ -91,5 +108,6 @@
       <p class="mt-5 mb-3 text-muted">&copy; 2017-2021</p>
   </form>
 </main>
+  </div>
   </body>
 </html>
