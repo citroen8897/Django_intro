@@ -23,6 +23,15 @@
       .mainContent{
         display: flex;
       }
+
+      .card-body{
+        text-align: left;
+      }
+
+      .personalData{
+        width: 50%;
+        margin: 0 auto;
+      }
 </style>
 </head>
 <body>
@@ -63,13 +72,27 @@
     </nav>
 
 {% if helper_2 == 1 %}
-    <div>
-        <h2>Личные данные</h2>
-        <h4>ФИО: {{ current_user.prenom }} {{ current_user.nom }}</h4>
-        <h4>Логин: {{ current_user.login }}</h4>
-        <h4>Телефон: {{ current_user.telephone }}</h4>
-        <h4>Общая сумма заказов: {{ current_user.total_summ }} грн.</h4>
-        <h4>Персональная скидка: {{ current_user.discount }}%</h4>
+    <div class="personalData">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header">
+              <br><br>
+              <h2>Личные данные</h2>
+              <br>
+          </div>
+          <div class="card-body">
+            <br>
+            <h4>ФИО: {{ current_user.prenom }} {{ current_user.nom }}</h4>
+            <br>
+            <h4>Логин: {{ current_user.login }}</h4>
+            <br>
+            <h4>Телефон: {{ current_user.telephone }}</h4>
+            <br>
+            <h4>Общая сумма заказов: {{ current_user.total_summ }} грн.</h4>
+            <br>
+            <h4>Персональная скидка: {{ current_user.discount }}%</h4>
+            <br>
+          </div>
+        </div>
     </div>
 {% endif %}
 </div>

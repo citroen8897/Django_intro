@@ -183,6 +183,8 @@ def account(request):
     auth_triger = request.session["auth_triger"]
     helper_2 = 0
     if request.GET.get('helper_2'):
+        if secur.secur_x(request.GET.get('helper_2')) == 0:
+            return redirect('https://www.google.com/')
         helper_2 = int(request.GET.get('helper_2'))
     data = {'current_user': current_user, 'helper_2': helper_2,
             'auth_triger': auth_triger}
