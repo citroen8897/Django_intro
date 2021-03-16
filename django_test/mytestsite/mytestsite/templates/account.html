@@ -32,6 +32,11 @@
         width: 50%;
         margin: 0 auto;
       }
+
+      .choisirPassword{
+        width: 20%;
+        margin: 0 auto;
+      }
 </style>
 </head>
 <body>
@@ -94,6 +99,25 @@
           </div>
         </div>
     </div>
+
+{% elif helper_2 == 3 %}
+    <div class="choisirPassword">
+    <form action='/verification_6' method='get'>
+      <h1 class="h3 mb-3 fw-normal">Смена пароля</h1>
+      <p>{{ error }}</p>
+      <br>
+      <label for="inputPasswordOld" class="visually-hidden">Parole de pass</label>
+      <input id="inputPasswordOld" class="form-control" type='password' placeholder='Введите старый пароль' name='password_old' required>
+      <br>
+      <label for="inputPassword" class="visually-hidden">Parole de pass</label>
+      <input id="inputPassword" class="form-control" type='password' placeholder='Введите новый пароль' name='password' required>
+      <br>
+      <label for="inputPassword_2" class="visually-hidden">Parole de pass</label>
+      <input id="inputPassword_2" class="form-control" type='password' placeholder='Повторите новый пароль' name='password_repeat' required>
+      <br>
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Сохранить</button>
+  </form>
+        </div>
 {% endif %}
 </div>
 </body>

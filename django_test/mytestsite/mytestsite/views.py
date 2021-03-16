@@ -174,6 +174,17 @@ def verification_2(request):
 
 
 def account(request):
+    error_dict = {'UserNotFound': 'Пользователь с такими паролем не найден!',
+                  'PassError': 'Некорректный пароль!',
+                  'PassChoisir': 'Пароль успешно изменен!'}
+    error = ''
+    if request.GET.get('error'):
+        error = request.GET.get('error')
+        if secur.secur_x(error) == 0:
+            return redirect('https://www.google.com/')
+        for k, v in error_dict.items():
+            if k == error:
+                error = v
     user_login = request.session["login"]
     user_password = request.session["password"]
     current_user = user.User(0, 'user_nom', 'user_prenom', user_login,
@@ -187,8 +198,45 @@ def account(request):
             return redirect('https://www.google.com/')
         helper_2 = int(request.GET.get('helper_2'))
     data = {'current_user': current_user, 'helper_2': helper_2,
-            'auth_triger': auth_triger}
+            'auth_triger': auth_triger, 'error': error}
     return render(request, "account.html", context=data)
+
+
+def verification_6(request):
+    if secur.secur_x(request.GET.get('password_old')) == 0 or \
+            secur.secur_x(request.GET.get('password')) == 0 or \
+            secur.secur_x(request.GET.get('password_repeat')) == 0:
+        return redirect('https://www.google.com/')
+    user_password_old = request.GET.get('password_old')
+    user_password_new = request.GET.get('password')
+    user_password_new_repeat = request.GET.get('password_repeat')
+    if len(user_password_old) < 6:
+        user_password_old = ''
+    else:
+        user_password_old = \
+            password_generator.generator_de_password(user_password_old)
+    if user_password_old != '':
+        user_password = user_password_old
+        user_login = request.session["login"]
+        current_user = user.User(0, 'user_nom', 'user_prenom', user_login,
+                                 '0123456789', user_password, 'user', 0, 0)
+        current_user.get_users_db()
+        current_user.get_current_user()
+        if current_user.user_id == 0:
+            return redirect('/account/?helper_2=3&error=UserNotFound')
+        else:
+            if len(user_password_new) < 6 or\
+                    user_password_new != user_password_new_repeat:
+                return redirect('/account/?helper_2=3&error=PassError')
+            else:
+                user_password_new = \
+                    password_generator.generator_de_password(user_password_new)
+                current_user.password = user_password_new
+                current_user.choisir_password()
+                request.session["password"] = current_user.password
+                return redirect('/account/?helper_2=3&error=PassChoisir')
+    else:
+        return redirect('/account/?helper_2=3&error=PassError')
 
 
 def log_out(request):

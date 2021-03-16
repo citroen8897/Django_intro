@@ -177,3 +177,22 @@ class User:
         finally:
             conn.close()
             cursor.close()
+
+    def choisir_password(self):
+        try:
+            conn = mysql.connector.connect(user='root',
+                                           host='localhost',
+                                           database='mysql')
+
+            if conn.is_connected():
+                new_password = f"UPDATE ASK_market_users SET " \
+                               f"password='{self.password}' " \
+                               f"WHERE id={self.user_id}"
+                cursor = conn.cursor()
+                cursor.execute(new_password)
+                conn.commit()
+        except Error as error:
+            print(error)
+        finally:
+            conn.close()
+            cursor.close()

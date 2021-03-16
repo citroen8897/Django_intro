@@ -44,5 +44,6 @@ urlpatterns = [
     path('verification_5/', views.verification_5),
     path('felicitation', views.felicitation),
     path('delivery', views.delivery),
-    path('log_out/', views.log_out)
+    path('log_out/', views.log_out),
+    path('verification_6', views.verification_6)
 ]
