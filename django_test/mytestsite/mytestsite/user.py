@@ -196,3 +196,56 @@ class User:
         finally:
             conn.close()
             cursor.close()
+
+    def get_history_des_zakazes(self):
+        zakazes_data_base = []
+        try:
+            conn = mysql.connector.connect(user='root',
+                                           host='localhost',
+                                           database='mysql')
+            if conn.is_connected():
+                cursor = conn.cursor()
+                if self.status == 'user':
+                    cursor.execute(f"SELECT * FROM ASK_market_billing WHERE "
+                                   f"id_user={self.user_id}")
+                elif self.status == 'admin':
+                    cursor.execute(f"SELECT * FROM ASK_market_billing ")
+                row = cursor.fetchone()
+                while row is not None:
+                    zakazes_data_base.append({'numero_de_zakaz': row[0],
+                                              'summa': row[1],
+                                              'date_time': row[2],
+                                              'status_de_zakaz': row[3]})
+                    row = cursor.fetchone()
+                conn.commit()
+        except Error as error:
+            print(error)
+        finally:
+            conn.close()
+            cursor.close()
+        return zakazes_data_base
+
+    def get_full_info_de_zakaz(self, numero_de_zakaz):
+        info_de_zakaz = []
+        try:
+            conn = mysql.connector.connect(user='root',
+                                           host='localhost',
+                                           database='mysql')
+            if conn.is_connected():
+                cursor = conn.cursor()
+                cursor.execute(f"SELECT * FROM ASK_market_full_orders "
+                               f"WHERE numero_de_zakaz={numero_de_zakaz}")
+                row = cursor.fetchone()
+                while row is not None:
+                    info_de_zakaz.append({'tovar_id': row[2],
+                                          'quantity': row[3],
+                                          'tovar_nom': row[4],
+                                          'client_id': row[5]})
+                    row = cursor.fetchone()
+                conn.commit()
+        except Error as error:
+            print(error)
+        finally:
+            conn.close()
+            cursor.close()
+        return info_de_zakaz

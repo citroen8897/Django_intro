@@ -37,6 +37,11 @@
         width: 20%;
         margin: 0 auto;
       }
+
+      .accordion{
+        width: 50%;
+        margin: 0 auto;
+      }
 </style>
 </head>
 <body>
@@ -98,6 +103,44 @@
             <br>
           </div>
         </div>
+    </div>
+
+{% elif helper_2 == 2 %}
+    <div class="accordion" id="accordionExample">
+      {% for item in current_user.zakazes_data_base %}
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="heading{{ item.numero_de_zakaz }}">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ item.numero_de_zakaz }}" aria-expanded="true" aria-controls="collapse{{ item.numero_de_zakaz }}">
+              Заказ №{{ item.numero_de_zakaz }}<br/>{{ item.date_time|date:"d.m.Y" }}<br/>{{ item.status_de_zakaz }}
+          </button>
+        </h2>
+        <div id="collapse{{ item.numero_de_zakaz }}" class="accordion-collapse collapse" aria-labelledby="heading{{ item.numero_de_zakaz }}" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+              <h4>Детали заказа</h4>
+              <table class="table table-striped">
+                  <thead>
+                    <tr>
+                        <th scope="col">Артикул</th>
+                        <th scope="col">Наименование</th>
+                        <th scope="col">Количество</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for j in item.zakaz_basket %}
+                    <tr>
+                        <td>{{ j.tovar_id }}</td>
+                        <td>{{ j.tovar_nom }}</td>
+                        <td>{{ j.quantity }}</td>
+                    </tr>
+                    {% endfor %}
+
+                  </tbody>
+                </table>
+              <h5>Сумма заказа: {{ item.summa }} грн.</h5>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
     </div>
 
 {% elif helper_2 == 3 %}

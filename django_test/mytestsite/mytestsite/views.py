@@ -197,6 +197,12 @@ def account(request):
         if secur.secur_x(request.GET.get('helper_2')) == 0:
             return redirect('https://www.google.com/')
         helper_2 = int(request.GET.get('helper_2'))
+        if helper_2 == 2:
+            current_user.zakazes_data_base = \
+                current_user.get_history_des_zakazes()
+            for zakaz in current_user.zakazes_data_base:
+                zakaz['zakaz_basket'] = \
+                    current_user.get_full_info_de_zakaz(zakaz['numero_de_zakaz'])
     data = {'current_user': current_user, 'helper_2': helper_2,
             'auth_triger': auth_triger, 'error': error}
     return render(request, "account.html", context=data)
