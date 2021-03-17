@@ -29,6 +29,10 @@ def page_2(request):
 
 
 def registration(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
+
     error_dict = {'user_login': 'Некорректный логин!',
                   'user_telephone': 'Некорректный телефон!',
                   'user_password': 'Некорректный пароль!',
@@ -39,8 +43,6 @@ def registration(request):
     error = ''
     if request.GET.get('error'):
         error = request.GET.get('error')
-        if secur.secur_x(error) == 0:
-            return redirect('https://www.google.com/')
         for k, v in error_dict.items():
             if k == error:
                 error = v
@@ -49,13 +51,15 @@ def registration(request):
 
 
 def authorization(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
+
     error_dict = {'UserNotFound': 'Пользователь с такими данными не найден!',
                   'LogPassError': 'Некорректный логин или пароль!'}
     error = ''
     if request.GET.get('error'):
         error = request.GET.get('error')
-        if secur.secur_x(error) == 0:
-            return redirect('https://www.google.com/')
         for k, v in error_dict.items():
             if k == error:
                 error = v
@@ -64,13 +68,9 @@ def authorization(request):
 
 
 def verification(request):
-    if secur.secur_x(request.GET.get('login')) == 0 or \
-            secur.secur_x(request.GET.get('telephone')) == 0 or \
-            secur.secur_x(request.GET.get('password')) == 0 or \
-            secur.secur_x(request.GET.get('password_repeat')) == 0 or \
-            secur.secur_x(request.GET.get('nom')) == 0 or \
-            secur.secur_x(request.GET.get('prenom')) == 0:
-        return redirect('https://www.google.com/')
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
 
     if re.search(r"\w+\.*\w+@\w+\.\w+", request.GET.get('login')):
         user_login = request.GET.get('login')
@@ -133,9 +133,9 @@ def verification(request):
 
 
 def verification_2(request):
-    if secur.secur_x(request.GET.get('login')) == 0 or \
-            secur.secur_x(request.GET.get('password')) == 0:
-        return redirect('https://www.google.com/')
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
 
     if re.search(r"\w+\.*\w+@\w+\.\w+", request.GET.get('login')):
         user_login = request.GET.get('login')
@@ -174,14 +174,16 @@ def verification_2(request):
 
 
 def account(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
+
     error_dict = {'UserNotFound': 'Пользователь с такими паролем не найден!',
                   'PassError': 'Некорректный пароль!',
                   'PassChoisir': 'Пароль успешно изменен!'}
     error = ''
     if request.GET.get('error'):
         error = request.GET.get('error')
-        if secur.secur_x(error) == 0:
-            return redirect('https://www.google.com/')
         for k, v in error_dict.items():
             if k == error:
                 error = v
@@ -194,8 +196,6 @@ def account(request):
     auth_triger = request.session["auth_triger"]
     helper_2 = 0
     if request.GET.get('helper_2'):
-        if secur.secur_x(request.GET.get('helper_2')) == 0:
-            return redirect('https://www.google.com/')
         helper_2 = int(request.GET.get('helper_2'))
         if helper_2 == 2:
             current_user.zakazes_data_base = \
@@ -209,10 +209,10 @@ def account(request):
 
 
 def verification_6(request):
-    if secur.secur_x(request.GET.get('password_old')) == 0 or \
-            secur.secur_x(request.GET.get('password')) == 0 or \
-            secur.secur_x(request.GET.get('password_repeat')) == 0:
-        return redirect('https://www.google.com/')
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
+
     user_password_old = request.GET.get('password_old')
     user_password_new = request.GET.get('password')
     user_password_new_repeat = request.GET.get('password_repeat')
@@ -272,9 +272,10 @@ def price_list_1(request):
 
 
 def product_info(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
     product_id = request.GET.get('product_id')
-    if secur.secur_x(product_id) == 0:
-        return redirect('https://www.google.com/')
     current_product = product.Product(int(product_id), 'nom', 'etre', 0.0,
                                       'q_2', 0.0, 'img')
     current_product.get_products_db()
@@ -285,9 +286,10 @@ def product_info(request):
 
 
 def add_basket(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
     product_id = request.GET.get('product_id')
-    if secur.secur_x(product_id) == 0:
-        return redirect('https://www.google.com/')
     current_product = product.Product(int(product_id), 'nom', 'etre', 0.0,
                                       'q_2', 0.0, 'img')
     current_product.get_products_db()
@@ -296,12 +298,8 @@ def add_basket(request):
     request.session["_basket_"].sort()
     request.session.modified = True
     next_page_flag = request.GET.get('flag')
-    if secur.secur_x(next_page_flag) == 0:
-        return redirect('https://www.google.com/')
     if next_page_flag == '1':
         plus_basket_info = request.GET.get('flag2')
-        if secur.secur_x(plus_basket_info) == 0:
-            return redirect('https://www.google.com/')
         if plus_basket_info == '1':
             message = 'Товар успешно добавлен в корзину!'
         else:
@@ -310,8 +308,6 @@ def add_basket(request):
         return render(request, "product_info.html", context=data)
     else:
         plus_basket_info = request.GET.get('flag2')
-        if secur.secur_x(plus_basket_info) == 0:
-            return redirect('https://www.google.com/')
         if plus_basket_info == '1':
             message = 'Товар успешно добавлен в корзину!'
         else:
@@ -365,9 +361,10 @@ def basket(request):
 
 
 def minus_basket(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
     product_id = request.GET.get('product_id')
-    if secur.secur_x(product_id) == 0:
-        return redirect('https://www.google.com/')
     request.session["_basket_"].pop(request.session["_basket_"].
                                     index(int(product_id)))
     request.session["_basket_"].sort()
@@ -376,9 +373,10 @@ def minus_basket(request):
 
 
 def plus_basket(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
     product_id = request.GET.get('product_id')
-    if secur.secur_x(product_id) == 0:
-        return redirect('https://www.google.com/')
     request.session["_basket_"].append(int(product_id))
     request.session["_basket_"].sort()
     request.session.modified = True
@@ -386,9 +384,10 @@ def plus_basket(request):
 
 
 def delete_basket(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
     product_id = request.GET.get('product_id')
-    if secur.secur_x(product_id) == 0:
-        return redirect('https://www.google.com/')
     request.session["_basket_"].sort()
     if int(product_id) in request.session["_basket_"]:
         while int(product_id) in request.session["_basket_"]:
@@ -407,12 +406,14 @@ def finir_acheter_1(request):
 
 
 def delivery_type(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
+
     error_dict = {'NonDeliveryType': 'Тип доставки не выбран!'}
     error = ''
     if request.GET.get('error'):
         error = request.GET.get('error')
-        if secur.secur_x(error) == 0:
-            return redirect('https://www.google.com/')
         for k, v in error_dict.items():
             if k == error:
                 error = v
@@ -422,9 +423,11 @@ def delivery_type(request):
 
 
 def verification_3(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
+
     user_type_delivery = request.GET.get('deliveryType')
-    if secur.secur_x(user_type_delivery) == 0:
-        return redirect('https://www.google.com/')
     if user_type_delivery not in ['NP', 'Kur']:
         return redirect('/delivery_type?error=NonDeliveryType')
     else:
@@ -433,12 +436,14 @@ def verification_3(request):
 
 
 def delivery_info(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
+
     error_dict = {'NonDeliveryInfo': 'Не указана информация для доставки!'}
     error = ''
     if request.GET.get('error'):
         error = request.GET.get('error')
-        if secur.secur_x(error) == 0:
-            return redirect('https://www.google.com/')
         for k, v in error_dict.items():
             if k == error:
                 error = v
@@ -451,11 +456,10 @@ def delivery_info(request):
 
 
 def verification_4(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
     if request.session["delivery_type"] == 'Kur':
-        if secur.secur_x(request.GET.get('rue')) == 0 or \
-                secur.secur_x(request.GET.get('maison')) == 0 or \
-                secur.secur_x(request.GET.get('appartement')) == 0:
-            return redirect('https://www.google.com/')
         if request.GET.get('rue') != '' \
                 and request.GET.get('maison') != '' \
                 and request.GET.get('appartement') != '':
@@ -468,9 +472,6 @@ def verification_4(request):
             return redirect('/delivery_info?error=NonDeliveryInfo')
 
     else:
-        if secur.secur_x(request.GET.get('ville')) == 0 or \
-                secur.secur_x(request.GET.get('otdelenie')) == 0:
-            return redirect('https://www.google.com/')
         if request.GET.get('ville') != '' \
                 and request.GET.get('otdelenie') != '':
             request.session["ville"] = request.GET.get('ville')
@@ -481,12 +482,13 @@ def verification_4(request):
 
 
 def pay_type(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
     error_dict = {'NonPayType': 'Способ оплаты не выбран!'}
     error = ''
     if request.GET.get('error'):
         error = request.GET.get('error')
-        if secur.secur_x(error) == 0:
-            return redirect('https://www.google.com/')
         for k, v in error_dict.items():
             if k == error:
                 error = v
@@ -495,9 +497,10 @@ def pay_type(request):
 
 
 def verification_5(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
     user_type_pay = request.GET.get('payType')
-    if secur.secur_x(user_type_pay) == 0:
-        return redirect('https://www.google.com/')
     if user_type_pay not in ['cash', 'VisaMaster']:
         return redirect('/pay_type?error=NonPayType')
     else:
