@@ -51,7 +51,11 @@
       <a class="btn btn-outline-primary" href="/price_list_1/">Каталог</a>
       <a class="btn btn-outline-primary" href="/delivery">Доставка и оплата</a>
       <a class="btn btn-outline-primary" href="#">Контакты</a>
+      {% if basket|length == 0 %}
       <a class="btn btn-outline-primary" href="/basket/">Корзина</a>
+      {% else %}
+      <a class="btn btn-outline-primary" href="/basket/">Корзина ({{ basket|length }})</a>
+      {% endif %}
       {% if auth_triger == 1 %}
       <a class="btn btn-outline-primary" href="/account/">Личный кабинет</a>
       {% else %}

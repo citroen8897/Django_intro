@@ -204,7 +204,8 @@ def account(request):
                 zakaz['zakaz_basket'] = \
                     current_user.get_full_info_de_zakaz(zakaz['numero_de_zakaz'])
     data = {'current_user': current_user, 'helper_2': helper_2,
-            'auth_triger': auth_triger, 'error': error}
+            'auth_triger': auth_triger, 'error': error,
+            'basket': request.session["_basket_"]}
     return render(request, "account.html", context=data)
 
 
@@ -267,7 +268,7 @@ def price_list_1(request):
     some_product.get_products_db()
     auth_triger = request.session["auth_triger"]
     data = {'products_all': some_product.products_data_base,
-            'auth_triger': auth_triger}
+            'auth_triger': auth_triger, 'basket': request.session["_basket_"]}
     return render(request, "price_list_1.html", context=data)
 
 
@@ -281,7 +282,8 @@ def product_info(request):
     current_product.get_products_db()
     current_product.get_current_product()
     auth_triger = request.session["auth_triger"]
-    data = {'product_info': current_product, 'auth_triger': auth_triger}
+    data = {'product_info': current_product, 'auth_triger': auth_triger,
+            'basket': request.session["_basket_"]}
     return render(request, "product_info.html", context=data)
 
 
@@ -304,7 +306,9 @@ def add_basket(request):
             message = 'Товар успешно добавлен в корзину!'
         else:
             message = ''
-        data = {'product_info': current_product, 'message': message}
+        data = {'product_info': current_product, 'message': message,
+                'auth_triger': request.session["auth_triger"],
+                'basket': request.session["_basket_"]}
         return render(request, "product_info.html", context=data)
     else:
         plus_basket_info = request.GET.get('flag2')
@@ -313,7 +317,9 @@ def add_basket(request):
         else:
             message = ''
         data = {'products_all': current_product.products_data_base,
-                'message': message}
+                'message': message,
+                'auth_triger': request.session["auth_triger"],
+                'basket': request.session["_basket_"]}
         return render(request, "price_list_1.html", context=data)
 
 
@@ -356,7 +362,7 @@ def basket(request):
     auth_triger = request.session["auth_triger"]
     data = {'user_basket': basket_list, 'total_prix': total_prix,
             'message': message, 'user_discount': user_discount,
-            'auth_triger': auth_triger}
+            'auth_triger': auth_triger, 'basket': request.session["_basket_"]}
     return render(request, "basket.html", context=data)
 
 
@@ -417,7 +423,7 @@ def delivery_type(request):
         for k, v in error_dict.items():
             if k == error:
                 error = v
-    data = {'error': error}
+    data = {'error': error, 'basket': request.session["_basket_"]}
     request.session["helper_1"] = None
     return render(request, "delivery_type.html", context=data)
 
@@ -448,10 +454,12 @@ def delivery_info(request):
             if k == error:
                 error = v
     if request.session["delivery_type"] == 'Kur':
-        data = {'type_delivery': 'Kur', 'error': error}
+        data = {'type_delivery': 'Kur', 'error': error,
+                'basket': request.session["_basket_"]}
         return render(request, "delivery_info.html", context=data)
     else:
-        data = {'type_delivery': 'NP', 'error': error}
+        data = {'type_delivery': 'NP', 'error': error,
+                'basket': request.session["_basket_"]}
         return render(request, "delivery_info.html", context=data)
 
 
@@ -492,7 +500,7 @@ def pay_type(request):
         for k, v in error_dict.items():
             if k == error:
                 error = v
-    data = {'error': error}
+    data = {'error': error, 'basket': request.session["_basket_"]}
     return render(request, "pay_type.html", context=data)
 
 
@@ -519,8 +527,6 @@ def felicitation(request):
                              request.session["discount"],
                              request.session["total_summ"])
     current_user.total_prix = request.session["basket_total_prix"]
-    current_user.total_prix = \
-        current_user.total_prix * (1 - (current_user.discount / 100))
     current_user.total_prix = round(current_user.total_prix, 2)
     current_user.delivery_type = request.session["delivery_type"]
     if current_user.delivery_type == 'NP':
@@ -570,5 +576,5 @@ def felicitation(request):
 
 def delivery(request):
     auth_triger = request.session["auth_triger"]
-    data = {'auth_triger': auth_triger}
+    data = {'auth_triger': auth_triger, 'basket': request.session["_basket_"]}
     return render(request, "delivery.html", context=data)
