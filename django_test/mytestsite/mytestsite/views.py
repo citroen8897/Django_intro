@@ -231,6 +231,82 @@ def admin_account(request):
     return redirect('/admin_account')
 
 
+def add_product(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
+
+    error_dict = {'product_nom': 'Некорректное название!',
+                  'product_q_1': 'Некорректная единица товара!',
+                  'product_q_2': 'Некорректная единица измерения товара!',
+                  'product_prix': 'Некорректная цена!',
+                  'product_img': 'Некорректная ссылка!',
+                  'product_status': 'Некорректный статус!'}
+    error = ''
+    if request.GET.get('error'):
+        error = request.GET.get('error')
+        for k, v in error_dict.items():
+            if k == error:
+                error = v
+    data = {'error': error}
+    return render(request, "add_product.html", context=data)
+
+
+def verification_7(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
+
+    product_nom = request.GET.get('nom')
+    if len(product_nom) == 0:
+        product_nom = ''
+
+    product_q_1 = request.GET.get('q_1')
+    if re.findall(r'[^0-9.]', str(product_q_1)) or len(product_q_1) == 0:
+        product_q_1 = ''
+    else:
+        product_q_1 = float(product_q_1)
+
+    product_q_2 = request.GET.get('q_2')
+    if len(product_q_2) == 0:
+        product_q_2 = ''
+
+    product_prix = request.GET.get('prix')
+    if re.findall(r'[^0-9.]', str(product_prix)) or len(product_prix) == 0:
+        product_prix = ''
+    else:
+        product_prix = float(product_prix)
+
+    product_img = request.GET.get('img')
+    if len(product_img) == 0:
+        product_img = ''
+
+    product_status = request.GET.get('status')
+    if product_status not in ['0', '1', '2', '3', '4']:
+        product_status = ''
+    else:
+        status_dict = {'0': 'в наличии', '1': 'нет в наличии',
+                       '2': 'ожидается',
+                       '3': 'под заказ', '4': 'снят с производства'}
+        for k, v in status_dict.items():
+            if k == product_status:
+                product_status = v
+    if product_nom != '' and product_q_1 != '' and product_q_2 != '' and \
+            product_prix != '' and product_img != '' and product_status != '':
+        nouveau_product = product.Product(0, product_nom, product_status,
+                                          product_q_1, product_q_2,
+                                          product_prix, product_img)
+        nouveau_product.add_product_data_base()
+        return render(request, "admin_account.html")
+    else:
+        temp = {'product_nom': product_nom, 'product_q_1': product_q_1,
+                'product_q_2': product_q_2, 'product_prix': product_prix,
+                'product_img': product_img, 'product_status': product_status}
+        for k, v in temp.items():
+            if v == '':
+                return redirect(f'/add_product?error={k}')
+
+
 def verification_6(request):
     if request.GET:
         if secur.secur_x(str(request.GET)) == 0:

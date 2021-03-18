@@ -44,3 +44,30 @@ class Product:
                 self.q_2 = element.q_2
                 self.prix = element.prix
                 self.img = element.img
+
+    def add_product_data_base(self):
+        try:
+            conn = mysql.connector.connect(user='root',
+                                           host='localhost',
+                                           database='mysql')
+
+            if conn.is_connected():
+                new_product = "INSERT INTO ASK_market_products" \
+                           "(nom,etre,q_1,q_2,prix,img) " \
+                           "VALUES(%s,%s,%s,%s,%s,%s)"
+                cursor = conn.cursor()
+                cursor.execute(new_product, (self.nom, self.etre,
+                                             self.q_1, self.q_2,
+                                             self.prix, self.img))
+                if cursor.lastrowid:
+                    print('успешно добавлена запись. id товара: ',
+                          cursor.lastrowid)
+                else:
+                    print('какая-то ошибка...')
+
+                conn.commit()
+        except Error as error:
+            print(error)
+        finally:
+            conn.close()
+            cursor.close()

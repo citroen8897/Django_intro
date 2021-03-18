@@ -46,5 +46,7 @@ urlpatterns = [
     path('delivery', views.delivery),
     path('log_out/', views.log_out),
     path('verification_6', views.verification_6),
-    path('admin_account', views.admin_account)
+    path('admin_account', views.admin_account),
+    path('add_product', views.add_product),
+    path('verification_7', views.verification_7)
 ]
