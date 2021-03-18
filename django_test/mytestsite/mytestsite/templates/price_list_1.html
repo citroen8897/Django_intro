@@ -119,9 +119,13 @@
         </a>
         <h5 class="card-title pricing-card-title">{{ item.prix }} грн./{{ item.q_2 }}</h5>
         <br>
+        {% if item.etre == 'в наличии' or item.etre == 'под заказ' %}
         <a href="/add_basket?product_id={{ item.product_id }}&flag=0&flag2=1">
           <button type="button" class="w-100 btn btn-lg btn-primary">Добавить в корзину</button>
         </a>
+        {% else %}
+        <h5>{{ item.etre }}</h5>
+        {% endif %}
       </div>
     </div>
     </div>

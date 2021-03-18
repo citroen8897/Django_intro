@@ -51,6 +51,7 @@
             <div><h3>Количество: {{ product_info.q_1 }} {{ product_info.q_2 }}</h3></div>
             <div><h3>Цена: {{ product_info.prix }} грн.</h3></div>
             <div><h5>Артикул: {{ product_info.product_id }}</h5></div>
+            {% if product_info.etre == 'в наличии' or product_info.etre == 'под заказ' %}
             <div style="width: 250px;">
                 <a href="/add_basket?product_id={{ product_info.product_id }}&flag=1&flag2=1">
                     <button type="button" class="w-100 btn btn-lg btn-primary">
@@ -58,6 +59,7 @@
                     </button>
                 </a>
             </div>
+            {% endif %}
         </div>
     </div>
 </div>
