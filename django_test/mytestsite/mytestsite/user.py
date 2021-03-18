@@ -215,7 +215,10 @@ class User:
                     zakazes_data_base.append({'numero_de_zakaz': row[0],
                                               'summa': row[1],
                                               'date_time': row[2],
-                                              'status_de_zakaz': row[3]})
+                                              'status_de_zakaz': row[3],
+                                              'id_user': row[4],
+                                              'delivery_type': row[5],
+                                              'pay_type': row[11]})
                     row = cursor.fetchone()
                 conn.commit()
         except Error as error:

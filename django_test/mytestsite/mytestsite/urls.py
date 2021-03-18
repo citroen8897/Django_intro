@@ -45,5 +45,6 @@ urlpatterns = [
     path('felicitation', views.felicitation),
     path('delivery', views.delivery),
     path('log_out/', views.log_out),
-    path('verification_6', views.verification_6)
+    path('verification_6', views.verification_6),
+    path('admin_account', views.admin_account)
 ]

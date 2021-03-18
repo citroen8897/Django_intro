@@ -203,10 +203,32 @@ def account(request):
             for zakaz in current_user.zakazes_data_base:
                 zakaz['zakaz_basket'] = \
                     current_user.get_full_info_de_zakaz(zakaz['numero_de_zakaz'])
-    data = {'current_user': current_user, 'helper_2': helper_2,
-            'auth_triger': auth_triger, 'error': error,
-            'basket': request.session["_basket_"]}
-    return render(request, "account.html", context=data)
+    if current_user.status == 'user':
+        data = {'current_user': current_user, 'helper_2': helper_2,
+                'auth_triger': auth_triger, 'error': error,
+                'basket': request.session["_basket_"]}
+        return render(request, "account.html", context=data)
+    elif current_user.status == 'admin':
+        some_product = product.Product(0, 'nom', 'etre', '0.0', 'kg', '0.0',
+                                       'img')
+        some_product.get_products_db()
+        products_data_base = some_product.products_data_base
+        current_user.zakazes_data_base = \
+            current_user.get_history_des_zakazes()
+        for zakaz in current_user.zakazes_data_base:
+            zakaz['zakaz_basket'] = \
+                current_user.get_full_info_de_zakaz(zakaz['numero_de_zakaz'])
+        helper_3 = 0
+        if request.GET.get('helper_3'):
+            helper_3 = int(request.GET.get('helper_3'))
+        data = {'current_user': current_user, 'helper_3': helper_3,
+                'auth_triger': auth_triger, 'error': error,
+                'products_data_base': products_data_base}
+        return render(request, "admin_account.html", context=data)
+
+
+def admin_account(request):
+    return redirect('/admin_account')
 
 
 def verification_6(request):

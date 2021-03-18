@@ -52,6 +52,7 @@
 <h2 id="headText">{{ message }}</h2>
 <br><br>
 {% if user_basket|length > 0 %}
+<div class="table-responsive">
 <table class="table table-striped">
   <thead>
     <tr>
@@ -110,6 +111,7 @@
 
   </tbody>
 </table>
+</div>
 <br>
 {% if user_discount == 0 %}
 <h4 id="footText">Итого: {{ total_prix }} грн.</h4>

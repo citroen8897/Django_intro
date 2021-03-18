@@ -34,13 +34,29 @@
       }
 
       .choisirPassword{
-        width: 20%;
+        width: 40%;
         margin: 0 auto;
       }
 
       .accordion{
         width: 50%;
         margin: 0 auto;
+      }
+
+      @media (min-width: 320px) and (max-width: 767px){
+        .mainContent{
+            display: block;
+        }
+
+        .accordion{
+            width: 99%;
+            margin: 0 auto;
+        }
+
+        .personalData, .choisirPassword{
+            width: 75%;
+            margin: 0 auto;
+        }
       }
 </style>
 </head>
@@ -121,6 +137,7 @@
         <div id="collapse{{ item.numero_de_zakaz }}" class="accordion-collapse collapse" aria-labelledby="heading{{ item.numero_de_zakaz }}" data-bs-parent="#accordionExample">
           <div class="accordion-body">
               <h4>Детали заказа</h4>
+              <div class="table-responsive">
               <table class="table table-striped">
                   <thead>
                     <tr>
@@ -140,6 +157,7 @@
 
                   </tbody>
                 </table>
+                  </div>
               <h5>Сумма заказа: {{ item.summa }} грн.</h5>
           </div>
         </div>
