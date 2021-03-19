@@ -71,3 +71,60 @@ class Product:
         finally:
             conn.close()
             cursor.close()
+
+    def choisir_nom(self):
+        try:
+            conn = mysql.connector.connect(user='root',
+                                           host='localhost',
+                                           database='mysql')
+
+            if conn.is_connected():
+                new_param_de_product = f"UPDATE ASK_market_products SET " \
+                                       f"nom='{self.nom}' " \
+                                       f"WHERE id={self.product_id}"
+                cursor = conn.cursor()
+                cursor.execute(new_param_de_product)
+                conn.commit()
+        except Error as error:
+            print(error)
+        finally:
+            conn.close()
+            cursor.close()
+
+    def choisir_prix(self):
+        try:
+            conn = mysql.connector.connect(user='root',
+                                           host='localhost',
+                                           database='mysql')
+
+            if conn.is_connected():
+                new_param_de_product = f"UPDATE ASK_market_products SET " \
+                                       f"prix='{self.prix}' " \
+                                       f"WHERE id={self.product_id}"
+                cursor = conn.cursor()
+                cursor.execute(new_param_de_product)
+                conn.commit()
+        except Error as error:
+            print(error)
+        finally:
+            conn.close()
+            cursor.close()
+
+    def choisir_etre(self):
+        try:
+            conn = mysql.connector.connect(user='root',
+                                           host='localhost',
+                                           database='mysql')
+
+            if conn.is_connected():
+                new_param_de_product = f"UPDATE ASK_market_products SET " \
+                                       f"etre='{self.etre}' " \
+                                       f"WHERE id={self.product_id}"
+                cursor = conn.cursor()
+                cursor.execute(new_param_de_product)
+                conn.commit()
+        except Error as error:
+            print(error)
+        finally:
+            conn.close()
+            cursor.close()

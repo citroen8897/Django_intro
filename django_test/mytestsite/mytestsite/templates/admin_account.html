@@ -73,7 +73,7 @@
     </nav>
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-
+      {{ error }}
       {% if helper_3 == 1 %}
       <h2>Картотека товаров</h2>
       <div class="table-responsive">
@@ -91,12 +91,12 @@
           <tbody>
             {% for item in products_data_base %}
             <tr>
-              <td><a href="">{{ item.product_id }}</a></td>
-              <td><a href="">{{ item.nom }}</a></td>
-              <td><a href="">{{ item.etre }}</a></td>
-              <td><a href="">{{ item.q_1 }}</a></td>
-              <td><a href="">{{ item.q_2 }}</a></td>
-              <td><a href="">{{ item.prix }} грн.</a></td>
+              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.product_id }}</a></td>
+              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.nom }}</a></td>
+              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.etre }}</a></td>
+              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.q_1 }}</a></td>
+              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.q_2 }}</a></td>
+              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.prix }} грн.</a></td>
             </tr>
             {% endfor %}
           </tbody>

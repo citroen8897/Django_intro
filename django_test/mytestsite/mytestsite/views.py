@@ -297,7 +297,8 @@ def verification_7(request):
                                           product_q_1, product_q_2,
                                           product_prix, product_img)
         nouveau_product.add_product_data_base()
-        return render(request, "admin_account.html")
+        data = {'error': 'Изменения сохранены'}
+        return render(request, "admin_account.html", context=data)
     else:
         temp = {'product_nom': product_nom, 'product_q_1': product_q_1,
                 'product_q_2': product_q_2, 'product_prix': product_prix,
@@ -305,6 +306,74 @@ def verification_7(request):
         for k, v in temp.items():
             if v == '':
                 return redirect(f'/add_product?error={k}')
+
+
+def product_card(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
+    product_id = request.GET.get('product_id')
+    current_product = product.Product(int(product_id), 'nom', 'etre', 0.0,
+                                      'q_2', 0.0, 'img')
+    current_product.get_products_db()
+    current_product.get_current_product()
+    request.session["product_id"] = current_product.product_id
+    data = {'product_info': current_product}
+    return render(request, "product_card.html", context=data)
+
+
+def verification_8(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
+    product_id = request.session["product_id"]
+
+    product_nom = request.GET.get('nom')
+    if len(product_nom) == 0:
+        product_nom = '0'
+
+    product_prix = request.GET.get('prix')
+    if re.findall(r'[^0-9.]', str(product_prix)) or len(product_prix) == 0:
+        product_prix = '0'
+    else:
+        product_prix = float(product_prix)
+
+    product_status = request.GET.get('status')
+    if product_status not in ['0', '1', '2', '3', '4']:
+        product_status = '0'
+    else:
+        status_dict = {'0': 'в наличии', '1': 'нет в наличии',
+                       '2': 'ожидается',
+                       '3': 'под заказ', '4': 'снят с производства'}
+        for k, v in status_dict.items():
+            if k == product_status:
+                product_status = v
+
+    if product_nom != '0':
+        current_product = product.Product(int(product_id), 'nom', 'etre', 0.0,
+                                          'q_2', 0.0, 'img')
+        current_product.get_products_db()
+        current_product.get_current_product()
+        current_product.nom = product_nom
+        current_product.choisir_nom()
+
+    if product_prix != '0':
+        current_product = product.Product(int(product_id), 'nom', 'etre', 0.0,
+                                          'q_2', 0.0, 'img')
+        current_product.get_products_db()
+        current_product.get_current_product()
+        current_product.prix = product_prix
+        current_product.choisir_prix()
+
+    if product_status != '0':
+        current_product = product.Product(int(product_id), 'nom', 'etre', 0.0,
+                                          'q_2', 0.0, 'img')
+        current_product.get_products_db()
+        current_product.get_current_product()
+        current_product.etre = product_status
+        current_product.choisir_etre()
+    data = {'error': 'Изменения сохранены'}
+    return render(request, "admin_account.html", context=data)
 
 
 def verification_6(request):

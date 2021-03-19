@@ -48,5 +48,7 @@ urlpatterns = [
     path('verification_6', views.verification_6),
     path('admin_account', views.admin_account),
     path('add_product', views.add_product),
-    path('verification_7', views.verification_7)
+    path('verification_7', views.verification_7),
+    path('product_card', views.product_card),
+    path('verification_8', views.verification_8)
 ]
