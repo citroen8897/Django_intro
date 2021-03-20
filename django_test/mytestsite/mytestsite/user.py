@@ -77,6 +77,19 @@ class User:
                 self.discount = person.discount
                 self.total_summ = person.total_summ
 
+    def get_current_user_id(self):
+        for person in self.users_data_base:
+            if self.user_id == person.user_id:
+                self.user_id = person.user_id
+                self.nom = person.nom
+                self.prenom = person.prenom
+                self.login = person.login
+                self.password = person.password
+                self.telephone = person.telephone
+                self.status = person.status
+                self.discount = person.discount
+                self.total_summ = person.total_summ
+
     def make_zakaz(self):
         try:
             conn = mysql.connector.connect(user='root',
@@ -218,6 +231,11 @@ class User:
                                               'status_de_zakaz': row[3],
                                               'id_user': row[4],
                                               'delivery_type': row[5],
+                                              'delivery_rue': row[6],
+                                              'delivery_maison': row[7],
+                                              'delivery_appartement': row[8],
+                                              'ville': row[9],
+                                              'otdelenie': row[10],
                                               'pay_type': row[11]})
                     row = cursor.fetchone()
                 conn.commit()
@@ -252,3 +270,22 @@ class User:
             conn.close()
             cursor.close()
         return info_de_zakaz
+
+    def choisir_status_de_zakaz(self, nouveau_status, numero_de_zakaz):
+        try:
+            conn = mysql.connector.connect(user='root',
+                                           host='localhost',
+                                           database='mysql')
+
+            if conn.is_connected():
+                new_password = f"UPDATE ASK_market_billing SET " \
+                               f"status='{nouveau_status}' " \
+                               f"WHERE id={numero_de_zakaz}"
+                cursor = conn.cursor()
+                cursor.execute(new_password)
+                conn.commit()
+        except Error as error:
+            print(error)
+        finally:
+            conn.close()
+            cursor.close()

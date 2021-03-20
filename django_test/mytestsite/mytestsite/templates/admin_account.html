@@ -162,13 +162,13 @@
           <tbody>
             {% for item in current_user.zakazes_data_base %}
             <tr>
-              <td>{{ item.numero_de_zakaz }}</td>
-              <td>{{ item.date_time|date:"d.m.Y" }}</td>
-              <td>{{ item.summa }}</td>
-              <td>{{ item.status_de_zakaz }}</td>
-              <td>{{ item.id_user }}</td>
-              <td>{{ item.delivery_type }}</td>
-              <td>{{ item.pay_type }}</td>
+              <td><a href="/zakaz_card?numero_de_zakaz={{ item.numero_de_zakaz }}">{{ item.numero_de_zakaz }}</a></td>
+              <td><a href="/zakaz_card?numero_de_zakaz={{ item.numero_de_zakaz }}">{{ item.date_time|date:"d.m.Y" }}</a></td>
+              <td><a href="/zakaz_card?numero_de_zakaz={{ item.numero_de_zakaz }}">{{ item.summa }}</a></td>
+              <td><a href="/zakaz_card?numero_de_zakaz={{ item.numero_de_zakaz }}">{{ item.status_de_zakaz }}</a></td>
+              <td><a href="/zakaz_card?numero_de_zakaz={{ item.numero_de_zakaz }}">{{ item.id_user }}</a></td>
+              <td><a href="/zakaz_card?numero_de_zakaz={{ item.numero_de_zakaz }}">{{ item.delivery_type }}</a></td>
+              <td><a href="/zakaz_card?numero_de_zakaz={{ item.numero_de_zakaz }}">{{ item.pay_type }}</a></td>
             </tr>
             {% endfor %}
           </tbody>

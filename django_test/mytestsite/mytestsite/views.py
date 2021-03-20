@@ -3,6 +3,8 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 import re
 import time
+import datetime
+import copy
 from . import password_generator
 from . import user
 from . import product
@@ -218,6 +220,19 @@ def account(request):
         for zakaz in current_user.zakazes_data_base:
             zakaz['zakaz_basket'] = \
                 current_user.get_full_info_de_zakaz(zakaz['numero_de_zakaz'])
+
+        for e in current_user.zakazes_data_base:
+            for k, v in e.items():
+                if k == 'date_time':
+                    e[k] = str(v)
+        request.session['zakazes'] = \
+            copy.deepcopy(current_user.zakazes_data_base)
+        for e in current_user.zakazes_data_base:
+            for k, v in e.items():
+                if k == 'date_time':
+                    e[k] = datetime.datetime.strptime(v,
+                                                      '%Y-%m-%d %H:%M:%S')
+
         helper_3 = 0
         if request.GET.get('helper_3'):
             helper_3 = int(request.GET.get('helper_3'))
@@ -373,6 +388,80 @@ def verification_8(request):
         current_product.etre = product_status
         current_product.choisir_etre()
     data = {'error': 'Изменения сохранены'}
+    return render(request, "admin_account.html", context=data)
+
+
+def zakaz_card(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
+
+    zakazes_data_base = copy.deepcopy(request.session['zakazes'])
+    for e in zakazes_data_base:
+        for k, v in e.items():
+            if k == 'date_time':
+                e[k] = datetime.datetime.strptime(v, '%Y-%m-%d %H:%M:%S')
+
+    current_zakaz_numero = request.GET.get('numero_de_zakaz')
+    for zakaz in zakazes_data_base:
+        if str(zakaz['numero_de_zakaz']) == current_zakaz_numero:
+            current_zakaz = zakaz
+    request.session['numero_de_zakaz'] = current_zakaz_numero
+
+    i = 1
+    for t in current_zakaz['zakaz_basket']:
+        t['numero'] = i
+        i += 1
+        # current_product = product.Product(t['tovar_id'], 'nom', 'etre', 0.0,
+        #                                   'q_2', 0.0, 'img')
+        # current_product.get_products_db()
+        # current_product.get_current_product()
+        # t['tovar_prix'] = current_product.prix
+        current_user = user.User(t['client_id'], 'user_nom', 'user_prenom',
+                                 'user_login',
+                                 '0123456789', 'user_password', 'user', 0, 0)
+        current_user.get_users_db()
+        current_user.get_current_user_id()
+        t['client_info'] = current_user
+    # zakaz_total = 0
+    # for t in current_zakaz['zakaz_basket']:
+    #     if t['numero'] < 3:
+    #         t['tovar_summ'] = round(t['tovar_prix'] * t['quantity'], 2)
+    #         zakaz_total += t['tovar_summ']
+    #     else:
+    #         t['tovar_summ'] = round(t['tovar_prix'] * t['quantity'] * 0.95, 2)
+    #         zakaz_total += t['tovar_summ']
+    # current_zakaz['zakaz_total'] = round(zakaz_total, 2)
+    data = {'current_zakaz': current_zakaz}
+    return render(request, "zakaz_card.html", context=data)
+
+
+def verification_9(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
+    current_zakaz_numero = request.session['numero_de_zakaz']
+    nouveau_status_zakaz = request.GET.get('status')
+    if nouveau_status_zakaz not in ['0', '1', '2', '3', '4', '5', '6']:
+        nouveau_status_zakaz = '0'
+    else:
+        status_dict = {'0': 'в обработке', '1': 'обработан',
+                       '2': 'отправлен',
+                       '3': 'доставлен', '4': 'выполнен',
+                       '5': 'отменен', '6': 'отклонен'}
+        for k, v in status_dict.items():
+            if k == nouveau_status_zakaz:
+                nouveau_status_zakaz = v
+    if nouveau_status_zakaz != '0':
+        user_login = request.session["login"]
+        user_password = request.session["password"]
+        current_user = user.User(0, 'user_nom', 'user_prenom', user_login,
+                                 '0123456789', user_password, 'user', 0, 0)
+        current_user.get_users_db()
+        current_user.get_current_user()
+        current_user.choisir_status_de_zakaz(nouveau_status_zakaz,
+                                             current_zakaz_numero)
+    data = {'error': 'изменения сохранены'}
     return render(request, "admin_account.html", context=data)
 
 

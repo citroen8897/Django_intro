@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Карточка заказа</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/dashboard/">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+
+        .formProduct{
+            width: 50%;
+            margin: 0 auto;
+        }
+      }
+
+      @media (max-width: 767px){
+          .formProduct{
+            width: 88%;
+            margin: 0 auto;
+          }
+      }
+    </style>
+
+  </head>
+  <body>
+
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/price_list_1/">ASK</a>
+  <button class="navbar-toggler d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+  <ul class="navbar-nav px-3">
+    <li class="nav-item text-nowrap">
+      <a class="nav-link" href="/log_out/">Выход</a>
+    </li>
+  </ul>
+</header>
+
+<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/account?helper_3=1">
+              <span data-feather="home"></span>
+              Товары
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/account?helper_3=2">
+              <span data-feather="file"></span>
+              Пользователи
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/account?helper_3=3">
+              <span data-feather="shopping-cart"></span>
+              Заказы
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <h1>Карточка заказа №{{ current_zakaz.numero_de_zakaz }}</h1>
+        <div class="accordion" id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                Состав заказа
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <div class="table-responsive">
+                  <table class="table table-striped">
+                      <thead>
+                        <tr>
+                            <th scope="col">№</th>
+                            <th scope="col">Наименование</th>
+                            <th scope="col">Артикул</th>
+                            <th scope="col">Количество</th>
+<!--                            <th scope="col">Скидка</th>-->
+<!--                            <th scope="col">Цена</th>-->
+<!--                            <th scope="col">Сумма</th>-->
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for j in current_zakaz.zakaz_basket %}
+                        <tr>
+                            <td>{{ j.numero }}</td>
+                            <td>{{ j.tovar_nom }}</td>
+                            <td>{{ j.tovar_id }}</td>
+                            <td>{{ j.quantity }}</td>
+<!--                            {% if j.numero <= 2 %}-->
+<!--                            <td> </td>-->
+<!--                            {% elif j.numero > 2 %}-->
+<!--                            <td>5%</td>-->
+<!--                            {% endif %}-->
+<!--                            <td>{{ j.tovar_prix }} грн.</td>-->
+<!--                            <td>{{ j.tovar_summ }} грн.</td>-->
+                        </tr>
+                        {% endfor %}
+
+                      </tbody>
+                    </table>
+                      </div>
+<!--                  <h5>Сумма заказа: {{ current_zakaz.zakaz_total }} грн.</h5>-->
+                  <h5>Сумма заказа c учетом скидки клиента: {{ current_zakaz.summa }} грн.</h5>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Детали Доставки и Оплаты
+              </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <div class="card mb-4 shadow-sm">
+                  <div class="card-header">
+                      <br><br>
+                      <h2>Информация</h2>
+                      <br>
+                  </div>
+                  <div class="card-body">
+                    <br>
+                    <h4>Тип доставки: {{ current_zakaz.delivery_type }}</h4>
+                    <br>
+                    {% if current_zakaz.delivery_type == 'Новая Почта' %}
+                    <h4>Город: {{ current_zakaz.ville }}</h4>
+                    <br>
+                    <h4>Отделение №{{ current_zakaz.otdelenie }}</h4>
+                    {% else %}
+                    <h4>Улица: {{ current_zakaz.delivery_rue }}</h4>
+                    <br>
+                    <h4>Дом: {{ current_zakaz.delivery_maison }}</h4>
+                    <br>
+                    <h4>Квартира: {{ current_zakaz.delivery_appartement }}</h4>
+                    {% endif %}
+                    <br>
+                    <h4>Тип оплаты: {{ current_zakaz.pay_type }}</h4>
+                    <br>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                Данные Клиента
+              </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <div class="card mb-4 shadow-sm">
+                  <div class="card-header">
+                      <br><br>
+                      <h2>Личные данные</h2>
+                      <br>
+                  </div>
+                  <div class="card-body">
+                    <br>
+                    <h4>id: {{ current_zakaz.zakaz_basket.0.client_info.user_id }} </h4>
+                    <br>
+                    <h4>ФИО: {{ current_zakaz.zakaz_basket.0.client_info.prenom }} {{ current_zakaz.zakaz_basket.0.client_info.nom }}</h4>
+                    <br>
+                    <h4>Логин: {{ current_zakaz.zakaz_basket.0.client_info.login }}</h4>
+                    <br>
+                    <h4>Телефон: {{ current_zakaz.zakaz_basket.0.client_info.telephone }}</h4>
+                    <br>
+                    <h4>Персональная скидка: {{ current_zakaz.zakaz_basket.0.client_info.discount }}%</h4>
+                    <br>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingFour">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                Изменить статус заказа
+              </button>
+            </h2>
+            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <form action='/verification_9' method='get' class="formProduct">
+                  <br>
+                    <h3>Текущий статус заказа: {{ current_zakaz.status_de_zakaz }}</h3>
+                  <div>
+                      Изменить статус:
+                    <select name="status" id="">
+                        <option value="">Выберите статус товара</option>
+                        <option value="0">в обработке</option>
+                        <option value="1">обработан</option>
+                        <option value="2">отправлен</option>
+                        <option value="3">доставлен</option>
+                        <option value="4">выполнен</option>
+                        <option value="5">отменен</option>
+                        <option value="6">отклонен</option>
+                    </select>
+                  </div>
+                  <br><br>
+                  <button class="w-100 btn btn-lg btn-primary" type="submit">Подтвердить</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+    </main>
+  </div>
+</div>
+
+</body>
+</html>
