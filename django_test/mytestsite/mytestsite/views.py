@@ -9,6 +9,7 @@ from . import password_generator
 from . import user
 from . import product
 from . import secur
+from operator import attrgetter
 
 
 def test_page(request):
@@ -225,6 +226,28 @@ def account(request):
             for k, v in e.items():
                 if k == 'date_time':
                     e[k] = str(v)
+
+        current_user.zakazes_data_base.sort(
+            key=lambda zakaz_: zakaz_['date_time'])
+        current_user.zakazes_data_base = current_user.zakazes_data_base[::-1]
+
+        if request.GET.get('zakaz_sort'):
+            if request.GET.get('zakaz_sort') == '0':
+                current_user.zakazes_data_base.sort(key=lambda zakaz_: zakaz_['numero_de_zakaz'])
+            elif request.GET.get('zakaz_sort') == '1':
+                current_user.zakazes_data_base.sort(key=lambda zakaz_: zakaz_['date_time'])
+            elif request.GET.get('zakaz_sort') == '2':
+                current_user.zakazes_data_base.sort(key=lambda zakaz_: zakaz_['summa'])
+                current_user.zakazes_data_base = current_user.zakazes_data_base[::-1]
+            elif request.GET.get('zakaz_sort') == '3':
+                current_user.zakazes_data_base.sort(key=lambda zakaz_: zakaz_['status_de_zakaz'])
+            elif request.GET.get('zakaz_sort') == '4':
+                current_user.zakazes_data_base.sort(key=lambda zakaz_: zakaz_['id_user'])
+            elif request.GET.get('zakaz_sort') == '5':
+                current_user.zakazes_data_base.sort(key=lambda zakaz_: zakaz_['delivery_type'])
+            elif request.GET.get('zakaz_sort') == '6':
+                current_user.zakazes_data_base.sort(key=lambda zakaz_: zakaz_['pay_type'])
+
         request.session['zakazes'] = \
             copy.deepcopy(current_user.zakazes_data_base)
         for e in current_user.zakazes_data_base:
@@ -236,6 +259,32 @@ def account(request):
         helper_3 = 0
         if request.GET.get('helper_3'):
             helper_3 = int(request.GET.get('helper_3'))
+            if request.GET.get('product_sort'):
+                if request.GET.get('product_sort') == '0':
+                    products_data_base.sort(key=lambda product_: product_.product_id)
+                elif request.GET.get('product_sort') == '1':
+                    products_data_base.sort(key=lambda product_: product_.nom)
+                elif request.GET.get('product_sort') == '2':
+                    products_data_base.sort(key=lambda product_: product_.etre)
+                elif request.GET.get('product_sort') == '3':
+                    products_data_base.sort(key=lambda product_: product_.prix)
+            elif request.GET.get('user_sort'):
+                if request.GET.get('user_sort') == '0':
+                    current_user.users_data_base.sort(key=lambda user_: user_.user_id)
+                elif request.GET.get('user_sort') == '1':
+                    current_user.users_data_base.sort(key=lambda user_: user_.prenom)
+                elif request.GET.get('user_sort') == '2':
+                    current_user.users_data_base.sort(key=attrgetter('nom', 'prenom'))
+                elif request.GET.get('user_sort') == '3':
+                    current_user.users_data_base.sort(key=lambda user_: user_.login)
+                elif request.GET.get('user_sort') == '4':
+                    current_user.users_data_base.sort(key=lambda user_: user_.status)
+                elif request.GET.get('user_sort') == '5':
+                    current_user.users_data_base.sort(key=attrgetter('discount', 'total_summ'))
+                    current_user.users_data_base = current_user.users_data_base[::-1]
+                elif request.GET.get('user_sort') == '6':
+                    current_user.users_data_base.sort(key=lambda user_: user_.total_summ)
+                    current_user.users_data_base = current_user.users_data_base[::-1]
         data = {'current_user': current_user, 'helper_3': helper_3,
                 'auth_triger': auth_triger, 'error': error,
                 'products_data_base': products_data_base}
