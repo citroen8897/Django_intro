@@ -514,6 +514,26 @@ def verification_9(request):
     return render(request, "admin_account.html", context=data)
 
 
+def user_card(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
+    user_id = request.GET.get('user_id')
+    some_user = user.User(int(user_id), 'user_nom', 'user_prenom',
+                          'user_login', '0123456789', 'user_password', 'user',
+                          0, 0)
+    some_user.get_users_db()
+    some_user.get_current_user_id()
+    zakazes_data_base = request.session['zakazes']
+    zakazes_de_current_user = []
+    for zakaz in zakazes_data_base:
+        if zakaz['id_user'] == int(user_id):
+            zakazes_de_current_user.append(zakaz)
+    data = {'zakazes_de_current_user': zakazes_de_current_user,
+            'some_user': some_user}
+    return render(request, "user_card.html", context=data)
+
+
 def verification_6(request):
     if request.GET:
         if secur.secur_x(str(request.GET)) == 0:

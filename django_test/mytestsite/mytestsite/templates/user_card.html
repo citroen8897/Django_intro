@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Карточка пользователя</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/dashboard/">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+
+        .formProduct{
+            width: 50%;
+            margin: 0 auto;
+        }
+      }
+
+      @media (max-width: 767px){
+          .formProduct{
+            width: 88%;
+            margin: 0 auto;
+          }
+      }
+    </style>
+
+  </head>
+  <body>
+
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/price_list_1/">ASK</a>
+  <button class="navbar-toggler d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+  <ul class="navbar-nav px-3">
+    <li class="nav-item text-nowrap">
+      <a class="nav-link" href="/log_out/">Выход</a>
+    </li>
+  </ul>
+</header>
+
+<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/account?helper_3=1">
+              <span data-feather="home"></span>
+              Товары
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/account?helper_3=2">
+              <span data-feather="file"></span>
+              Пользователи
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/account?helper_3=3">
+              <span data-feather="shopping-cart"></span>
+              Заказы
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <h1>Карточка клиента _||_ {{ some_user.prenom }} {{ some_user.nom }} _||_</h1>
+        <div class="accordion" id="accordionExample">
+        {% for item in zakazes_de_current_user %}
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="heading{{ item.numero_de_zakaz }}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ item.numero_de_zakaz }}" aria-expanded="true" aria-controls="collapse{{ item.numero_de_zakaz }}">
+                Заказ №{{ item.numero_de_zakaz }}<br/>{{ item.date_time|date:"d.m.Y" }}<br/>{{ item.status_de_zakaz }}
+            </button>
+          </h2>
+          <div id="collapse{{ item.numero_de_zakaz }}" class="accordion-collapse collapse" aria-labelledby="heading{{ item.numero_de_zakaz }}" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <h4>Детали заказа</h4>
+                <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                      <tr>
+                          <th scope="col">Артикул</th>
+                          <th scope="col">Наименование</th>
+                          <th scope="col">Количество</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for j in item.zakaz_basket %}
+                      <tr>
+                          <td>{{ j.tovar_id }}</td>
+                          <td>{{ j.tovar_nom }}</td>
+                          <td>{{ j.quantity }}</td>
+                      </tr>
+                      {% endfor %}
+
+                    </tbody>
+                  </table>
+                    </div>
+                <h5>Сумма заказа: {{ item.summa }} грн.</h5>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </main>
+  </div>
+</div>
+
+</body>
+</html>

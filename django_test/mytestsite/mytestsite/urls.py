@@ -52,5 +52,6 @@ urlpatterns = [
     path('product_card', views.product_card),
     path('verification_8', views.verification_8),
     path('zakaz_card', views.zakaz_card),
-    path('verification_9', views.verification_9)
+    path('verification_9', views.verification_9),
+    path('user_card', views.user_card)
 ]
