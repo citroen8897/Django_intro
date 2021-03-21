@@ -79,7 +79,7 @@
       </div>
     </nav>
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <h1>Карточка клиента _||_ {{ some_user.prenom }} {{ some_user.nom }} _||_</h1>
+        <h1>Карточка клиента: {{ some_user.prenom }} {{ some_user.nom }}</h1>
         <div class="accordion" id="accordionExample">
         {% for item in zakazes_de_current_user %}
         <div class="accordion-item">

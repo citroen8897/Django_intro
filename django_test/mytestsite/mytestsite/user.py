@@ -279,7 +279,8 @@ class User:
 
             if conn.is_connected():
                 new_password = f"UPDATE ASK_market_billing SET " \
-                               f"status='{nouveau_status}' " \
+                               f"status='{nouveau_status}', " \
+                               f"datetime=datetime " \
                                f"WHERE id={numero_de_zakaz}"
                 cursor = conn.cursor()
                 cursor.execute(new_password)

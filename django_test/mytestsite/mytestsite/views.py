@@ -206,6 +206,10 @@ def account(request):
             for zakaz in current_user.zakazes_data_base:
                 zakaz['zakaz_basket'] = \
                     current_user.get_full_info_de_zakaz(zakaz['numero_de_zakaz'])
+                current_user.zakazes_data_base.sort(
+                    key=lambda zakaz_: zakaz_['date_time'])
+                current_user.zakazes_data_base = current_user.zakazes_data_base[
+                                                 ::-1]
     if current_user.status == 'user':
         data = {'current_user': current_user, 'helper_2': helper_2,
                 'auth_triger': auth_triger, 'error': error,
@@ -253,8 +257,7 @@ def account(request):
         for e in current_user.zakazes_data_base:
             for k, v in e.items():
                 if k == 'date_time':
-                    e[k] = datetime.datetime.strptime(v,
-                                                      '%Y-%m-%d %H:%M:%S')
+                    e[k] = datetime.datetime.strptime(v, '%Y-%m-%d %H:%M:%S')
 
         helper_3 = 0
         if request.GET.get('helper_3'):
@@ -524,7 +527,11 @@ def user_card(request):
                           0, 0)
     some_user.get_users_db()
     some_user.get_current_user_id()
-    zakazes_data_base = request.session['zakazes']
+    zakazes_data_base = copy.deepcopy(request.session['zakazes'])
+    for e in zakazes_data_base:
+        for k, v in e.items():
+            if k == 'date_time':
+                e[k] = datetime.datetime.strptime(v, '%Y-%m-%d %H:%M:%S')
     zakazes_de_current_user = []
     for zakaz in zakazes_data_base:
         if zakaz['id_user'] == int(user_id):
