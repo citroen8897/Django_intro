@@ -58,6 +58,10 @@
             margin: 0 auto;
         }
       }
+
+      .RED{
+        background: #EA2A3D;
+      }
 </style>
 </head>
 <body>
@@ -129,7 +133,11 @@
     <div class="accordion" id="accordionExample">
       {% for item in current_user.zakazes_data_base %}
       <div class="accordion-item">
-        <h2 class="accordion-header" id="heading{{ item.numero_de_zakaz }}">
+          {% if item.status_de_zakaz != 'выполнен' %}
+          <h2 class="accordion-header RED" id="heading_{{ item.numero_de_zakaz }}">
+          {% else %}
+          <h2 class="accordion-header" id="heading{{ item.numero_de_zakaz }}">
+          {% endif %}
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ item.numero_de_zakaz }}" aria-expanded="true" aria-controls="collapse{{ item.numero_de_zakaz }}">
               Заказ №{{ item.numero_de_zakaz }}<br/>{{ item.date_time|date:"d.m.Y" }}<br/>{{ item.status_de_zakaz }}
           </button>
