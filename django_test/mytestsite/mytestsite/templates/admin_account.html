@@ -27,6 +27,16 @@
         text-decoration: none;
         color: black;
       }
+
+      .dateForm div{
+        width: 25%;
+      }
+
+      .dateForm{
+        width: 50%;
+        display: flex;
+        justify-content: space-between;
+      }
     </style>
 
   </head>
@@ -156,6 +166,13 @@
 
       {% elif helper_3 == 3 %}
       <h2>Картотека заказов</h2>
+      <br>
+      <form class="dateForm" action='/verification_10' method='get'>
+        <div><input type="date" class="form-control" id="dateStart" name="date_start" required></div>
+        <div><input type="date" class="form-control" id="dateFinish" name="date_finish" required></div>
+        <div><button class="w-100 btn btn-md btn-primary" type="submit">Выбрать</button></div>
+      </form>
+      <br>
       <div class="table-responsive">
         <table class="table table-sm">
           <thead>

@@ -53,5 +53,6 @@ urlpatterns = [
     path('verification_8', views.verification_8),
     path('zakaz_card', views.zakaz_card),
     path('verification_9', views.verification_9),
-    path('user_card', views.user_card)
+    path('user_card', views.user_card),
+    path('verification_10', views.verification_10)
 ]

@@ -82,18 +82,18 @@
         {% endif %}
         {% endif %}
         <td class="buttonBasket">
-            <div style="width: 50px;">
+            <div>
                 <a href="/plus_basket?product_id={{ item.product_id }}">
-                    <button type="button" class="w-100 btn btn-lg btn-primary">
+                    <button type="button" class="w-100 btn btn-sm btn-primary">
                     +</button>
                 </a>
             </div>
             <div>
                 {{ item.q_1 }}
             </div>
-            <div style="width: 50px;">
+            <div>
                 <a href="/minus_basket?product_id={{ item.product_id }}">
-                    <button type="button" class="w-100 btn btn-lg btn-primary">
+                    <button type="button" class="w-100 btn btn-sm btn-primary">
                     -</button>
                 </a>
             </div>
@@ -101,7 +101,7 @@
         <td>
             <div style="width: 125px; margin: 0 auto;">
                 <a href="/delete_basket?product_id={{ item.product_id }}">
-                    <button type="button" class="w-100 btn btn-lg btn-primary">
+                    <button type="button" class="w-100 btn btn-sm btn-primary">
                     Удалить</button>
                 </a>
             </div>

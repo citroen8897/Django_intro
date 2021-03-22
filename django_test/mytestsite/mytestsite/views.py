@@ -262,6 +262,24 @@ def account(request):
         helper_3 = 0
         if request.GET.get('helper_3'):
             helper_3 = int(request.GET.get('helper_3'))
+            if request.GET.get('helper_4'):
+                if request.GET.get('helper_4') == '1':
+                    date_start = request.GET.get('date_start')
+                    date_fin = request.GET.get('date_finish')
+                    date_start = datetime.datetime.strptime(date_start,
+                                                            '%Y-%m-%d')
+                    date_fin = datetime.datetime.strptime(date_fin, '%Y-%m-%d')
+                    date_fin = date_fin + datetime.timedelta(hours=23,
+                                                             minutes=59,
+                                                             seconds=59)
+                    zakazes_date_time_select = []
+                    for e in current_user.zakazes_data_base:
+                        for k, v in e.items():
+                            if k == 'date_time':
+                                if date_fin >= v >= date_start:
+                                    zakazes_date_time_select.append(e)
+                    current_user.zakazes_data_base = zakazes_date_time_select
+
             if request.GET.get('product_sort'):
                 if request.GET.get('product_sort') == '0':
                     products_data_base.sort(key=lambda product_: product_.product_id)
@@ -539,6 +557,15 @@ def user_card(request):
     data = {'zakazes_de_current_user': zakazes_de_current_user,
             'some_user': some_user}
     return render(request, "user_card.html", context=data)
+
+
+def verification_10(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
+    date_start = request.GET.get('date_start')
+    date_fin = request.GET.get('date_finish')
+    return redirect(f'/account/?helper_3=3&helper_4=1&date_start={date_start}&date_finish={date_fin}')
 
 
 def verification_6(request):
