@@ -236,6 +236,10 @@ def account(request):
         current_user.zakazes_data_base = current_user.zakazes_data_base[::-1]
 
         if request.GET.get('zakaz_sort'):
+            if request.session['helper_4'] is not None:
+                if request.session['helper_4'] == 1:
+                    current_user.zakazes_data_base = copy.deepcopy(request.session['zakaz_list_select'])
+
             if request.GET.get('zakaz_sort') == '0':
                 current_user.zakazes_data_base.sort(key=lambda zakaz_: zakaz_['numero_de_zakaz'])
             elif request.GET.get('zakaz_sort') == '1':
@@ -278,7 +282,15 @@ def account(request):
                             if k == 'date_time':
                                 if date_fin >= v >= date_start:
                                     zakazes_date_time_select.append(e)
-                    current_user.zakazes_data_base = zakazes_date_time_select
+                    current_user.zakazes_data_base = copy.deepcopy(zakazes_date_time_select)
+                    for e in zakazes_date_time_select:
+                        for k, v in e.items():
+                            if k == 'date_time':
+                                e[k] = str(v)
+                    request.session['zakaz_list_select'] = zakazes_date_time_select
+            else:
+                if request.GET.get('helper_3') and not request.GET.get('zakaz_sort'):
+                    request.session['helper_4'] = 0
 
             if request.GET.get('product_sort'):
                 if request.GET.get('product_sort') == '0':
@@ -565,6 +577,7 @@ def verification_10(request):
             return redirect('https://football.kulichki.net/')
     date_start = request.GET.get('date_start')
     date_fin = request.GET.get('date_finish')
+    request.session['helper_4'] = 1
     return redirect(f'/account/?helper_3=3&helper_4=1&date_start={date_start}&date_finish={date_fin}')
 
 
