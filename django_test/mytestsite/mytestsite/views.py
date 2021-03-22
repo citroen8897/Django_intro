@@ -581,6 +581,61 @@ def verification_10(request):
     return redirect(f'/account/?helper_3=3&helper_4=1&date_start={date_start}&date_finish={date_fin}')
 
 
+def verification_11(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
+    admin_search = request.GET.get('admin_search')
+    print(admin_search)
+    some_product = product.Product(0, 'nom', 'etre', '0.0', 'kg', '0.0', 'img')
+    some_product.get_products_db()
+    products_data_base = some_product.products_data_base
+    user_login = request.session["login"]
+    user_password = request.session["password"]
+    current_user = user.User(0, 'user_nom', 'user_prenom', user_login,
+                             '0123456789', user_password, 'user', 0, 0)
+    current_user.get_users_db()
+    users_data_base = current_user.users_data_base
+    current_user.get_current_user()
+    current_user.zakazes_data_base = current_user.get_history_des_zakazes()
+    for zakaz in current_user.zakazes_data_base:
+        zakaz['zakaz_basket'] = \
+            current_user.get_full_info_de_zakaz(zakaz['numero_de_zakaz'])
+
+    zakaz_chercher = []
+    product_chercher = []
+    user_chercher = []
+    if admin_search.isdigit():
+        for zakaz in current_user.zakazes_data_base:
+            if int(admin_search) == zakaz['numero_de_zakaz']:
+                zakaz_chercher.append(zakaz)
+        for product_ in products_data_base:
+            if int(admin_search) == product_.product_id:
+                product_chercher.append(product_)
+        for user_ in users_data_base:
+            if user_.telephone in admin_search or \
+                    admin_search in user_.telephone:
+                user_chercher.append(user_)
+    else:
+        for product_ in products_data_base:
+            if product_.nom.lower() in admin_search.lower() or \
+                    admin_search.lower() in product_.nom.lower():
+                product_chercher.append(product_)
+        for user_ in users_data_base:
+            if user_.prenom.lower() in admin_search.lower() or \
+                    user_.telephone in admin_search \
+                    or user_.login.lower() in admin_search.lower() or \
+                    admin_search.lower() in user_.prenom.lower() or \
+                    admin_search in user_.telephone or \
+                    admin_search.lower() in user_.login.lower():
+                user_chercher.append(user_)
+
+    data = {'user_chercher': user_chercher,
+            'product_chercher': product_chercher,
+            'zakaz_chercher': zakaz_chercher}
+    return render(request, "chercher_result.html", context=data)
+
+
 def verification_6(request):
     if request.GET:
         if secur.secur_x(str(request.GET)) == 0:
