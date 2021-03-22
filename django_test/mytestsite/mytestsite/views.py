@@ -586,7 +586,6 @@ def verification_11(request):
         if secur.secur_x(str(request.GET)) == 0:
             return redirect('https://football.kulichki.net/')
     admin_search = request.GET.get('admin_search')
-    print(admin_search)
     some_product = product.Product(0, 'nom', 'etre', '0.0', 'kg', '0.0', 'img')
     some_product.get_products_db()
     products_data_base = some_product.products_data_base
