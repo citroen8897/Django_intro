@@ -123,3 +123,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "/home/predator2508/PycharmProjects/"
+                           "Django_intro/django_test/mytestsite/"
+                           "mytestsite/static"),
+]

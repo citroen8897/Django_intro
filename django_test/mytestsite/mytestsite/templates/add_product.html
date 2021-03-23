@@ -79,7 +79,8 @@
   <body class="text-center">
 
 <main class="form-signin">
-  <form action='/verification_7' method='get'>
+  <form action='/verification_7' method='post' enctype="multipart/form-data">
+      {% csrf_token %}
       <h1 class="h3 mb-3 fw-normal">Данные товара</h1>
       <p>{{ error }}</p>
       <label for="inputNom" class="visually-hidden">Nom</label>
@@ -94,9 +95,10 @@
       <label for="inputPrix" class="visually-hidden">Prix</label>
       <input id="inputPrix" class="form-control" type='text' placeholder='Цена' name='prix' required>
       <br>
-      <label for="inputImg" class="visually-hidden">Img</label>
-      <input id="inputImg" class="form-control" type='text' placeholder='Ссылка на изображение' name='img' required>
-      <br>
+      <label for="inputImg">Загрузите фото товара</label>
+<!--      <input id="inputImg" class="form-control" type='text' placeholder='Ссылка на изображение' name='img' required>-->
+      <input id="inputImg" type="file" name="productImg" required accept="image/*">
+      <br><br>
       <div>
         <select name="status" id="" required>
             <option value="">Выберите статус товара</option>

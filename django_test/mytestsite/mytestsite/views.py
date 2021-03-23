@@ -350,35 +350,44 @@ def add_product(request):
 
 
 def verification_7(request):
-    if request.GET:
-        if secur.secur_x(str(request.GET)) == 0:
+    if request.POST:
+        if secur.secur_x(str(request.POST)) == 0:
             return redirect('https://football.kulichki.net/')
 
-    product_nom = request.GET.get('nom')
+    product_nom = request.POST.get('nom')
     if len(product_nom) == 0:
         product_nom = ''
 
-    product_q_1 = request.GET.get('q_1')
+    product_q_1 = request.POST.get('q_1')
     if re.findall(r'[^0-9.]', str(product_q_1)) or len(product_q_1) == 0:
         product_q_1 = ''
     else:
         product_q_1 = float(product_q_1)
 
-    product_q_2 = request.GET.get('q_2')
+    product_q_2 = request.POST.get('q_2')
     if len(product_q_2) == 0:
         product_q_2 = ''
 
-    product_prix = request.GET.get('prix')
+    product_prix = request.POST.get('prix')
     if re.findall(r'[^0-9.]', str(product_prix)) or len(product_prix) == 0:
         product_prix = ''
     else:
         product_prix = float(product_prix)
 
-    product_img = request.GET.get('img')
-    if len(product_img) == 0:
+    some_product = product.Product(0, 'nom', 'etre', '0.0', 'kg', '0.0', 'img')
+    some_product.get_products_db()
+    last_product_id = some_product.products_data_base[-1].product_id
+    if not request.FILES['productImg']:
         product_img = ''
+    else:
+        product_img = request.FILES['productImg']
+        product_img.name = str(last_product_id + 1)
+        print(product_img.name)
+        with open('mytestsite/static/images/' + product_img.name, 'wb+') as destination:
+            for chunk in request.FILES['productImg'].chunks():
+                destination.write(chunk)
 
-    product_status = request.GET.get('status')
+    product_status = request.POST.get('status')
     if product_status not in ['0', '1', '2', '3', '4']:
         product_status = ''
     else:
@@ -392,7 +401,7 @@ def verification_7(request):
             product_prix != '' and product_img != '' and product_status != '':
         nouveau_product = product.Product(0, product_nom, product_status,
                                           product_q_1, product_q_2,
-                                          product_prix, product_img)
+                                          product_prix, product_img.name)
         nouveau_product.add_product_data_base()
         data = {'error': 'Изменения сохранены'}
         return render(request, "admin_account.html", context=data)
