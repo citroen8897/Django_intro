@@ -204,6 +204,8 @@
             <tr class="table bg-success">
             {% elif item.status_de_zakaz == 'выполнен' %}
             <tr>
+            {% else %}
+            <tr class="table bg-secondary">
             {% endif %}
               <td><a href="/zakaz_card?numero_de_zakaz={{ item.numero_de_zakaz }}">{{ item.numero_de_zakaz }}</a></td>
               <td><a href="/zakaz_card?numero_de_zakaz={{ item.numero_de_zakaz }}">{{ item.date_time|date:"d.m.Y" }}</a></td>

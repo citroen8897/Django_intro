@@ -322,9 +322,10 @@ def account(request):
         total_page_summ = 0
         total_summ_fin = 0
         for zakaz in current_user.zakazes_data_base:
-            total_page_summ += zakaz['summa']
-            if zakaz['status_de_zakaz'] == 'выполнен':
-                total_summ_fin += zakaz['summa']
+            if zakaz['status_de_zakaz'] not in ['отменен', 'отклонен']:
+                total_page_summ += zakaz['summa']
+                if zakaz['status_de_zakaz'] == 'выполнен':
+                    total_summ_fin += zakaz['summa']
         total_page_summ = round(total_page_summ, 2)
         total_summ_fin = round(total_summ_fin, 2)
         data = {'current_user': current_user, 'helper_3': helper_3,
@@ -562,6 +563,18 @@ def verification_9(request):
         current_user.get_current_user()
         current_user.choisir_status_de_zakaz(nouveau_status_zakaz,
                                              current_zakaz_numero)
+        if nouveau_status_zakaz in ['отменен', 'отклонен']:
+            help_info = current_user.get_user_by_numero_de_zakaz(current_zakaz_numero)[0]
+            some_user_id = int(help_info['user_id'])
+            some_user = user.User(some_user_id, 'user_nom', 'user_prenom',
+                                  'user_login',
+                                 '0123456789', 'user_password', 'user', 0, 0)
+            some_user.get_users_db()
+            some_user.get_current_user_id()
+            zakaz_summ = float(help_info['summa'])
+            some_user.choisir_total_summ(zakaz_summ)
+            some_user.total_prix = 0
+            some_user.get_discount()
     data = {'error': 'изменения сохранены'}
     return render(request, "admin_account.html", context=data)
 

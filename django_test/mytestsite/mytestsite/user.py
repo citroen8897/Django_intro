@@ -169,6 +169,8 @@ class User:
             self.discount = 7
         elif 15000 < self.total_summ:
             self.discount = 10
+        else:
+            self.discount = 0
 
         try:
             conn = mysql.connector.connect(user='root',
@@ -290,3 +292,45 @@ class User:
         finally:
             conn.close()
             cursor.close()
+
+    def choisir_total_summ(self, delta):
+        self.total_summ = self.total_summ - delta
+        try:
+            conn = mysql.connector.connect(user='root',
+                                           host='localhost',
+                                           database='mysql')
+
+            if conn.is_connected():
+                new_password = f"UPDATE ASK_market_users SET " \
+                               f"total_summ='{self.total_summ}' " \
+                               f"WHERE id={self.user_id}"
+                cursor = conn.cursor()
+                cursor.execute(new_password)
+                conn.commit()
+        except Error as error:
+            print(error)
+        finally:
+            conn.close()
+            cursor.close()
+
+    def get_user_by_numero_de_zakaz(self, numero_de_zakaz):
+        temp = []
+        try:
+            conn = mysql.connector.connect(user='root',
+                                           host='localhost',
+                                           database='mysql')
+            if conn.is_connected():
+                cursor = conn.cursor()
+                cursor.execute(f"SELECT * FROM ASK_market_billing WHERE "
+                               f"id={numero_de_zakaz}")
+                row = cursor.fetchone()
+                while row is not None:
+                    temp.append({'summa': row[1], 'user_id': row[4]})
+                    row = cursor.fetchone()
+                conn.commit()
+        except Error as error:
+            print(error)
+        finally:
+            conn.close()
+            cursor.close()
+        return temp

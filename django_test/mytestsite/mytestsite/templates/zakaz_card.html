@@ -201,6 +201,7 @@
               </div>
             </div>
           </div>
+          {% if current_zakaz.status_de_zakaz != 'отменен' and current_zakaz.status_de_zakaz != 'отклонен' %}
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingFour">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
@@ -231,6 +232,7 @@
               </div>
             </div>
           </div>
+          {% endif %}
         </div>
     </main>
   </div>
