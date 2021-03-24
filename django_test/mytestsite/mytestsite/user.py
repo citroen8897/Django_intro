@@ -293,8 +293,11 @@ class User:
             conn.close()
             cursor.close()
 
-    def choisir_total_summ(self, delta):
-        self.total_summ = self.total_summ - delta
+    def choisir_total_summ(self, delta, operation):
+        if operation == 0:
+            self.total_summ = self.total_summ - delta
+        else:
+            self.total_summ = self.total_summ + delta
         try:
             conn = mysql.connector.connect(user='root',
                                            host='localhost',

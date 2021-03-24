@@ -39,6 +39,10 @@
         background: #EA2A3D;
       }
 
+      .GREY{
+        background: grey;
+      }
+
       .search{
         width: 50%;
       }
@@ -93,8 +97,12 @@
         <div class="accordion" id="accordionExample">
         {% for item in zakazes_de_current_user %}
         <div class="accordion-item">
-          {% if item.status_de_zakaz != 'выполнен' %}
+          {% if item.status_de_zakaz != 'выполнен' and item.status_de_zakaz != 'отменен' and item.status_de_zakaz != 'отклонен' %}
           <h2 class="accordion-header RED" id="heading_{{ item.numero_de_zakaz }}">
+          {% elif item.status_de_zakaz == 'отменен' %}
+          <h2 class="accordion-header GREY" id="heading_{{ item.numero_de_zakaz }}">
+          {% elif item.status_de_zakaz == 'отклонен' %}
+          <h2 class="accordion-header GREY" id="heading_{{ item.numero_de_zakaz }}">
           {% else %}
           <h2 class="accordion-header" id="heading{{ item.numero_de_zakaz }}">
           {% endif %}

@@ -232,8 +232,19 @@
               </div>
             </div>
           </div>
-          {% endif %}
+          {% else %}
         </div>
+          <br>
+          <h3>Текущий статус заказа: {{ current_zakaz.status_de_zakaz }}</h3>
+          <br>
+          <div style="width: 250px;">
+            <a href="/verification_9?helper_5=1">
+                <button type="button" class="w-100 btn btn-lg btn-primary">
+                    Восстановить заказ
+                </button>
+            </a>
+          </div>
+          {% endif %}
     </main>
   </div>
 </div>

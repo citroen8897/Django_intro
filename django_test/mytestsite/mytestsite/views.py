@@ -543,38 +543,61 @@ def verification_9(request):
         if secur.secur_x(str(request.GET)) == 0:
             return redirect('https://football.kulichki.net/')
     current_zakaz_numero = request.session['numero_de_zakaz']
-    nouveau_status_zakaz = request.GET.get('status')
-    if nouveau_status_zakaz not in ['0', '1', '2', '3', '4', '5', '6']:
-        nouveau_status_zakaz = '0'
-    else:
-        status_dict = {'0': 'в обработке', '1': 'обработан',
-                       '2': 'отправлен',
-                       '3': 'доставлен', '4': 'выполнен',
-                       '5': 'отменен', '6': 'отклонен'}
-        for k, v in status_dict.items():
-            if k == nouveau_status_zakaz:
-                nouveau_status_zakaz = v
-    if nouveau_status_zakaz != '0':
-        user_login = request.session["login"]
-        user_password = request.session["password"]
-        current_user = user.User(0, 'user_nom', 'user_prenom', user_login,
-                                 '0123456789', user_password, 'user', 0, 0)
-        current_user.get_users_db()
-        current_user.get_current_user()
-        current_user.choisir_status_de_zakaz(nouveau_status_zakaz,
-                                             current_zakaz_numero)
-        if nouveau_status_zakaz in ['отменен', 'отклонен']:
-            help_info = current_user.get_user_by_numero_de_zakaz(current_zakaz_numero)[0]
+    if request.GET.get('helper_5'):
+        if request.GET.get('helper_5') == '1':
+            user_login = request.session["login"]
+            user_password = request.session["password"]
+            current_user = user.User(0, 'user_nom', 'user_prenom', user_login,
+                                     '0123456789', user_password, 'user', 0, 0)
+            current_user.get_users_db()
+            current_user.get_current_user()
+            help_info = \
+                current_user.get_user_by_numero_de_zakaz(current_zakaz_numero)[0]
             some_user_id = int(help_info['user_id'])
             some_user = user.User(some_user_id, 'user_nom', 'user_prenom',
                                   'user_login',
-                                 '0123456789', 'user_password', 'user', 0, 0)
+                                  '0123456789', 'user_password', 'user', 0, 0)
             some_user.get_users_db()
             some_user.get_current_user_id()
             zakaz_summ = float(help_info['summa'])
-            some_user.choisir_total_summ(zakaz_summ)
+            some_user.choisir_total_summ(zakaz_summ, 1)
             some_user.total_prix = 0
             some_user.get_discount()
+            current_user.choisir_status_de_zakaz('в обработке',
+                                                 current_zakaz_numero)
+    else:
+        nouveau_status_zakaz = request.GET.get('status')
+        if nouveau_status_zakaz not in ['0', '1', '2', '3', '4', '5', '6']:
+            nouveau_status_zakaz = '0'
+        else:
+            status_dict = {'0': 'в обработке', '1': 'обработан',
+                           '2': 'отправлен',
+                           '3': 'доставлен', '4': 'выполнен',
+                           '5': 'отменен', '6': 'отклонен'}
+            for k, v in status_dict.items():
+                if k == nouveau_status_zakaz:
+                    nouveau_status_zakaz = v
+        if nouveau_status_zakaz != '0':
+            user_login = request.session["login"]
+            user_password = request.session["password"]
+            current_user = user.User(0, 'user_nom', 'user_prenom', user_login,
+                                     '0123456789', user_password, 'user', 0, 0)
+            current_user.get_users_db()
+            current_user.get_current_user()
+            current_user.choisir_status_de_zakaz(nouveau_status_zakaz,
+                                                 current_zakaz_numero)
+            if nouveau_status_zakaz in ['отменен', 'отклонен']:
+                help_info = current_user.get_user_by_numero_de_zakaz(current_zakaz_numero)[0]
+                some_user_id = int(help_info['user_id'])
+                some_user = user.User(some_user_id, 'user_nom', 'user_prenom',
+                                      'user_login',
+                                      '0123456789', 'user_password', 'user', 0, 0)
+                some_user.get_users_db()
+                some_user.get_current_user_id()
+                zakaz_summ = float(help_info['summa'])
+                some_user.choisir_total_summ(zakaz_summ, 0)
+                some_user.total_prix = 0
+                some_user.get_discount()
     data = {'error': 'изменения сохранены'}
     return render(request, "admin_account.html", context=data)
 
