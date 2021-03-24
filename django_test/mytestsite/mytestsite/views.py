@@ -318,9 +318,19 @@ def account(request):
                 elif request.GET.get('user_sort') == '6':
                     current_user.users_data_base.sort(key=lambda user_: user_.total_summ)
                     current_user.users_data_base = current_user.users_data_base[::-1]
+
+        total_page_summ = 0
+        total_summ_fin = 0
+        for zakaz in current_user.zakazes_data_base:
+            total_page_summ += zakaz['summa']
+            if zakaz['status_de_zakaz'] == 'выполнен':
+                total_summ_fin += zakaz['summa']
+        total_page_summ = round(total_page_summ, 2)
+        total_summ_fin = round(total_summ_fin, 2)
         data = {'current_user': current_user, 'helper_3': helper_3,
                 'auth_triger': auth_triger, 'error': error,
-                'products_data_base': products_data_base}
+                'products_data_base': products_data_base,
+                'total_page': total_page_summ, 'total_fin': total_summ_fin}
         return render(request, "admin_account.html", context=data)
 
 
