@@ -151,6 +151,7 @@
               <th><a href="/account/?helper_3=2&user_sort=4">Статус</a></th>
               <th><a href="/account/?helper_3=2&user_sort=5">Скидка</a></th>
               <th><a href="/account/?helper_3=2&user_sort=6">Тотал аккаунта</a></th>
+              <th><a href="/account/?helper_3=2&user_sort=7">Дата регистрации</a></th>
             </tr>
           </thead>
           <tbody>
@@ -168,6 +169,7 @@
               <td><a href="/user_card?user_id={{ item.user_id }}">{{ item.status }}</a></td>
               <td><a href="/user_card?user_id={{ item.user_id }}">{{ item.discount }}%</a></td>
               <td><a href="/user_card?user_id={{ item.user_id }}">{{ item.total_summ }} грн.</a></td>
+              <td><a href="/user_card?user_id={{ item.user_id }}">{{ item.reg_date|date:"d.m.Y" }}</a></td>
             </tr>
             {% endfor %}
           </tbody>

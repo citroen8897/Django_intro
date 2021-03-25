@@ -115,7 +115,8 @@ def verification(request):
         request.session["nom"] = user_nom
         request.session["prenom"] = user_prenom
         current_user = user.User(0, user_nom, user_prenom, user_login,
-                                 user_telephone, user_password, 'user', 0, 0)
+                                 user_telephone, user_password, 'user', 0, 0,
+                                 0)
         current_user.get_users_db()
         if current_user.login not in \
                [element.login for element in current_user.users_data_base] \
@@ -153,7 +154,7 @@ def verification_2(request):
 
     if user_login != '' and user_password != '':
         current_user = user.User(0, 'user_nom', 'user_prenom', user_login,
-                                 '0123456789', user_password, 'user', 0, 0)
+                                 '0123456789', user_password, 'user', 0, 0, 0)
         current_user.get_users_db()
         current_user.get_current_user()
         if current_user.user_id != 0:
@@ -196,7 +197,7 @@ def account(request):
     user_login = request.session["login"]
     user_password = request.session["password"]
     current_user = user.User(0, 'user_nom', 'user_prenom', user_login,
-                             '0123456789', user_password, 'user', 0, 0)
+                             '0123456789', user_password, 'user', 0, 0, 0)
     current_user.get_users_db()
     current_user.get_current_user()
     auth_triger = request.session["auth_triger"]
@@ -321,6 +322,8 @@ def account(request):
                 elif request.GET.get('user_sort') == '6':
                     current_user.users_data_base.sort(key=lambda user_: user_.total_summ)
                     current_user.users_data_base = current_user.users_data_base[::-1]
+                elif request.GET.get('user_sort') == '7':
+                    current_user.users_data_base.sort(key=lambda user_: user_.reg_date)
 
         total_page_summ = 0
         total_summ_fin = 0
@@ -523,7 +526,7 @@ def zakaz_card(request):
         # t['tovar_prix'] = current_product.prix
         current_user = user.User(t['client_id'], 'user_nom', 'user_prenom',
                                  'user_login',
-                                 '0123456789', 'user_password', 'user', 0, 0)
+                                 '0123456789', 'user_password', 'user', 0, 0, 0)
         current_user.get_users_db()
         current_user.get_current_user_id()
         t['client_info'] = current_user
@@ -550,7 +553,8 @@ def verification_9(request):
             user_login = request.session["login"]
             user_password = request.session["password"]
             current_user = user.User(0, 'user_nom', 'user_prenom', user_login,
-                                     '0123456789', user_password, 'user', 0, 0)
+                                     '0123456789', user_password, 'user', 0, 0,
+                                     0)
             current_user.get_users_db()
             current_user.get_current_user()
             help_info = \
@@ -558,7 +562,8 @@ def verification_9(request):
             some_user_id = int(help_info['user_id'])
             some_user = user.User(some_user_id, 'user_nom', 'user_prenom',
                                   'user_login',
-                                  '0123456789', 'user_password', 'user', 0, 0)
+                                  '0123456789', 'user_password', 'user', 0, 0,
+                                  0)
             some_user.get_users_db()
             some_user.get_current_user_id()
             zakaz_summ = float(help_info['summa'])
@@ -583,7 +588,8 @@ def verification_9(request):
             user_login = request.session["login"]
             user_password = request.session["password"]
             current_user = user.User(0, 'user_nom', 'user_prenom', user_login,
-                                     '0123456789', user_password, 'user', 0, 0)
+                                     '0123456789', user_password, 'user', 0, 0,
+                                     0)
             current_user.get_users_db()
             current_user.get_current_user()
             current_user.choisir_status_de_zakaz(nouveau_status_zakaz,
@@ -593,7 +599,7 @@ def verification_9(request):
                 some_user_id = int(help_info['user_id'])
                 some_user = user.User(some_user_id, 'user_nom', 'user_prenom',
                                       'user_login',
-                                      '0123456789', 'user_password', 'user', 0, 0)
+                                      '0123456789', 'user_password', 'user', 0, 0, 0)
                 some_user.get_users_db()
                 some_user.get_current_user_id()
                 zakaz_summ = float(help_info['summa'])
@@ -611,7 +617,7 @@ def user_card(request):
     user_id = request.GET.get('user_id')
     some_user = user.User(int(user_id), 'user_nom', 'user_prenom',
                           'user_login', '0123456789', 'user_password', 'user',
-                          0, 0)
+                          0, 0, 0)
     some_user.get_users_db()
     some_user.get_current_user_id()
     zakazes_data_base = copy.deepcopy(request.session['zakazes'])
@@ -649,7 +655,7 @@ def verification_11(request):
     user_login = request.session["login"]
     user_password = request.session["password"]
     current_user = user.User(0, 'user_nom', 'user_prenom', user_login,
-                             '0123456789', user_password, 'user', 0, 0)
+                             '0123456789', user_password, 'user', 0, 0, 0)
     current_user.get_users_db()
     users_data_base = current_user.users_data_base
     current_user.get_current_user()
@@ -699,7 +705,7 @@ def verification_12(request):
     user_login = request.session["login"]
     user_password = request.session["password"]
     current_user = user.User(0, 'user_nom', 'user_prenom', user_login,
-                             '0123456789', user_password, 'user', 0, 0)
+                             '0123456789', user_password, 'user', 0, 0, 0)
     current_user.get_users_db()
     current_user.get_current_user()
     helper_6 = request.GET.get('helper_6')
@@ -729,7 +735,7 @@ def verification_6(request):
         user_password = user_password_old
         user_login = request.session["login"]
         current_user = user.User(0, 'user_nom', 'user_prenom', user_login,
-                                 '0123456789', user_password, 'user', 0, 0)
+                                 '0123456789', user_password, 'user', 0, 0, 0)
         current_user.get_users_db()
         current_user.get_current_user()
         if current_user.user_id == 0:
@@ -1066,7 +1072,8 @@ def felicitation(request):
                              request.session["password"],
                              'user',
                              request.session["discount"],
-                             request.session["total_summ"])
+                             request.session["total_summ"],
+                             0)
     current_user.total_prix = request.session["basket_total_prix"]
     current_user.total_prix = round(current_user.total_prix, 2)
     current_user.delivery_type = request.session["delivery_type"]

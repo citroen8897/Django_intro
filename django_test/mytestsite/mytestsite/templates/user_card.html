@@ -95,6 +95,7 @@
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <h1>Карточка клиента: {{ some_user.prenom }} {{ some_user.nom }}</h1>
         <br><br>
+        <h3>Дата регистрации: {{ some_user.reg_date|date:"d.m.Y" }}</h3>
         <h3>Статус пользователя: {{ some_user.status }}</h3>
         <h3>История заказов пользователя:</h3>
         <div class="accordion" id="accordionExample">

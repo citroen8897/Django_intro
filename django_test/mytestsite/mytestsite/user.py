@@ -4,7 +4,7 @@ from mysql.connector import Error
 
 class User:
     def __init__(self, user_id, nom, prenom, login, telephone, password,
-                 status, discount, total_summ):
+                 status, discount, total_summ, reg_date):
         self.user_id = user_id
         self.nom = nom
         self.prenom = prenom
@@ -14,6 +14,7 @@ class User:
         self.status = status
         self.discount = discount
         self.total_summ = total_summ
+        self.reg_date = reg_date
         self.users_data_base = []
 
     def add_user_database(self):
@@ -55,7 +56,8 @@ class User:
                 while row is not None:
                     self.users_data_base.append(User(row[0], row[4], row[5],
                                                      row[1], row[2], row[3],
-                                                     row[6], row[7], row[8]))
+                                                     row[6], row[7], row[8],
+                                                     row[9]))
                     row = cursor.fetchone()
                 conn.commit()
         except Error as error:
@@ -76,6 +78,7 @@ class User:
                 self.status = person.status
                 self.discount = person.discount
                 self.total_summ = person.total_summ
+                self.reg_date = person.reg_date
 
     def get_current_user_id(self):
         for person in self.users_data_base:
@@ -89,6 +92,7 @@ class User:
                 self.status = person.status
                 self.discount = person.discount
                 self.total_summ = person.total_summ
+                self.reg_date = person.reg_date
 
     def make_zakaz(self):
         try:
@@ -179,9 +183,11 @@ class User:
 
             if conn.is_connected():
                 discount = f"UPDATE ASK_market_users SET " \
-                           f"discount={self.discount} WHERE id={self.user_id}"
+                           f"discount={self.discount}, datetime=datetime " \
+                           f"WHERE id={self.user_id}"
                 total_summ = f"UPDATE ASK_market_users SET " \
-                             f"total_summ={self.total_summ} " \
+                             f"total_summ={self.total_summ}, " \
+                             f"datetime=datetime " \
                              f"WHERE id={self.user_id}"
                 cursor = conn.cursor()
                 cursor.execute(discount)
@@ -201,7 +207,8 @@ class User:
 
             if conn.is_connected():
                 new_password = f"UPDATE ASK_market_users SET " \
-                               f"password='{self.password}' " \
+                               f"password='{self.password}', " \
+                               f"datetime=datetime " \
                                f"WHERE id={self.user_id}"
                 cursor = conn.cursor()
                 cursor.execute(new_password)
@@ -280,12 +287,12 @@ class User:
                                            database='mysql')
 
             if conn.is_connected():
-                new_password = f"UPDATE ASK_market_billing SET " \
+                new_status = f"UPDATE ASK_market_billing SET " \
                                f"status='{nouveau_status}', " \
                                f"datetime=datetime " \
                                f"WHERE id={numero_de_zakaz}"
                 cursor = conn.cursor()
-                cursor.execute(new_password)
+                cursor.execute(new_status)
                 conn.commit()
         except Error as error:
             print(error)
@@ -304,11 +311,12 @@ class User:
                                            database='mysql')
 
             if conn.is_connected():
-                new_password = f"UPDATE ASK_market_users SET " \
-                               f"total_summ='{self.total_summ}' " \
+                new_summ = f"UPDATE ASK_market_users SET " \
+                               f"total_summ='{self.total_summ}', " \
+                               f"datetime=datetime " \
                                f"WHERE id={self.user_id}"
                 cursor = conn.cursor()
-                cursor.execute(new_password)
+                cursor.execute(new_summ)
                 conn.commit()
         except Error as error:
             print(error)
@@ -345,12 +353,12 @@ class User:
                                            database='mysql')
 
             if conn.is_connected():
-                new_password = f"UPDATE ASK_market_users SET " \
+                new_status = f"UPDATE ASK_market_users SET " \
                                f"status='{nouveau_status}', " \
                                f"datetime=datetime " \
                                f"WHERE id={some_user_id}"
                 cursor = conn.cursor()
-                cursor.execute(new_password)
+                cursor.execute(new_status)
                 conn.commit()
         except Error as error:
             print(error)
