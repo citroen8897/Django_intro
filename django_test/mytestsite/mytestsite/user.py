@@ -337,3 +337,23 @@ class User:
             conn.close()
             cursor.close()
         return temp
+
+    def choisir_status_de_user(self, nouveau_status, some_user_id):
+        try:
+            conn = mysql.connector.connect(user='root',
+                                           host='localhost',
+                                           database='mysql')
+
+            if conn.is_connected():
+                new_password = f"UPDATE ASK_market_users SET " \
+                               f"status='{nouveau_status}', " \
+                               f"datetime=datetime " \
+                               f"WHERE id={some_user_id}"
+                cursor = conn.cursor()
+                cursor.execute(new_password)
+                conn.commit()
+        except Error as error:
+            print(error)
+        finally:
+            conn.close()
+            cursor.close()

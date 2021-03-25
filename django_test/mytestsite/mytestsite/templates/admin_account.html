@@ -140,7 +140,7 @@
       {% elif helper_3 == 2 %}
       <h2>Картотека пользователей</h2>
       <div class="table-responsive">
-        <table class="table table-striped table-sm">
+        <table class="table table-sm">
           <thead>
             <tr>
               <th><a href="/account/?helper_3=2&user_sort=0">id</a></th>
@@ -155,7 +155,11 @@
           </thead>
           <tbody>
             {% for item in current_user.users_data_base %}
+            {% if item.status == 'disabled' %}
+            <tr class="table bg-danger">
+            {% else %}
             <tr>
+            {% endif %}
               <td><a href="/user_card?user_id={{ item.user_id }}">{{ item.user_id }}</a></td>
               <td><a href="/user_card?user_id={{ item.user_id }}">{{ item.prenom }}</a></td>
               <td><a href="/user_card?user_id={{ item.user_id }}">{{ item.nom }}</a></td>

@@ -94,6 +94,9 @@
     </nav>
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <h1>Карточка клиента: {{ some_user.prenom }} {{ some_user.nom }}</h1>
+        <br><br>
+        <h3>Статус пользователя: {{ some_user.status }}</h3>
+        <h3>История заказов пользователя:</h3>
         <div class="accordion" id="accordionExample">
         {% for item in zakazes_de_current_user %}
         <div class="accordion-item">
@@ -140,6 +143,25 @@
         </div>
         {% endfor %}
       </div>
+      <br><br>
+        {% if some_user.status != 'disabled' %}
+          <div style="width: 250px;">
+            <a href="/verification_12?helper_6=0&user_id={{ some_user.user_id }}">
+                <button type="button" class="w-100 btn btn-lg btn-primary">
+                    Заблокировать пользователя
+                </button>
+            </a>
+          </div>
+        {% else %}
+        <div style="width: 250px;">
+            <a href="/verification_12?helper_6=1&user_id={{ some_user.user_id }}">
+                <button type="button" class="w-100 btn btn-lg btn-primary">
+                    Разблокировать пользователя
+                </button>
+            </a>
+          </div>
+        {% endif %}
+        <br><br>
     </main>
   </div>
 </div>

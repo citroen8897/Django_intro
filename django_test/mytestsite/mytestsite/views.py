@@ -163,9 +163,12 @@ def verification_2(request):
             request.session["password"] = current_user.password
             request.session["nom"] = current_user.nom
             request.session["prenom"] = current_user.prenom
+            request.session["status_user"] = current_user.status
             request.session["auth_triger"] = 1
             request.session["discount"] = current_user.discount
             request.session["total_summ"] = current_user.total_summ
+            if current_user.status == 'disabled':
+                return redirect('https://football.kulichki.net/')
             if request.session.get("helper_1") is None:
                 return redirect('/account')
             else:
@@ -210,7 +213,7 @@ def account(request):
                     key=lambda zakaz_: zakaz_['date_time'])
                 current_user.zakazes_data_base = current_user.zakazes_data_base[
                                                  ::-1]
-    if current_user.status == 'user':
+    if current_user.status in ['user', 'disabled']:
         data = {'current_user': current_user, 'helper_2': helper_2,
                 'auth_triger': auth_triger, 'error': error,
                 'basket': request.session["_basket_"]}
@@ -393,7 +396,6 @@ def verification_7(request):
     else:
         product_img = request.FILES['productImg']
         product_img.name = str(last_product_id + 1)
-        print(product_img.name)
         with open('mytestsite/static/images/' + product_img.name, 'wb+') as destination:
             for chunk in request.FILES['productImg'].chunks():
                 destination.write(chunk)
@@ -690,6 +692,26 @@ def verification_11(request):
     return render(request, "chercher_result.html", context=data)
 
 
+def verification_12(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
+    user_login = request.session["login"]
+    user_password = request.session["password"]
+    current_user = user.User(0, 'user_nom', 'user_prenom', user_login,
+                             '0123456789', user_password, 'user', 0, 0)
+    current_user.get_users_db()
+    current_user.get_current_user()
+    helper_6 = request.GET.get('helper_6')
+    some_user_id = request.GET.get('user_id')
+    if helper_6 == '0':
+        current_user.choisir_status_de_user('disabled', int(some_user_id))
+    elif helper_6 == '1':
+        current_user.choisir_status_de_user('user', int(some_user_id))
+    data = {'error': 'изменения сохранены'}
+    return render(request, "admin_account.html", context=data)
+
+
 def verification_6(request):
     if request.GET:
         if secur.secur_x(str(request.GET)) == 0:
@@ -893,6 +915,14 @@ def finir_acheter_1(request):
 
 
 def delivery_type(request):
+    if request.session.get("auth_triger") is None:
+        request.session["auth_triger"] = 0
+    if request.session.get("_basket_") is None:
+        request.session["_basket_"] = []
+    if request.session["auth_triger"] == 0 or len(request.session["_basket_"]) == 0:
+        return redirect('https://football.kulichki.net/')
+    if request.session["status_user"] == 'disabled':
+        return redirect('https://football.kulichki.net/')
     if request.GET:
         if secur.secur_x(str(request.GET)) == 0:
             return redirect('https://football.kulichki.net/')
@@ -923,6 +953,14 @@ def verification_3(request):
 
 
 def delivery_info(request):
+    if request.session.get("auth_triger") is None:
+        request.session["auth_triger"] = 0
+    if request.session.get("_basket_") is None:
+        request.session["_basket_"] = []
+    if request.session["auth_triger"] == 0 or len(request.session["_basket_"]) == 0:
+        return redirect('https://football.kulichki.net/')
+    if request.session["status_user"] == 'disabled':
+        return redirect('https://football.kulichki.net/')
     if request.GET:
         if secur.secur_x(str(request.GET)) == 0:
             return redirect('https://football.kulichki.net/')
@@ -971,9 +1009,18 @@ def verification_4(request):
 
 
 def pay_type(request):
+    if request.session.get("auth_triger") is None:
+        request.session["auth_triger"] = 0
+    if request.session.get("_basket_") is None:
+        request.session["_basket_"] = []
+    if request.session["auth_triger"] == 0 or len(request.session["_basket_"]) == 0:
+        return redirect('https://football.kulichki.net/')
+    if request.session["status_user"] == 'disabled':
+        return redirect('https://football.kulichki.net/')
     if request.GET:
         if secur.secur_x(str(request.GET)) == 0:
             return redirect('https://football.kulichki.net/')
+
     error_dict = {'NonPayType': 'Способ оплаты не выбран!'}
     error = ''
     if request.GET.get('error'):
@@ -998,6 +1045,19 @@ def verification_5(request):
 
 
 def felicitation(request):
+    if request.session.get("auth_triger") is None:
+        request.session["auth_triger"] = 0
+    if request.session.get("_basket_") is None:
+        request.session["_basket_"] = []
+    if request.session["auth_triger"] == 0 or len(
+            request.session["_basket_"]) == 0:
+        return redirect('https://football.kulichki.net/')
+    if request.session["status_user"] == 'disabled':
+        return redirect('https://football.kulichki.net/')
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
+
     current_user = user.User(request.session["user_id"],
                              request.session["nom"],
                              request.session["prenom"],
