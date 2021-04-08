@@ -29,7 +29,7 @@ class ProductTelegram(models.Model):
     category = models.CharField(max_length=75)
 
 
-class UserTelegram(models.Model):
+class UserTelegramTable(models.Model):
     login = models.CharField(max_length=50)
     password = models.CharField(max_length=20)
     nom = models.CharField(max_length=20)
@@ -41,3 +41,6 @@ class UserTelegram(models.Model):
     def publish(self):
         self.published_date = timezone.now()
         self.save()
+
+    def __str__(self):
+        return self.login
