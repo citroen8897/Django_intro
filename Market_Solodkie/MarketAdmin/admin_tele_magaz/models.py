@@ -22,11 +22,14 @@ class Post(models.Model):
 
 
 class ProductTelegramTable(models.Model):
-    nom = models.CharField(max_length=100)
-    quantity = models.CharField(max_length=20)
-    numero_quantity = models.FloatField()
-    prix = models.FloatField()
     category = models.CharField(max_length=75)
+    nom = models.CharField(max_length=100)
+    etre = models.CharField(max_length=25)
+    quantity = models.CharField(max_length=35)
+    prix = models.FloatField()
+    img = models.CharField(max_length=25)
+    author = models.CharField(max_length=75)
+    published_date = models.DateTimeField(default=timezone.now)
 
 
 class UserTelegramTable(models.Model):
@@ -35,12 +38,9 @@ class UserTelegramTable(models.Model):
     nom = models.CharField(max_length=20)
     prenom = models.CharField(max_length=20)
     telephone = models.CharField(max_length=13)
-    # created_date = models.DateTimeField(default=timezone.now)
-    published_date = models.DateTimeField(blank=True, null=True)
+    published_date = models.DateTimeField(default=timezone.now)
 
-    def publish(self):
-        self.published_date = timezone.now()
-        self.save()
 
-    def __str__(self):
-        return self.login
+class ProductCategoryTable(models.Model):
+    nom = models.CharField(max_length=20)
+    published_date = models.DateTimeField(default=timezone.now)

@@ -21,5 +21,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('authorization_solodkie', views.authorization_solodkie),
     path('registration_solodkie', views.registration_solodkie),
-    path('account_solodkie', views.account_solodkie)
+    path('account_solodkie', views.account_solodkie),
+    path('log_out/', views.log_out),
+    path('add_product', views.add_product),
+    path('add_category', views.add_category),
+    path('verification_category', views.verification_category),
+    path('verification_product', views.verification_product)
 ]

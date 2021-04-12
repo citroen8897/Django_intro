@@ -47,7 +47,7 @@
   <body>
 
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/price_list_1/">ASK</a>
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3">Маркет Солодких</a>
   <button class="navbar-toggler d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -67,21 +67,21 @@
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/account?helper_3=1">
+            <a class="nav-link active" aria-current="page" href="/account_solodkie?helper_3=1">
               <span data-feather="home"></span>
               Товары
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/account?helper_3=2">
+            <a class="nav-link" href="/account_solodkie?helper_3=2">
               <span data-feather="file"></span>
               Пользователи
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/account?helper_3=3">
-              <span data-feather="shopping-cart"></span>
-              Заказы
+            <a class="nav-link" href="/account_solodkie?helper_3=3">
+              <span data-feather="file"></span>
+              Категории товаров
             </a>
           </li>
         </ul>
@@ -98,10 +98,13 @@
             <tr>
               <th><a href="/account/?helper_3=1&product_sort=0">Артикул</a></th>
               <th><a href="/account/?helper_3=1&product_sort=1">Название</a></th>
-              <th><a href="/account/?helper_3=1&product_sort=2">Наличие</a></th>
-              <th>Кол-во</th>
-              <th>Ед. товара</th>
+              <th><a href="/account/?helper_3=1&product_sort=2">Количество</a></th>
               <th><a href="/account/?helper_3=1&product_sort=3">Цена</a></th>
+              <th><a href="/account/?helper_3=1&product_sort=4">Категория</a></th>
+              <th><a href="/account/?helper_3=1&product_sort=5">Наличие</a></th>
+              <th><a href="/account/?helper_3=1&product_sort=6">Изображение</a></th>
+              <th><a href="/account/?helper_3=1&product_sort=7">Автор</a></th>
+              <th><a href="/account/?helper_3=1&product_sort=8">Дата</a></th>
             </tr>
           </thead>
           <tbody>
@@ -117,12 +120,15 @@
             {% else %}
             <tr>
             {% endif %}
-              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.product_id }}</a></td>
+              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.id }}</a></td>
               <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.nom }}</a></td>
-              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.etre }}</a></td>
-              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.q_1 }}</a></td>
-              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.q_2 }}</a></td>
+              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.quantity }}</a></td>
               <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.prix }} грн.</a></td>
+              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.category }}</a></td>
+              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.etre }}</a></td>
+              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.img }}</a></td>
+              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.author }}</a></td>
+              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.published_date|date:"d.m.Y H:i" }}</a></td>
             </tr>
             {% endfor %}
           </tbody>
@@ -143,90 +149,54 @@
         <table class="table table-sm">
           <thead>
             <tr>
-              <th><a href="/account/?helper_3=2&user_sort=0">id</a></th>
-              <th><a href="/account/?helper_3=2&user_sort=1">Фамилия</a></th>
-              <th><a href="/account/?helper_3=2&user_sort=2">Имя</a></th>
-              <th><a href="/account/?helper_3=2&user_sort=3">Логин</a></th>
+              <th>id</th>
+              <th>Фамилия</th>
+              <th>Имя</th>
+              <th>Логин</th>
               <th>Телефон</th>
-              <th><a href="/account/?helper_3=2&user_sort=4">Статус</a></th>
-              <th><a href="/account/?helper_3=2&user_sort=5">Скидка</a></th>
-              <th><a href="/account/?helper_3=2&user_sort=6">Тотал аккаунта</a></th>
-              <th><a href="/account/?helper_3=2&user_sort=7">Дата регистрации</a></th>
+              <th>Дата регистрации</th>
             </tr>
           </thead>
           <tbody>
             {% for item in current_user.users_data_base %}
-            {% if item.status == 'disabled' %}
-            <tr class="table bg-danger">
-            {% else %}
             <tr>
-            {% endif %}
-              <td><a href="/user_card?user_id={{ item.user_id }}">{{ item.user_id }}</a></td>
-              <td><a href="/user_card?user_id={{ item.user_id }}">{{ item.prenom }}</a></td>
-              <td><a href="/user_card?user_id={{ item.user_id }}">{{ item.nom }}</a></td>
-              <td><a href="/user_card?user_id={{ item.user_id }}">{{ item.login }}</a></td>
-              <td><a href="/user_card?user_id={{ item.user_id }}">{{ item.telephone }}</a></td>
-              <td><a href="/user_card?user_id={{ item.user_id }}">{{ item.status }}</a></td>
-              <td><a href="/user_card?user_id={{ item.user_id }}">{{ item.discount }}%</a></td>
-              <td><a href="/user_card?user_id={{ item.user_id }}">{{ item.total_summ }} грн.</a></td>
-              <td><a href="/user_card?user_id={{ item.user_id }}">{{ item.reg_date|date:"d.m.Y" }}</a></td>
+              <td>{{ item.user_id }}</td>
+              <td>{{ item.prenom }}</td>
+              <td>{{ item.nom }}</td>
+              <td>{{ item.login }}</td>
+              <td>{{ item.telephone }}</td>
+              <td>{{ item.reg_date }}</td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
       </div>
-
       {% elif helper_3 == 3 %}
-      <h2>Картотека заказов</h2>
-      <br>
-      <form class="dateForm" action='/verification_10' method='get'>
-        <div><input type="date" class="form-control" id="dateStart" name="date_start" required></div>
-        <div><input type="date" class="form-control" id="dateFinish" name="date_finish" required></div>
-        <div><button class="w-100 btn btn-md btn-primary" type="submit">Выбрать</button></div>
-      </form>
-      <br>
+      <h2>Картотека категорий товаров</h2>
       <div class="table-responsive">
         <table class="table table-sm">
           <thead>
             <tr>
-              <th><a href="/account/?helper_3=3&zakaz_sort=0">№</a></th>
-              <th><a href="/account/?helper_3=3&zakaz_sort=1">datetime</a></th>
-              <th><a href="/account/?helper_3=3&zakaz_sort=2">Сумма</a></th>
-              <th><a href="/account/?helper_3=3&zakaz_sort=3">Статус</a></th>
-              <th><a href="/account/?helper_3=3&zakaz_sort=4">id_user</a></th>
-              <th><a href="/account/?helper_3=3&zakaz_sort=5">Доставка</a></th>
-              <th><a href="/account/?helper_3=3&zakaz_sort=6">Оплата</a></th>
+              <th>Название</th>
             </tr>
           </thead>
           <tbody>
-            {% for item in current_user.zakazes_data_base %}
-            {% if item.status_de_zakaz == 'в обработке' %}
-            <tr class="table bg-danger">
-            {% elif item.status_de_zakaz == 'обработан' %}
-            <tr class="table bg-warning">
-            {% elif item.status_de_zakaz == 'отправлен' %}
-            <tr class="table bg-info">
-            {% elif item.status_de_zakaz == 'доставлен' %}
-            <tr class="table bg-success">
-            {% elif item.status_de_zakaz == 'выполнен' %}
+            {% for item in categories %}
             <tr>
-            {% else %}
-            <tr class="table bg-secondary">
-            {% endif %}
-              <td><a href="/zakaz_card?numero_de_zakaz={{ item.numero_de_zakaz }}">{{ item.numero_de_zakaz }}</a></td>
-              <td><a href="/zakaz_card?numero_de_zakaz={{ item.numero_de_zakaz }}">{{ item.date_time|date:"d.m.Y" }}</a></td>
-              <td><a href="/zakaz_card?numero_de_zakaz={{ item.numero_de_zakaz }}">{{ item.summa }}</a></td>
-              <td><a href="/zakaz_card?numero_de_zakaz={{ item.numero_de_zakaz }}">{{ item.status_de_zakaz }}</a></td>
-              <td><a href="/zakaz_card?numero_de_zakaz={{ item.numero_de_zakaz }}">{{ item.id_user }}</a></td>
-              <td><a href="/zakaz_card?numero_de_zakaz={{ item.numero_de_zakaz }}">{{ item.delivery_type }}</a></td>
-              <td><a href="/zakaz_card?numero_de_zakaz={{ item.numero_de_zakaz }}">{{ item.pay_type }}</a></td>
+              <td><a href="category_card">{{ item.nom }}</a></td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
       </div>
-      <h4>Общая сумма подтвержденных заказов: {{ total_page }} грн.</h4>
-      <h4>Общая сумма выполненных заказов: {{ total_fin }} грн.</h4>
+      <br><br><br>
+      <div style="width: 250px;">
+          <a href="/add_category">
+              <button type="button" class="w-100 btn btn-lg btn-primary">
+                  Добавить категорию
+              </button>
+          </a>
+      </div>
       {% endif %}
     </main>
   </div>
