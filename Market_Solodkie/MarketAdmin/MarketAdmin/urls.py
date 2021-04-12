@@ -26,5 +26,8 @@ urlpatterns = [
     path('add_product', views.add_product),
     path('add_category', views.add_category),
     path('verification_category', views.verification_category),
-    path('verification_product', views.verification_product)
+    path('verification_product', views.verification_product),
+    path('category_card', views.category_card),
+    path('chansir_category_nom', views.chansir_category_nom),
+    path('delete_category', views.delete_category)
 ]

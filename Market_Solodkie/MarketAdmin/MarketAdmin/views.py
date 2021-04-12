@@ -7,6 +7,7 @@ from . import secur
 from .forms import AuthForm, RegForm
 from . import user_telegram
 from admin_tele_magaz.models import ProductCategoryTable
+from admin_tele_magaz.models import ProductTelegramTable
 from . import product_telegram
 
 
@@ -296,4 +297,43 @@ def verification_category(request):
         data = {'error': 'Изменения сохранены'}
         return render(request, "account_telegram.html", context=data)
     else:
-        return redirect(f'/add_category?error=category_nom')
+        return redirect('/add_category?error=category_nom')
+
+
+def category_card(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
+    category_nom = request.GET.get('category_nom')
+    request.session["category_nom"] = category_nom
+    data = {'category_nom': category_nom}
+    return render(request, "category_card.html", context=data)
+
+
+def chansir_category_nom(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
+    categories_list = request.session["categories"]
+    if len(request.GET.get('nom')) != 0 and \
+            (request.GET.get('nom')).title() not in categories_list:
+        category_nom_nouveau = request.GET.get('nom')
+        category_nom_old = request.session["category_nom"]
+        ProductCategoryTable.objects.filter(nom=category_nom_old).update(nom=category_nom_nouveau.title())
+        ProductTelegramTable.objects.filter(category=category_nom_old).update(category=category_nom_nouveau.title())
+        data = {'error': 'Изменения сохранены'}
+        return render(request, "account_telegram.html", context=data)
+    else:
+        data = {'error': 'Некорректно или дубликат! Изменения не сохранены!'}
+        return render(request, "account_telegram.html", context=data)
+
+
+def delete_category(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
+    category_nom = request.session["category_nom"]
+    ProductCategoryTable.objects.filter(nom=category_nom).delete()
+    ProductTelegramTable.objects.filter(category=category_nom).delete()
+    data = {'error': 'Изменения сохранены'}
+    return render(request, "account_telegram.html", context=data)

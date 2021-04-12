@@ -183,7 +183,7 @@
           <tbody>
             {% for item in categories %}
             <tr>
-              <td><a href="category_card">{{ item.nom }}</a></td>
+              <td><a href="category_card?category_nom={{ item.nom }}">{{ item.nom }}</a></td>
             </tr>
             {% endfor %}
           </tbody>
