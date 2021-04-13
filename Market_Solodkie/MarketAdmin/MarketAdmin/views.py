@@ -167,7 +167,7 @@ def add_product(request):
     error_dict = {'product_nom': 'Некорректное название!',
                   'product_quantity': 'Некорректная единица товара!',
                   'product_prix': 'Некорректная цена!',
-                  'product_img': 'Некорректная ссылка!',
+                  'product_img': 'Некорректное изображение!',
                   'product_status': 'Некорректный статус!',
                   'product_category': 'Некорректная категория!'}
     error = ''
@@ -211,7 +211,7 @@ def verification_product(request):
         last_product_id = some_product.products_data_base[::-1][0].id
     else:
         last_product_id = 0
-    if not request.FILES['productImg']:
+    if not request.FILES:
         product_img = ''
     else:
         product_img = request.FILES['productImg']
@@ -335,5 +335,109 @@ def delete_category(request):
     category_nom = request.session["category_nom"]
     ProductCategoryTable.objects.filter(nom=category_nom).delete()
     ProductTelegramTable.objects.filter(category=category_nom).delete()
+    data = {'error': 'Изменения сохранены'}
+    return render(request, "account_telegram.html", context=data)
+
+
+def product_card(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
+    product_id = request.GET.get('product_id')
+    request.session["product_id"] = product_id
+    current_product = ProductTelegramTable.objects.filter(id=product_id)
+    categories_list = request.session["categories"]
+    categories_list_mod = []
+    for element in categories_list:
+        categories_list_mod.append({
+            'cat': [categories_list.index(element), element]})
+    data = {'categories': categories_list_mod,
+            'current_product': current_product}
+    return render(request, "product_card.html", context=data)
+
+
+def verification_product_card(request):
+    if request.POST:
+        if secur.secur_x(str(request.POST)) == 0:
+            return redirect('https://football.kulichki.net/')
+
+    product_id = request.session["product_id"]
+
+    product_nom = request.POST.get('nom')
+    if len(product_nom) == 0:
+        product_nom = ''
+
+    product_quantity = request.POST.get('quantity')
+    if len(product_quantity) == 0:
+        product_quantity = ''
+
+    product_prix = request.POST.get('prix')
+    if re.findall(r'[^0-9.]', str(product_prix)) or len(product_prix) == 0:
+        product_prix = ''
+    else:
+        product_prix = float(product_prix)
+
+    if not request.FILES:
+        product_img = ''
+    else:
+        current_product = ProductTelegramTable.objects.filter(id=product_id)
+        product_img = request.FILES['productImg']
+        product_img.name = current_product[0].img
+        with open('MarketAdmin/static/images/' + product_img.name, 'wb+') as \
+                destination:
+            for chunk in request.FILES['productImg'].chunks():
+                destination.write(chunk)
+
+    product_etre = request.POST.get('etre')
+    if product_etre not in ['0', '1', '2', '3', '4']:
+        product_etre = ''
+    else:
+        status_dict = {'0': 'в наличии', '1': 'нет в наличии',
+                       '2': 'ожидается',
+                       '3': 'под заказ', '4': 'снят с производства'}
+        for k, v in status_dict.items():
+            if k == product_etre:
+                product_etre = v
+
+    product_category = request.POST.get('category')
+    categories_list = request.session["categories"]
+    categories_dict = {}
+    i = 0
+    for j in categories_list:
+        categories_dict[str(i)] = j
+        i += 1
+    for k, v in categories_dict.items():
+        if k == product_category:
+            product_category = v
+
+    if product_nom != '':
+        ProductTelegramTable.objects.filter(id=product_id).update(
+            nom=product_nom.title(), author=request.session["login"])
+
+    if product_quantity != '':
+        ProductTelegramTable.objects.filter(id=product_id).update(
+            quantity=product_quantity, author=request.session["login"])
+
+    if product_prix != '':
+        ProductTelegramTable.objects.filter(id=product_id).update(
+            prix=product_prix, author=request.session["login"])
+
+    if product_etre != '':
+        ProductTelegramTable.objects.filter(id=product_id).update(
+            etre=product_etre, author=request.session["login"])
+
+    if product_category != '':
+        ProductTelegramTable.objects.filter(id=product_id).update(
+            category=product_category, author=request.session["login"])
+    data = {'error': 'Изменения сохранены'}
+    return render(request, "account_telegram.html", context=data)
+
+
+def delete_product(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
+    product_id = request.session["product_id"]
+    ProductTelegramTable.objects.filter(id=product_id).delete()
     data = {'error': 'Изменения сохранены'}
     return render(request, "account_telegram.html", context=data)

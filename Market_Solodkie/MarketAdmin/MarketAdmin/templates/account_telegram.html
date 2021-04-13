@@ -120,15 +120,15 @@
             {% else %}
             <tr>
             {% endif %}
-              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.id }}</a></td>
-              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.nom }}</a></td>
-              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.quantity }}</a></td>
-              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.prix }} грн.</a></td>
-              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.category }}</a></td>
-              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.etre }}</a></td>
-              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.img }}</a></td>
-              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.author }}</a></td>
-              <td><a href="/product_card?product_id={{ item.product_id }}">{{ item.published_date|date:"d.m.Y H:i" }}</a></td>
+              <td><a href="/product_card?product_id={{ item.id  }}">{{ item.id }}</a></td>
+              <td><a href="/product_card?product_id={{ item.id  }}">{{ item.nom }}</a></td>
+              <td><a href="/product_card?product_id={{ item.id  }}">{{ item.quantity }}</a></td>
+              <td><a href="/product_card?product_id={{ item.id  }}">{{ item.prix }} грн.</a></td>
+              <td><a href="/product_card?product_id={{ item.id  }}">{{ item.category }}</a></td>
+              <td><a href="/product_card?product_id={{ item.id  }}">{{ item.etre }}</a></td>
+              <td><a href="/product_card?product_id={{ item.id  }}">{{ item.img }}</a></td>
+              <td><a href="/product_card?product_id={{ item.id  }}">{{ item.author }}</a></td>
+              <td><a href="/product_card?product_id={{ item.id  }}">{{ item.published_date|date:"d.m.Y H:i" }}</a></td>
             </tr>
             {% endfor %}
           </tbody>

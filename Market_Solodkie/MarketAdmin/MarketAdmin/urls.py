@@ -29,5 +29,8 @@ urlpatterns = [
     path('verification_product', views.verification_product),
     path('category_card', views.category_card),
     path('chansir_category_nom', views.chansir_category_nom),
-    path('delete_category', views.delete_category)
+    path('delete_category', views.delete_category),
+    path('product_card', views.product_card),
+    path('verification_product_card', views.verification_product_card),
+    path('delete_product', views.delete_product)
 ]
