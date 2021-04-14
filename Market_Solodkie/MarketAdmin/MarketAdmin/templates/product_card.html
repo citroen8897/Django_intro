@@ -87,7 +87,7 @@
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <form action='/verification_product_card' method='post' enctype="multipart/form-data" class="formProduct">
       {% csrf_token %}
-      <h1 class="h3 mb-3 fw-normal">Данные товара</h1>
+      <h1>Редактирование товара</h1>
       <p>{{ error }}</p>
       <br>
       <h5>Текущее название: {{ current_product.0.nom }}</h5>

@@ -81,7 +81,7 @@
 <main class="form-signin">
   <form action='/verification_product' method='post' enctype="multipart/form-data">
       {% csrf_token %}
-      <h1 class="h3 mb-3 fw-normal">Данные товара</h1>
+      <h1 class="h3 mb-3 fw-normal">Новый товар</h1>
       <p>{{ error }}</p>
       <label for="inputNom" class="visually-hidden">Nom</label>
       <input id="inputNom" class="form-control" type='text' placeholder='Название' name='nom' required>
