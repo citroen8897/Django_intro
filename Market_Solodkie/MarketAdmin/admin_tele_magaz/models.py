@@ -30,6 +30,7 @@ class ProductTelegramTable(models.Model):
     img = models.CharField(max_length=25)
     author = models.CharField(max_length=75)
     published_date = models.DateTimeField(default=timezone.now)
+    modified_date = models.DateTimeField(default=timezone.now)
 
 
 class UserTelegramTable(models.Model):

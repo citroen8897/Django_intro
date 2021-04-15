@@ -1,3 +1,5 @@
+import datetime
+
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -9,6 +11,7 @@ from . import user_telegram
 from admin_tele_magaz.models import ProductCategoryTable
 from admin_tele_magaz.models import ProductTelegramTable
 from . import product_telegram
+import datetime
 
 
 def authorization_solodkie(request):
@@ -148,6 +151,31 @@ def account_solodkie(request):
     some_product = product_telegram.ProductTelegram(0, 'nom', 'etre', '0.0',
                                                     'kg', '0.0', 'img')
     some_product.get_products_db()
+    if request.GET.get('product_sort'):
+        if request.GET.get('product_sort') == '0':
+            some_product.products_data_base = \
+                ProductTelegramTable.objects.order_by('id')
+        elif request.GET.get('product_sort') == '1':
+            some_product.products_data_base = \
+                ProductTelegramTable.objects.order_by('nom')
+        elif request.GET.get('product_sort') == '3':
+            some_product.products_data_base = \
+                ProductTelegramTable.objects.order_by('-prix')
+        elif request.GET.get('product_sort') == '4':
+            some_product.products_data_base = \
+                ProductTelegramTable.objects.order_by('category')
+        elif request.GET.get('product_sort') == '5':
+            some_product.products_data_base = \
+                ProductTelegramTable.objects.order_by('etre')
+        elif request.GET.get('product_sort') == '7':
+            some_product.products_data_base = \
+                ProductTelegramTable.objects.order_by('author')
+        elif request.GET.get('product_sort') == '8':
+            some_product.products_data_base = \
+                ProductTelegramTable.objects.order_by('-published_date')
+        elif request.GET.get('product_sort') == '9':
+            some_product.products_data_base = \
+                ProductTelegramTable.objects.order_by('-modified_date')
     data = {'helper_3': helper_3, 'current_user': current_user,
             'categories': category_list,
             'products_data_base': some_product.products_data_base}
@@ -387,6 +415,9 @@ def verification_product_card(request):
                 destination:
             for chunk in request.FILES['productImg'].chunks():
                 destination.write(chunk)
+        ProductTelegramTable.objects.filter(id=product_id).update(
+            author=request.session["login"],
+            modified_date=datetime.datetime.now())
 
     product_etre = request.POST.get('etre')
     if product_etre not in ['0', '1', '2', '3', '4']:
@@ -412,23 +443,28 @@ def verification_product_card(request):
 
     if product_nom != '':
         ProductTelegramTable.objects.filter(id=product_id).update(
-            nom=product_nom.title(), author=request.session["login"])
+            nom=product_nom.title(), author=request.session["login"],
+            modified_date=datetime.datetime.now())
 
     if product_quantity != '':
         ProductTelegramTable.objects.filter(id=product_id).update(
-            quantity=product_quantity, author=request.session["login"])
+            quantity=product_quantity, author=request.session["login"],
+            modified_date=datetime.datetime.now())
 
     if product_prix != '':
         ProductTelegramTable.objects.filter(id=product_id).update(
-            prix=product_prix, author=request.session["login"])
+            prix=product_prix, author=request.session["login"],
+            modified_date=datetime.datetime.now())
 
     if product_etre != '':
         ProductTelegramTable.objects.filter(id=product_id).update(
-            etre=product_etre, author=request.session["login"])
+            etre=product_etre, author=request.session["login"],
+            modified_date=datetime.datetime.now())
 
     if product_category != '':
         ProductTelegramTable.objects.filter(id=product_id).update(
-            category=product_category, author=request.session["login"])
+            category=product_category, author=request.session["login"],
+            modified_date=datetime.datetime.now())
     data = {'error': 'Изменения сохранены'}
     return render(request, "account_telegram.html", context=data)
 

@@ -9,9 +9,6 @@ bot = telebot.TeleBot("1515003198:AAFoLiPvifdpb1wGk1i62MZWeLW6cZdV8cE")
 owner = 434385416
 julia = 1160338498
 predator = 572889721
-# file_data_base = open("data_base_des_elements_v3.json", "r")
-# list_menu = json.load(file_data_base)
-# file_data_base.close()
 
 products_data_base = []
 try:
