@@ -477,3 +477,28 @@ def delete_product(request):
     ProductTelegramTable.objects.filter(id=product_id).delete()
     data = {'error': 'Изменения сохранены'}
     return render(request, "account_telegram.html", context=data)
+
+
+def verification_chercher(request):
+    if request.GET:
+        if secur.secur_x(str(request.GET)) == 0:
+            return redirect('https://football.kulichki.net/')
+    admin_search = request.GET.get('admin_search')
+    product_chercher = ProductTelegramTable.objects.values()
+    product_chercher_mod = []
+    for e in product_chercher:
+        if admin_search in str(e['id']):
+            product_chercher_mod.append(e)
+        if admin_search.title() in e['nom']:
+            if e not in product_chercher_mod:
+                product_chercher_mod.append(e)
+        if admin_search.lower() in e['category'].lower():
+            if e not in product_chercher_mod:
+                product_chercher_mod.append(e)
+        if admin_search.lower() in e['author'].lower():
+            if e not in product_chercher_mod:
+                product_chercher_mod.append(e)
+
+    data = {'product_chercher': product_chercher_mod,
+            'error': 'По запросу ничего не найдено!'}
+    return render(request, "chercher_result.html", context=data)

@@ -32,5 +32,6 @@ urlpatterns = [
     path('delete_category', views.delete_category),
     path('product_card', views.product_card),
     path('verification_product_card', views.verification_product_card),
-    path('delete_product', views.delete_product)
+    path('delete_product', views.delete_product),
+    path('verification_chercher', views.verification_chercher)
 ]
