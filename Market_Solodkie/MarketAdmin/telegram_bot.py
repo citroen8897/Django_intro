@@ -10,39 +10,39 @@ owner = 434385416
 julia = 1160338498
 predator = 572889721
 
-products_data_base = []
-try:
-    sqlite_connection = sqlite3.connect('db.sqlite3')
-    cursor = sqlite_connection.cursor()
-    print("Подключен к SQLite")
-    cursor.execute("SELECT * FROM admin_tele_magaz_producttelegramtable")
-    one_result = cursor.fetchone()
-    while one_result is not None:
-        products_data_base.append([one_result[0], one_result[1],
-                                   one_result[2], one_result[3],
-                                   one_result[4], one_result[5],
-                                   one_result[6]])
+
+def data_base():
+    products_data_base = []
+    try:
+        sqlite_connection = sqlite3.connect('db.sqlite3')
+        cursor = sqlite_connection.cursor()
+        print("Подключен к SQLite")
+        cursor.execute("SELECT * FROM admin_tele_magaz_producttelegramtable")
         one_result = cursor.fetchone()
+        while one_result is not None:
+            products_data_base.append([one_result[0], one_result[1],
+                                       one_result[2], one_result[3],
+                                       one_result[4], one_result[5],
+                                       one_result[6]])
+            one_result = cursor.fetchone()
 
-except sqlite3.Error as error:
-    print("Ошибка при работе с SQLite", error)
+    except sqlite3.Error as error:
+        print("Ошибка при работе с SQLite", error)
 
-finally:
-    if sqlite_connection:
-        sqlite_connection.close()
-        print("Соединение с SQLite закрыто")
-print(products_data_base)
+    finally:
+        if sqlite_connection:
+            sqlite_connection.close()
+            print("Соединение с SQLite закрыто")
 
-list_menu = [[products_data_base[0][4]]]
-for j in products_data_base:
-    if j[4] not in [r[0] for r in list_menu]:
-        list_menu.append([j[4]])
-print(list_menu)
-for j in products_data_base:
-    for i in list_menu:
-        if j[4] in i:
-            i.append([j[1], j[2], j[3], j[5], j[6], j[0]])
-print(list_menu)
+    list_menu = [[products_data_base[0][4]]]
+    for j in products_data_base:
+        if j[4] not in [r[0] for r in list_menu]:
+            list_menu.append([j[4]])
+    for j in products_data_base:
+        for i in list_menu:
+            if j[4] in i:
+                i.append([j[1], j[2], j[3], j[5], j[6], j[0]])
+    return list_menu
 
 
 def get_jour_de_envoyer():
@@ -143,6 +143,7 @@ def step_un(message):
 
 @bot.message_handler(content_types=["text"])
 def catalogue(message):
+    list_menu = data_base()
     user_file = open(f"{message.chat.id}.json", "r")
     user_file_data = json.load(user_file)
     user_file.close()
@@ -166,6 +167,7 @@ def catalogue(message):
 
 @bot.callback_query_handler(func=lambda call: True)
 def query_handler(call):
+    list_menu = data_base()
     bot.answer_callback_query(callback_query_id=call.id)
 
     if int(call.data) in range(1000, 1100):
@@ -276,19 +278,8 @@ def query_handler(call):
         bot.delete_message(call.message.chat.id, call.message.message_id)
         bot.send_message(call.message.chat.id, "Товар добавлен в корзину")
 
-        # if user_file_data["changir"] == 1:
-        #     items_temp = []
-        #     for j in range(len(list_menu)):
-        #         element = list_menu[j]
-        #         for k, v in element.items():
-        #             items_temp.append([k, v])
-        #     for element in items_temp:
-        #         if temp_acheter["название"] in element[1].keys():
-        #             temp_x_index_ = items_temp.index(element) + 1
-        #             nom_de_catalogue_appeller = (
-        #                 f"catalogue_{str(temp_x_index_)}(call.message)"
-        #             )
-        #             eval(nom_de_catalogue_appeller)
+        if user_file_data["changir"] == 1:
+            catalogue(call.message)
 
     elif call.data == "505":
         user_file = open(f"{call.message.chat.id}.json", "r")
@@ -305,19 +296,8 @@ def query_handler(call):
         bot.delete_message(call.message.chat.id, call.message.message_id)
         bot.send_message(call.message.chat.id, "Товар удален из корзины")
 
-        # if user_file_data["changir"] == 1:
-        #     items_temp = []
-        #     for j in range(len(list_menu)):
-        #         element = list_menu[j]
-        #         for k, v in element.items():
-        #             items_temp.append([k, v])
-        #     for element in items_temp:
-        #         if temp_acheter["название"] in element[1].keys():
-        #             temp_x_index_ = items_temp.index(element) + 1
-        #             nom_de_catalogue_appeller = (
-        #                 f"catalogue_{str(temp_x_index_)}(call.message)"
-        #             )
-        #             eval(nom_de_catalogue_appeller)
+        if user_file_data["changir"] == 1:
+            catalogue(call.message)
 
     elif call.data == "601":
         modifer_basket(call.message)

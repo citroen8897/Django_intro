@@ -489,10 +489,12 @@ def verification_chercher(request):
     for e in product_chercher:
         if admin_search in str(e['id']):
             product_chercher_mod.append(e)
-        if admin_search.lower() in e['nom'].lower():
+        if admin_search.lower() in e['nom'].lower() or \
+                e['nom'].lower() in admin_search.lower():
             if e not in product_chercher_mod:
                 product_chercher_mod.append(e)
-        if admin_search.lower() in e['category'].lower():
+        if admin_search.lower() in e['category'].lower() or \
+                e['category'].lower() in admin_search.lower():
             if e not in product_chercher_mod:
                 product_chercher_mod.append(e)
         if admin_search.lower() in e['author'].lower():
