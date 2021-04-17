@@ -26,7 +26,7 @@ SECRET_KEY = '3k&bzl!svzma8f9m4=ei-5p0-8%ut&g-3!#0g=pjchy6h@l=3&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['178.21.8.123', '127.0.0.1']
 
 
 # Application definition
@@ -53,9 +53,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'MarketAdmin.urls'
 
-TEMPLATE_DIR = os.path.join(BASE_DIR, "/home/predator2508/PycharmProjects/"
-                                      "Django_intro/Market_Solodkie/MarketAdmin/"
-                                      "MarketAdmin/templates")
+TEMPLATE_DIR = os.path.join(BASE_DIR, "MarketAdmin/templates")
 
 TEMPLATES = [
     {
@@ -126,7 +124,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "/home/predator2508/PycharmProjects/"
-                           "Django_intro/Market_Solodkie/MarketAdmin/"
-                           "MarketAdmin/static"),
+    os.path.join(BASE_DIR, "MarketAdmin/static"),
 ]
