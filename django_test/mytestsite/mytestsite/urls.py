@@ -56,9 +56,5 @@ urlpatterns = [
     path('user_card', views.user_card),
     path('verification_10', views.verification_10),
     path('verification_11', views.verification_11),
-    path('verification_12', views.verification_12),
-    # далее url для маркета Солодких
-    path('authorization_solodkie', views.authorization_solodkie),
-    path('registration_solodkie', views.registration_solodkie),
-    path('account_solodkie', views.account_solodkie)
+    path('verification_12', views.verification_12)
 ]

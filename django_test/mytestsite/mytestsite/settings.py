@@ -53,9 +53,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'mytestsite.urls'
 
-TEMPLATE_DIR = os.path.join(BASE_DIR, "/home/predator2508/PycharmProjects/"
-                                      "Django_intro/django_test/mytestsite/"
-                                      "mytestsite/templates")
+TEMPLATE_DIR = os.path.join(BASE_DIR, "mytestsite/templates")
 
 TEMPLATES = [
     {
@@ -82,7 +80,7 @@ WSGI_APPLICATION = 'mytestsite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': str(BASE_DIR / 'db.sqlite3'),
     }
 }
 
@@ -126,7 +124,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "/home/predator2508/PycharmProjects/"
-                           "Django_intro/django_test/mytestsite/"
-                           "mytestsite/static"),
+    os.path.join(BASE_DIR, "mytestsite/static"),
 ]
