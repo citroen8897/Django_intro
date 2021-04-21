@@ -13,9 +13,30 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import requests
 from django.contrib import admin
-from django.urls import path
 from . import views
+from django.urls import path, include
+from admin_tele_magaz.models import ProductTelegramTable
+from rest_framework import routers, serializers, viewsets
+
+
+# Serializers define the API representation.
+class ProductSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = ProductTelegramTable
+        fields = ['id', 'category', 'nom', 'etre', 'quantity', 'prix', 'img']
+
+
+# ViewSets define the view behavior.
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = ProductTelegramTable.objects.all()
+    serializer_class = ProductSerializer
+
+
+# Routers provide an easy way of automatically determining the URL conf.
+router = routers.DefaultRouter()
+router.register(r'products', ProductViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,5 +54,7 @@ urlpatterns = [
     path('product_card', views.product_card),
     path('verification_product_card', views.verification_product_card),
     path('delete_product', views.delete_product),
-    path('verification_chercher', views.verification_chercher)
+    path('verification_chercher', views.verification_chercher),
+    path('', include(router.urls)),
+    path('api-products/', include('rest_framework.urls', namespace='rest_framework'))
 ]
