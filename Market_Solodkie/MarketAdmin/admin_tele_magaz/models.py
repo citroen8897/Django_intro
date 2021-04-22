@@ -32,6 +32,9 @@ class ProductTelegramTable(models.Model):
     published_date = models.DateTimeField(default=timezone.now)
     modified_date = models.DateTimeField(default=timezone.now)
 
+    def __str__(self):
+        return self.nom
+
 
 class UserTelegramTable(models.Model):
     login = models.CharField(max_length=50)
@@ -41,7 +44,13 @@ class UserTelegramTable(models.Model):
     telephone = models.CharField(max_length=13)
     published_date = models.DateTimeField(default=timezone.now)
 
+    def __str__(self):
+        return self.login
+
 
 class ProductCategoryTable(models.Model):
     nom = models.CharField(max_length=20)
     published_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.nom
