@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     path('api/user/', views.UserListCreate.as_view()),
-    path('api/user/<int:pk>', views.SingleUserView.as_view()),
+    path('api/user/<str:pk>', views.SomeModelDetailView.as_view()),
     path('api/product/', views.ProductListCreate.as_view()),
     path('api/product/<int:pk>', views.SingleProductView.as_view()),
     path('api/category/', views.CategoryListCreate.as_view()),
