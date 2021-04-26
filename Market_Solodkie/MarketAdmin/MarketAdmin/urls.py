@@ -17,41 +17,7 @@ from django.http import HttpResponse
 from django.contrib import admin
 from . import views
 from django.urls import path, include
-from admin_tele_magaz.models import ProductTelegramTable
-from admin_tele_magaz.models import ProductCategoryTable
-from rest_framework import routers, serializers, viewsets
 
-
-# Serializers define the API representation.
-class ProductSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = ProductTelegramTable
-        fields = ['id', 'category', 'nom', 'etre', 'quantity', 'prix', 'img']
-
-
-# ViewSets define the view behavior.
-class ProductViewSet(viewsets.ModelViewSet):
-    queryset = ProductTelegramTable.objects.all()
-    serializer_class = ProductSerializer
-
-
-class CategorySerializer(serializers.HyperlinkedModelSerializer):
-    # products = ProductSerializer(many=True)
-
-    class Meta:
-        model = ProductCategoryTable
-        fields = ['nom']
-
-
-class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = ProductCategoryTable.objects.all()
-    serializer_class = CategorySerializer
-
-
-# Routers provide an easy way of automatically determining the URL conf.
-router = routers.DefaultRouter()
-router.register(r'products', ProductViewSet)
-router.register(r'categories', CategoryViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -70,6 +36,5 @@ urlpatterns = [
     path('verification_product_card', views.verification_product_card),
     path('delete_product', views.delete_product),
     path('verification_chercher', views.verification_chercher),
-    path('api/', include(router.urls)),
-    path('api-products/', include('rest_framework.urls', namespace='rest_framework'))
+    path('', include('admin_tele_magaz.urls')),
 ]
