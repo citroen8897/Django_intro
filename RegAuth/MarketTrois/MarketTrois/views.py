@@ -27,7 +27,7 @@ def authorization(request):
                 user_password = password_generator.generator_de_password(
                     user_password)
             if user_login != '' and user_password != '':
-                response = requests.get('http://127.0.0.1:8000/api/user/')
+                response = requests.get('http://127.0.0.1:9000/api/user/')
                 users_data_base = response.json()
                 current_user = ''
                 for user in users_data_base:
@@ -99,7 +99,7 @@ def registration(request):
             if user_login != '' and user_password != '' \
                     and user_telephone != '' and user_nom != '' \
                     and user_prenom != '':
-                response = requests.get('http://127.0.0.1:8000/api/user/')
+                response = requests.get('http://127.0.0.1:9000/api/user/')
                 users_data_base = response.json()
                 unique_user = 1
                 for user in users_data_base:
@@ -112,7 +112,7 @@ def registration(request):
                                  'nom': user_nom,
                                  'prenom': user_prenom,
                                  'telephone': user_telephone}
-                    response = requests.post('http://127.0.0.1:8000/api/user/',
+                    response = requests.post('http://127.0.0.1:9000/api/user/',
                                              data=post_data)
                     return redirect('/authorization')
                 else:
@@ -135,18 +135,18 @@ def account(request):
 
     current_user_login = request.session["login"]
     current_user_password = request.session["password"]
-    response = requests.get('http://127.0.0.1:8000/api/user/')
+    response = requests.get('http://127.0.0.1:9000/api/user/')
     users_data_base = response.json()
     for user in users_data_base:
         if user['login'] == current_user_login and \
                 user['password'] == current_user_password:
             current_user = user
 
-    response = requests.get('http://127.0.0.1:8000/api/category/')
+    response = requests.get('http://127.0.0.1:9000/api/category/')
     categories_data_base = response.json()
     request.session["categories"] = [j['nom'] for j in categories_data_base]
 
-    response = requests.get('http://127.0.0.1:8000/api/product/')
+    response = requests.get('http://127.0.0.1:9000/api/product/')
     products_data_base = response.json()
 
     if request.GET.get('product_sort'):
@@ -222,7 +222,7 @@ def verification_product(request):
     else:
         product_prix = float(product_prix)
 
-    response = requests.get('http://127.0.0.1:8000/api/product/')
+    response = requests.get('http://127.0.0.1:9000/api/product/')
     products_data_base = response.json()
     author = request.session["login"]
 
@@ -272,7 +272,7 @@ def verification_product(request):
                      'category': product_category,
                      'etre': product_etre,
                      'author': author}
-        response = requests.post('http://127.0.0.1:8000/api/product/',
+        response = requests.post('http://127.0.0.1:9000/api/product/',
                                  data=post_data)
         data = {'error': 'Изменения сохранены'}
         return render(request, "account_telegram.html", context=data)
@@ -304,7 +304,7 @@ def nouveau_category(request):
                 author = request.session["login"]
                 post_data = {'nom': nouveau_category.title(),
                              'author': author}
-                response = requests.post('http://127.0.0.1:8000/api/category/',
+                response = requests.post('http://127.0.0.1:9000/api/category/',
                                          data=post_data)
                 data = {'error': 'Изменения сохранены'}
                 return render(request, "account_telegram.html", context=data)
@@ -334,7 +334,7 @@ def chansir_category_nom(request):
             (request.GET.get('nom')).title() not in categories_list:
         category_nom_nouveau = request.GET.get('nom')
         category_nom_old = request.session["category_nom"]
-        response = requests.get('http://127.0.0.1:8000/api/category/')
+        response = requests.get('http://127.0.0.1:9000/api/category/')
         categories_data_base = response.json()
         for j in categories_data_base:
             if j['nom'] == category_nom_old:
@@ -343,9 +343,9 @@ def chansir_category_nom(request):
                              'author': author,
                              'modified_date': datetime.datetime.now()}
                 response = requests.put(
-                    f'http://127.0.0.1:8000/api/category/{j["id"]}',
+                    f'http://127.0.0.1:9000/api/category/{j["id"]}',
                     data=post_data)
-        response = requests.get('http://127.0.0.1:8000/api/product/')
+        response = requests.get('http://127.0.0.1:9000/api/product/')
         products_data_base = response.json()
         for i in products_data_base:
             if i['category'] == category_nom_old:
@@ -359,7 +359,7 @@ def chansir_category_nom(request):
                              'img': i["img"],
                              'etre': i["etre"]}
                 response = requests.put(
-                    f'http://127.0.0.1:8000/api/product/{i["id"]}',
+                    f'http://127.0.0.1:9000/api/product/{i["id"]}',
                     data=post_data)
         data = {'error': 'Изменения сохранены'}
         return render(request, "account_telegram.html", context=data)
@@ -373,18 +373,18 @@ def delete_category(request):
         if secur.secur_x(str(request.GET)) == 0:
             return redirect('https://football.kulichki.net/')
     category_nom = request.session["category_nom"]
-    response = requests.get('http://127.0.0.1:8000/api/category/')
+    response = requests.get('http://127.0.0.1:9000/api/category/')
     categories_data_base = response.json()
     for j in categories_data_base:
         if j['nom'] == category_nom:
             response = requests.delete(
-                f'http://127.0.0.1:8000/api/category/{j["id"]}')
-    response = requests.get('http://127.0.0.1:8000/api/product/')
+                f'http://127.0.0.1:9000/api/category/{j["id"]}')
+    response = requests.get('http://127.0.0.1:9000/api/product/')
     products_data_base = response.json()
     for i in products_data_base:
         if i['category'] == category_nom:
             response = requests.delete(
-                f'http://127.0.0.1:8000/api/product/{i["id"]}')
+                f'http://127.0.0.1:9000/api/product/{i["id"]}')
     data = {'error': 'Изменения сохранены'}
     return render(request, "account_telegram.html", context=data)
 
@@ -395,7 +395,7 @@ def product_card(request):
             return redirect('https://football.kulichki.net/')
     product_id = request.GET.get('product_id')
     request.session["product_id"] = product_id
-    response = requests.get('http://127.0.0.1:8000/api/product/')
+    response = requests.get('http://127.0.0.1:9000/api/product/')
     products_data_base = response.json()
     for product in products_data_base:
         if product['id'] == int(product_id):
@@ -416,7 +416,7 @@ def verification_product_card(request):
             return redirect('https://football.kulichki.net/')
 
     product_id = request.session["product_id"]
-    response = requests.get('http://127.0.0.1:8000/api/product/')
+    response = requests.get('http://127.0.0.1:9000/api/product/')
     products_data_base = response.json()
     for product in products_data_base:
         if product['id'] == int(product_id):
@@ -456,7 +456,7 @@ def verification_product_card(request):
                      'img': product_img.name,
                      'etre': current_product['etre']}
         response = requests.put(
-            f'http://127.0.0.1:8000/api/product/{current_product["id"]}',
+            f'http://127.0.0.1:9000/api/product/{current_product["id"]}',
             data=post_data)
 
     product_etre = request.POST.get('etre')
@@ -510,7 +510,7 @@ def verification_product_card(request):
         post_data['category'] = product_category
 
     response = requests.put(
-        f'http://127.0.0.1:8000/api/product/{current_product["id"]}',
+        f'http://127.0.0.1:9000/api/product/{current_product["id"]}',
         data=post_data)
     data = {'error': 'Изменения сохранены'}
     return render(request, "account_telegram.html", context=data)
@@ -521,14 +521,14 @@ def delete_product(request):
         if secur.secur_x(str(request.GET)) == 0:
             return redirect('https://football.kulichki.net/')
     product_id = request.session["product_id"]
-    response = requests.get('http://127.0.0.1:8000/api/product/')
+    response = requests.get('http://127.0.0.1:9000/api/product/')
     products_data_base = response.json()
     for product in products_data_base:
         if product['id'] == int(product_id):
             current_product = product
 
     response = requests.delete(
-        f'http://127.0.0.1:8000/api/product/{current_product["id"]}')
+        f'http://127.0.0.1:9000/api/product/{current_product["id"]}')
     data = {'error': 'Изменения сохранены'}
     return render(request, "account_telegram.html", context=data)
 
@@ -538,7 +538,7 @@ def verification_chercher(request):
         if secur.secur_x(str(request.GET)) == 0:
             return redirect('https://football.kulichki.net/')
     admin_search = request.GET.get('admin_search')
-    response = requests.get('http://127.0.0.1:8000/api/product/')
+    response = requests.get('http://127.0.0.1:9000/api/product/')
     product_chercher = response.json()
     product_chercher_mod = []
     for e in product_chercher:
