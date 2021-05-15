@@ -68,6 +68,8 @@ class DocumentListByDateFilter(generics.ListAPIView):
                                            zip_link)
             Zip.objects.filter(id=last_zip_id).update(link_zip=zip_link)
 
+            travail_methods.make_zip(queryset, zip_name)
+
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
