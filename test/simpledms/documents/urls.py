@@ -8,4 +8,5 @@ urlpatterns = [
     path('api/DocumentListByDate/', views.DocumentListByDateFilter.as_view()),
     path('api/zips/', views.ZipListCreate.as_view()),
     path('api/zip/<str:pk>', views.SomeModelDetailViewZip.as_view()),
+    path('download/<int:id>/', views.FileDownloadListAPIView.as_view())
 ]

@@ -6,6 +6,8 @@ from django_filters.rest_framework import FilterSet, filters
 from rest_framework.response import Response
 import datetime
 from . import travail_methods
+from django.http import HttpResponse
+from wsgiref.util import FileWrapper
 
 
 class DocumentListCreate(generics.ListCreateAPIView):
@@ -63,7 +65,7 @@ class DocumentListByDateFilter(generics.ListAPIView):
                                          create_date_zip=zip_date,
                                          quantity_docs=quantity_docs)
             last_zip_id = new_zip.id
-            zip_link = f'http://127.0.0.1:8000/api/zip/{last_zip_id}'
+            zip_link = f'http://127.0.0.1:8000/download/{last_zip_id}'
             travail_methods.zip_list_excel(zip_name, zip_date, quantity_docs,
                                            zip_link)
             Zip.objects.filter(id=last_zip_id).update(link_zip=zip_link)
@@ -94,3 +96,14 @@ class SomeModelDetailViewZip(generics.RetrieveUpdateDestroyAPIView):
             self.lookup_field = 'link_zip'
 
         return super(SomeModelDetailViewZip, self).get_object()
+
+
+class FileDownloadListAPIView(generics.ListAPIView):
+
+    def get(self, request, id, format=None):
+        queryset = Zip.objects.get(id=id)
+        file_handle = './static/' + queryset.title_zip + '.zip'
+        document = open(file_handle, 'rb')
+        response = HttpResponse(FileWrapper(document), content_type='application/zip')
+        response['Content-Disposition'] = 'attachment; filename="%s"' % queryset.title_zip
+        return response
