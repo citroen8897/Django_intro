@@ -16,3 +16,22 @@ class Document(models.Model):
 
     def __str__(self):
         return f'Документ №{self.reg_number or ""} від  {self.create_date}'
+
+
+class Zip(models.Model):
+    title_zip = models.CharField(verbose_name="Назва архiву", max_length=100,
+                                 default='-', db_index=True)
+    create_date_zip = models.DateField(verbose_name="Дата створення архiву",
+                                       auto_now_add=True, editable=False,
+                                       db_index=True, null=True)
+    quantity_docs = models.CharField(verbose_name="кiл-ть док-тiв в архiвi",
+                                     max_length=15, default='-', db_index=True)
+    link_zip = models.CharField(verbose_name="Посилання", max_length=500,
+                                default='-', db_index=True)
+
+    class Meta:
+        verbose_name = 'Архiв'
+        verbose_name_plural = 'Архiви'
+
+    def __str__(self):
+        return f'Архiв {self.title_zip or ""} від  {self.create_date_zip}'
