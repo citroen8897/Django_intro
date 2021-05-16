@@ -11,11 +11,16 @@ from wsgiref.util import FileWrapper
 
 
 class DocumentListCreate(generics.ListCreateAPIView):
+    """получить список документов. Добавить новый документ."""
+
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
 
 
 class SomeModelDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """Обращение к конкретному документу по id или reg_number.
+    Изменение/Удаление документа."""
+
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
     lookup_url_kwarg = 'pk'
@@ -33,6 +38,8 @@ class SomeModelDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class DocumentsByDateList(generics.ListAPIView):
+    """Выборка документов за конкретную дату."""
+
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
     filter_backends = [DjangoFilterBackend]
@@ -40,6 +47,8 @@ class DocumentsByDateList(generics.ListAPIView):
 
 
 class DocumentFilter(FilterSet):
+    """Фильтр по стартовой и конечной дате документа."""
+
     min_date = filters.DateFilter(field_name="create_date", lookup_expr='gte')
     max_date = filters.DateFilter(field_name="create_date", lookup_expr='lte')
 
@@ -49,6 +58,10 @@ class DocumentFilter(FilterSet):
 
 
 class DocumentListByDateFilter(generics.ListAPIView):
+    """Выборка документов за определенный период.
+    Проверка наличия хоть одного документа за указанный период.
+    Запуск внешних функций для генерации реестров и архивов."""
+
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
     filter_backends = (DjangoFilterBackend,)
@@ -77,11 +90,17 @@ class DocumentListByDateFilter(generics.ListAPIView):
 
 
 class ZipListCreate(generics.ListCreateAPIView):
+    """Получить список всех архивов.
+    Добавление нового архива."""
+
     queryset = Zip.objects.all()
     serializer_class = ZipSerializer
 
 
 class SomeModelDetailViewZip(generics.RetrieveUpdateDestroyAPIView):
+    """Обращение к конкретному архиву по id или link_zip.
+        Изменение/Удаление архива."""
+
     queryset = Zip.objects.all()
     serializer_class = ZipSerializer
     lookup_url_kwarg = 'pk'
@@ -99,6 +118,7 @@ class SomeModelDetailViewZip(generics.RetrieveUpdateDestroyAPIView):
 
 
 class FileDownloadListAPIView(generics.ListAPIView):
+    """Отправка Ответа с загрузчиком архива, на запрос с id нужного архива."""
 
     def get(self, request, id, format=None):
         queryset = Zip.objects.get(id=id)

@@ -15,8 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from .yasg import urlpatterns as doc_urls
 
 urlpatterns = [
     path('', include('documents.urls')),
     path('admin/', admin.site.urls),
 ]
+
+urlpatterns += doc_urls

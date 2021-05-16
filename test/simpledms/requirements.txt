@@ -3,3 +3,4 @@ django-filter==2.4.0
 djangorestframework==3.12.4
 Markdown==3.3.4
 openpyxl==3.0.7
+drf-yasg==1.1.0

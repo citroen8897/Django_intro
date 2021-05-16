@@ -4,6 +4,8 @@ import shutil
 
 
 def zip_list_excel(zip_name, zip_date, zip_quantity_docs, zip_link):
+    """Формирование реестра архивов в формате .xlsx"""
+
     try:
         wb = openpyxl.load_workbook('./static/reestry/архивы_реестр.xlsx')
         sheet = wb['Sheet']
@@ -22,6 +24,10 @@ def zip_list_excel(zip_name, zip_date, zip_quantity_docs, zip_link):
 
 
 def make_zip(queryset_list, zip_name):
+    """Подготовка необходимых директорий, реестра документов,
+    копирование документов, формирование архива, удаление
+    вспомогательных директорий"""
+
     directory_main_name = zip_name
     parent_path = './static/'
     path = os.path.join(parent_path, directory_main_name)
