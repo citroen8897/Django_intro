@@ -33,6 +33,9 @@ class Zip(models.Model):
                                   default='2021-05-18')
     date_fin = models.DateField(verbose_name="Дата завершення вибiрки",
                                 default='2021-05-18')
+    zip_file = models.FileField(verbose_name="Архiв документiв",
+                                null=True,
+                                max_length=500)
 
     class Meta:
         verbose_name = 'Архiв'

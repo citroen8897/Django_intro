@@ -3,6 +3,6 @@ from .views import DocumentViewSet, ZipViewSet
 
 
 router = DefaultRouter()
-router.register(r'documents', DocumentViewSet, basename='user')
-router.register(r'zips', ZipViewSet, basename='user')
+router.register(r'documents', DocumentViewSet, basename='document')
+router.register(r'zips', ZipViewSet, basename='zip')
 urlpatterns = router.urls

@@ -34,8 +34,7 @@ def make_new_zip(request):
     documents_data_base = Document.objects.filter(
         create_date__range=[date_start, date_fin])
     for document in documents_data_base:
-        ## тут без коментарів - так не варто робити, ви потім на "продакшн" код не зустите
-        doc_link = f'http://127.0.0.1:8000/documents/{document.id}'
+        doc_link = request.build_absolute_uri(f'/documents/{document.id}')
 
         sheet.append([document.reg_number, document.create_date, document.comment, doc_link])
         wb.save(
@@ -46,10 +45,14 @@ def make_new_zip(request):
         shutil.copyfile(f"{document.main_file.file}",
                         f"{FOLDER_DOCUMENTS}{document.reg_number}/{document.main_file.name[9:]}")
 
-    shutil.make_archive((ZIPS_FOLDER + ZIP_NAME), 'zip', (ZIPS_FOLDER + ZIP_NAME))
+    zip_file = shutil.make_archive((ZIPS_FOLDER + ZIP_NAME), 'zip', (ZIPS_FOLDER + ZIP_NAME))
     shutil.rmtree(ZIPS_FOLDER + ZIP_NAME)
 
-    Zip.objects.create(title_zip=ZIP_NAME, create_date_zip=TODAY,
-                       quantity_docs=documents_data_base.count(),
-                       link_zip='ХЗ',
-                       date_start=date_start, date_fin=date_fin)
+    new_zip = Zip.objects.create(title_zip=ZIP_NAME, create_date_zip=TODAY,
+                                 quantity_docs=documents_data_base.count(),
+                                 link_zip='ХЗ',
+                                 date_start=date_start, date_fin=date_fin,
+                                 zip_file=zip_file)
+    last_zip_id = new_zip.id
+    zip_link = request.build_absolute_uri(f'/zips/{last_zip_id}/download/')
+    Zip.objects.filter(id=last_zip_id).update(link_zip=zip_link)
