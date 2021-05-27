@@ -6,6 +6,7 @@ from telebot import types
 import requests
 
 bot = telebot.TeleBot("1776452349:AAEyWpsM54sKI0Letyo914BuZTIJv6nDm-0")
+bot.remove_webhook()
 # owner = 434385416
 # julia = 1160338498
 predator = 572889721

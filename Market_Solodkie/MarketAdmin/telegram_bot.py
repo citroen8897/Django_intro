@@ -6,6 +6,7 @@ from telebot import types
 import sqlite3
 
 bot = telebot.TeleBot("1515003198:AAFoLiPvifdpb1wGk1i62MZWeLW6cZdV8cE")
+bot.remove_webhook()
 owner = 434385416
 julia = 1160338498
 predator = 572889721
